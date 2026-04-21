@@ -1,12 +1,11 @@
 # CAHIER DES CHARGES
-## Plateforme Web Immobilière Sécurisée
+## Plateforme Web Immobilière — immo_lamis
 
 ---
 
 | | |
 |---|---|
 | **Projet** | immo_lamis |
-| **Version** | 5.1 |
 | **Date** | 21 Avril 2026 |
 | **Statut** | Validé — Prêt pour signature |
 | **Prestataire** | CH Développement |
@@ -14,312 +13,217 @@
 
 ---
 
-## Table des matières
-
-1. [Objet du document](#1-objet-du-document)
-2. [Présentation du projet](#2-présentation-du-projet)
-3. [Périmètre fonctionnel](#3-périmètre-fonctionnel)
-4. [Acteurs du système](#4-acteurs-du-système)
-5. [Description des interfaces](#5-description-des-interfaces)
-6. [Système de rôles et permissions](#6-système-de-rôles-et-permissions)
-7. [Gestion des médias](#7-gestion-des-médias)
-8. [Sécurité et authentification](#8-sécurité-et-authentification)
-9. [Stack technique](#9-stack-technique)
-10. [Fonctionnalités hors périmètre](#10-fonctionnalités-hors-périmètre)
-11. [Planning prévisionnel](#11-planning-prévisionnel)
-12. [Conditions générales](#12-conditions-générales)
-13. [Validation et signatures](#13-validation-et-signatures)
-
----
-
 ## 1. Objet du document
 
-Le présent Cahier des Charges a pour objet de définir les spécifications fonctionnelles et techniques du projet **immo_lamis**, une plateforme web de mise en relation entre fournisseurs immobiliers et chercheurs de biens.
+Le présent document définit les fonctionnalités et le périmètre du projet **immo_lamis**, une plateforme web de publication d'annonces immobilières.
 
-Ce document constitue le référentiel contractuel entre le **client** et le **prestataire**. Il décrit l'ensemble des fonctionnalités à livrer, les contraintes techniques à respecter, ainsi que le périmètre exact de la prestation.
-
-**Toute fonctionnalité non mentionnée dans ce document est considérée comme hors périmètre** et fera l'objet d'un avenant séparé si elle devait être ajoutée.
+Ce document constitue l'accord entre le **client** et le **prestataire**. **Toute fonctionnalité non mentionnée ici est considérée hors périmètre** et nécessitera un avenant séparé.
 
 ---
 
 ## 2. Présentation du projet
 
-### 2.1 Contexte
+**immo_lamis** est une plateforme web qui permet à des agences et agents immobiliers de publier des annonces de biens à destination du grand public.
 
-Le client souhaite disposer d'une plateforme web permettant à des agences et agents immobiliers de publier des annonces de biens à destination du grand public. La plateforme vise à créer un environnement de **confiance** en imposant une validation administrative obligatoire avant toute publication.
+**Principe fondamental :**
+> Aucun fournisseur ne peut publier d'annonce sans avoir été validé manuellement par un administrateur.
 
-### 2.2 Objectifs
-
-- Offrir un espace de publication d'annonces immobilières contrôlé et qualitatif.
-- Permettre aux visiteurs de rechercher et consulter des biens de manière intuitive.
-- Fournir une interface d'administration complète pour la gestion de la plateforme.
-- Garantir un haut niveau de sécurité grâce à un système de rôles et permissions configurable.
-
-### 2.3 Principe fondamental
-
-> **Aucun fournisseur ne peut publier d'annonce sans avoir été préalablement validé manuellement par un administrateur.**
+**Objectifs :**
+- Un espace de publication d'annonces immobilières contrôlé et de qualité
+- Une recherche intuitive pour les visiteurs
+- Une interface d'administration complète
+- Un haut niveau de sécurité
 
 ---
 
-## 3. Périmètre fonctionnel
+## 3. Les utilisateurs de la plateforme
 
-### 3.1 Fonctionnalités du Visiteur (sans compte)
-
-| # | Fonctionnalité | Description |
-|---|---|---|
-| F-V01 | Navigation des annonces | Parcourir toutes les annonces publiées et validées |
-| F-V02 | Filtrage | Filtrer par catégorie, tranche de prix, nombre de pièces et ville |
-| F-V03 | Détail d'annonce | Consulter la page complète d'une annonce (photos, description, prix, localisation) |
-| F-V04 | Contact plateforme | Contacter l'administration via un formulaire de contact |
-
-### 3.2 Fonctionnalités du Fournisseur (compte requis)
-
-| # | Fonctionnalité | Description |
-|---|---|---|
-| F-P01 | Inscription | Création de compte avec informations personnelles et document justificatif obligatoire |
-| F-P02 | Connexion dynamique | Affichage adapté selon le statut : en attente (bannière orange), validé (accès publication), rejeté (message de rejet) |
-| F-P03 | Publication d'annonces | Création d'annonces avec catégorie, titre, description, prix, ville, quartier et photos (uniquement après validation) |
-| F-P04 | Brouillons | Sauvegarde d'annonces en brouillon ou publication immédiate |
-| F-P05 | Upload photos | Téléchargement de plusieurs images par annonce |
-| F-P06 | Gestion du profil | Modification des informations personnelles (nom, téléphone, adresse) |
-| F-P07 | Changement de mot de passe | Modification autonome et sécurisée du mot de passe |
-| F-P08 | Re-validation automatique | La modification de l'email ou du document justificatif entraîne automatiquement le retour au statut **PENDING** (en attente de re-validation) |
-
-### 3.3 Fonctionnalités du Super Administrateur
-
-| # | Fonctionnalité | Description |
-|---|---|---|
-| F-SA01 | Accès total | Accès sans restriction à l'ensemble des fonctionnalités |
-| F-SA02 | Gestion des permissions | Accès exclusif à la page de gestion des rôles et permissions |
-| F-SA03 | Gestion des comptes admin | Création et gestion de tous les comptes administrateurs et managers |
-| F-SA04 | Attribution des rôles | Attribution de permissions jusqu'à son propre niveau uniquement |
-
-### 3.4 Fonctionnalités des Managers / Modérateurs
-
-| # | Fonctionnalité | Description |
-|---|---|---|
-| F-M01 | Accès configurable | Accès limité aux fonctionnalités selon le rôle attribué |
-| F-M02 | Actions selon permissions | Validation/rejet de fournisseurs, modération d'annonces, gestion de catégories selon les droits accordés |
-| F-M03 | Règle d'escalade | Impossibilité de dépasser le niveau de permission du créateur du compte |
+| Utilisateur | Description |
+|---|---|
+| **Visiteur** | Toute personne naviguant sur le site sans créer de compte |
+| **Fournisseur** | Agence ou agent immobilier ayant créé un compte et ayant été validé par l'administration |
+| **Super Admin** | Le propriétaire de la plateforme — compte unique avec accès total |
+| **Manager / Modérateur** | Personnel interne avec des droits configurables |
 
 ---
 
-## 4. Acteurs du système
+## 4. Ce que peut faire chaque utilisateur
 
-| Acteur | Type de compte | Accès | Validation requise |
-|---|---|---|---|
-| **Visiteur** | Aucun | Pages publiques uniquement | Non |
-| **Fournisseur** | Compte personnel | Pages fournisseur + profil | Oui — validation admin obligatoire |
-| **Super Admin** | Compte unique | Accès total, non supprimable | Non — compte initial |
-| **Manager** | Comptes multiples | Selon rôle attribué | Non — créé par Super Admin ou Manager autorisé |
-| **Modérateur** | Comptes multiples | Selon rôle attribué | Non — créé par Super Admin ou Manager autorisé |
+### 4.1 Le Visiteur
+
+- Parcourir toutes les annonces publiées
+- Filtrer les annonces par catégorie, prix, nombre de pièces et ville
+- Consulter le détail complet d'une annonce (photos, description, prix, localisation)
+- Contacter l'administration via un formulaire
+
+### 4.2 Le Fournisseur
+
+- Créer un compte avec un document justificatif obligatoire
+- Se connecter et voir le statut de son compte :
+  - 🟠 **En attente** : bannière "Compte en attente de validation"
+  - 🟢 **Validé** : accès à la publication d'annonces
+  - 🔴 **Rejeté** : message de rejet affiché
+- Publier des annonces avec photos, description et prix
+- Sauvegarder des annonces en brouillon
+- Modifier ses informations personnelles et son mot de passe
+- ⚠️ La modification de l'email ou du document justificatif suspend temporairement le compte jusqu'à re-validation
+
+### 4.3 Le Super Administrateur
+
+- Accès total et sans restriction à toute la plateforme
+- Seul à pouvoir gérer les rôles et les permissions
+- Création et gestion de tous les comptes du personnel
+- Compte unique, impossible à supprimer ou restreindre
+
+### 4.4 Les Managers / Modérateurs
+
+- Droits d'accès configurables selon le rôle attribué
+- Ne peuvent pas dépasser le niveau de permissions de leur créateur
+- Les changements de rôle s'appliquent immédiatement
 
 ---
 
-## 5. Description des interfaces
+## 5. Les pages de la plateforme
 
-### 5.1 Pages publiques
+### Pages publiques (accessibles à tous)
 
 | Page | Contenu |
 |---|---|
-| **Accueil (Landing)** | Section Hero avec recherche rapide, catégories visuelles, 6 dernières annonces, bouton "Devenir fournisseur" |
-| **Annonces (Services)** | Grille d'annonces avec filtres latéraux (catégorie, prix, pièces, ville), cartes d'annonces, pagination |
-| **Détail d'annonce** | Galerie photo (avec filigrane), description complète, prix, localisation, informations fournisseur |
-| **À propos** | Mission de la plateforme, valeurs, statistiques clés |
+| **Page d'accueil** | Recherche rapide, catégories visuelles, dernières annonces, bouton "Devenir fournisseur" |
+| **Liste des annonces** | Grille d'annonces avec filtres (catégorie, prix, pièces, ville) et pagination |
+| **Détail d'une annonce** | Galerie photo, description complète, prix, localisation, infos du fournisseur |
+| **À propos** | Présentation de la plateforme, valeurs, statistiques |
 | **Contact** | Formulaire de contact, coordonnées, carte Google Maps |
 
-### 5.2 Pages fournisseur
+### Pages fournisseur (compte requis)
 
 | Page | Contenu |
 |---|---|
-| **Inscription** | Formulaire complet + upload document obligatoire |
-| **Connexion** | États dynamiques selon statut du compte |
-| **Publier une annonce** | Formulaire de création, upload photos, choix brouillon/publication |
-| **Paramètres du profil** | Modification des infos personnelles, changement de mot de passe, mise à jour email/document avec avertissement de re-validation |
+| **Inscription** | Formulaire + document justificatif obligatoire |
+| **Connexion** | Affichage adapté selon le statut du compte |
+| **Publier une annonce** | Formulaire de création avec upload de photos |
+| **Mon profil** | Modification des infos, mot de passe, email et document |
 
-### 5.3 Panel d'administration
+### Panel d'administration
 
-| Page | Accès |
+| Page | Qui y a accès |
 |---|---|
-| **Tableau de bord** | Tous les rôles administratifs |
-| **Notifications** | Configurable par rôle |
-| **Gestion des fournisseurs** | Configurable par rôle — Actions : Valider / Rejeter / Suspendre |
-| **Gestion des utilisateurs** | Configurable par rôle — Réinitialisation de mots de passe, création de comptes |
-| **Gestion des catégories** | Configurable par rôle — Ajouter / Modifier / Supprimer |
-| **Modération des annonces** | Configurable par rôle — Publier / Dépublier / Supprimer |
-| **Gestion des permissions** | **Super Admin uniquement** — Gestion des rôles et de leurs permissions |
+| **Tableau de bord** | Tous les administrateurs |
+| **Notifications** | Selon les permissions du rôle |
+| **Gestion des fournisseurs** | Selon les permissions — Valider / Rejeter / Suspendre |
+| **Gestion des utilisateurs** | Selon les permissions — Créer des comptes, réinitialiser les mots de passe |
+| **Gestion des catégories** | Selon les permissions — Ajouter / Modifier / Supprimer |
+| **Modération des annonces** | Selon les permissions — Publier / Dépublier / Supprimer |
+| **Gestion des permissions** | Super Admin uniquement |
 
 ---
 
-## 6. Système de rôles et permissions
+## 6. Gestion des rôles et permissions
 
-### 6.1 Modèle
+- La plateforme est livrée avec 3 rôles par défaut : **Super Admin**, **Manager**, **Modérateur**
+- Le Super Admin peut créer des rôles supplémentaires personnalisés
+- Chaque rôle dispose d'un ensemble de permissions activables/désactivables
+- La suppression d'un rôle entraîne la **suspension automatique** de tous les comptes associés
 
-Le système utilise un modèle **RBAC** (Role-Based Access Control) complet. Les rôles et permissions sont stockés en base de données et entièrement configurables depuis l'interface d'administration.
+### Permissions disponibles
 
-### 6.2 Rôles par défaut
-
-| Rôle | Niveau d'accès | Modifiable |
-|---|---|---|
-| Super Admin | Total | ❌ Non |
-| Manager | Étendu | ✅ Oui |
-| Modérateur | Limité | ✅ Oui |
-
-Le Super Admin peut également créer des **rôles personnalisés** avec des noms et permissions sur mesure.
-
-### 6.3 Permissions configurables
-
-| Permission | Description |
+| Permission | Ce qu'elle permet |
 |---|---|
-| `view:dashboard` | Accès au tableau de bord |
-| `manage:providers` | Valider / Rejeter / Suspendre des fournisseurs |
-| `manage:listings` | Publier / Dépublier / Supprimer des annonces |
-| `manage:categories` | Ajouter / Modifier / Supprimer des catégories |
-| `manage:users` | Consulter les utilisateurs / Réinitialiser les mots de passe |
-| `manage:admins` | Créer / Modifier / Désactiver des comptes administrateurs |
-| `view:notifications` | Consulter les notifications de la plateforme |
-| `manage:permissions` | Gérer les rôles et permissions (**Super Admin uniquement**) |
-
-### 6.4 Règles de gestion
-
-- **Suppression de rôle** : Tous les utilisateurs possédant ce rôle sont automatiquement **suspendus**.
-- **Règle d'escalade** : Un manager ne peut attribuer des permissions que jusqu'à son propre niveau d'accès.
-- **Modifications en temps réel** : Tout changement de permission est appliqué immédiatement à tous les utilisateurs du rôle concerné.
-- **Intégrité Super Admin** : Compte unique, non supprimable, non restreignable.
+| Tableau de bord | Voir les statistiques de la plateforme |
+| Gestion fournisseurs | Valider, rejeter ou suspendre des fournisseurs |
+| Gestion annonces | Publier, dépublier ou supprimer des annonces |
+| Gestion catégories | Ajouter, modifier ou supprimer des catégories |
+| Gestion utilisateurs | Consulter les comptes et réinitialiser les mots de passe |
+| Gestion administrateurs | Créer, modifier ou désactiver des comptes admin |
+| Notifications | Consulter les alertes de la plateforme |
+| Gestion permissions | Gérer les rôles (**Super Admin uniquement**) |
 
 ---
 
-## 7. Gestion des médias
+## 7. Gestion des photos
 
-### 7.1 Flux de traitement des images
-
-```
-Fournisseur sélectionne des photos
-        ↓
-[CÔTÉ NAVIGATEUR] Compression automatique
-  → Format WebP / Max 800 Ko / Max 1920px de largeur
-        ↓
-Upload vers le serveur
-        ↓
-[CÔTÉ SERVEUR] Application du filigrane "immo_lamis"
-        ↓
-Sauvegarde de l'image traitée
-        ↓
-Affichage aux visiteurs
-```
-
-### 7.2 Règles strictes
-
-| Règle | Valeur |
-|---|---|
-| Format de sortie | WebP uniquement |
-| Taille maximale | 800 Ko par image |
-| Dimensions maximales | 1920px de largeur |
-| Image originale | **Jamais stockée** — seule la version avec filigrane est conservée |
-| Couche de stockage | Abstraite via un module dédié (évolutif vers le cloud) |
+- Les photos uploadées par les fournisseurs sont automatiquement **compressées** et **converties** dans un format optimisé pour le web
+- Un **filigrane** (watermark) "immo_lamis" est appliqué automatiquement sur chaque image
+- L'image originale n'est jamais conservée — seule la version protégée est stockée
 
 ---
 
-## 8. Sécurité et authentification
+## 8. Sécurité
 
-| Composant | Technologie / Méthode |
-|---|---|
-| Hachage des mots de passe | BCrypt |
-| Mécanisme d'authentification | JWT (JSON Web Token) |
-| Protection des routes | Guards côté serveur + vérification des permissions |
-| Réinitialisation de mot de passe | Manuelle par l'administrateur (pas d'envoi d'email) |
-| Règle de privilège | Impossibilité d'attribuer plus de permissions que son propre niveau |
-| Super Admin | Compte unique, accès total, non supprimable |
+- Les mots de passe sont chiffrés et jamais stockés en clair
+- L'accès aux pages protégées est vérifié à chaque requête
+- La réinitialisation de mot de passe est gérée manuellement par l'administration
+- Chaque page d'administration vérifie les permissions de l'utilisateur
+- Le Super Admin est le seul à ne pouvoir être ni supprimé ni restreint
 
 ---
 
-## 9. Stack technique
+## 9. Ce qui n'est PAS inclus dans ce projet
 
-| Couche | Technologie |
-|---|---|
-| Frontend | React.js + React Router |
-| Backend | NestJS |
-| Base de données | PostgreSQL |
-| ORM | Prisma |
-| Authentification | JWT + BCrypt |
-| Gestion des permissions | CASL (intégration NestJS) |
-| Upload de fichiers | Multer |
-| Traitement d'images | Sharp (filigrane côté serveur) |
-| Compression d'images | browser-image-compression (côté navigateur) |
-| Format d'image | WebP |
-| Cartographie | Google Maps API |
-| Notifications | Polling (intervalle de 10 secondes) |
-| Stockage | Local → module StorageService (évolutif vers Cloudinary / AWS S3) |
-
----
-
-## 10. Fonctionnalités hors périmètre
-
-Les fonctionnalités suivantes sont **explicitement exclues** de cette version du projet. Leur ajout futur nécessitera un avenant au présent cahier des charges.
+Les fonctionnalités suivantes sont **explicitement exclues**. Leur ajout futur nécessitera un avenant.
 
 | # | Fonctionnalité exclue |
 |---|---|
-| HP-01 | Application mobile (iOS / Android) |
-| HP-02 | Notifications par email (inscription, validation, etc.) |
-| HP-03 | Système de paiement ou de réservation en ligne |
-| HP-04 | Messagerie / chat entre visiteur et fournisseur |
-| HP-05 | Réinitialisation de mot de passe par email |
-| HP-06 | Notifications en temps réel (WebSocket) |
+| 1 | Application mobile (iOS / Android) |
+| 2 | Notifications par email |
+| 3 | Système de paiement ou réservation en ligne |
+| 4 | Messagerie / chat entre visiteur et fournisseur |
+| 5 | Réinitialisation de mot de passe par email |
 
 ---
 
-## 11. Planning prévisionnel
+## 10. Planning prévisionnel
 
-| Semaine | Phase | Objectif |
-|---|---|---|
-| **Semaine 1** | Fondation & Sécurité | Infrastructure, base de données, système d'authentification et RBAC |
-| **Semaine 2** | Fournisseur & Médias | Inscription fournisseur, upload de documents, pipeline de traitement d'images |
-| **Semaine 3** | Panel d'administration | Tableau de bord, modération, gestion des fournisseurs et utilisateurs |
-| **Semaine 4** | Interface visiteur | Pages publiques, moteur de recherche, filtres, détail d'annonce |
-| **Semaine 5** | Corrections & Finitions | Tests, corrections de bugs, raffinement de l'interface |
-| **Semaine 6** | Déploiement | Mise en production, tests finaux, livraison |
+| Semaine | Objectif |
+|---|---|
+| **1** | Mise en place de la base, sécurité et système de connexion |
+| **2** | Inscription des fournisseurs et gestion des photos |
+| **3** | Panel d'administration complet |
+| **4** | Pages visiteur, recherche et filtres |
+| **5** | Tests, corrections et finitions |
+| **6** | Mise en ligne |
 
 **Durée totale estimée : 6 semaines**
 
-> ⚠️ Ce planning est indicatif. Des ajustements pourront être apportés en cours de réalisation en accord avec les deux parties.
+> Ce planning est indicatif et peut être ajusté en accord avec les deux parties.
 
 ---
 
-## 12. Conditions générales
-
-### 12.1 Livrables
+## 11. Livrables
 
 Le prestataire s'engage à livrer :
-- Le code source complet du projet (frontend + backend)
-- La base de données configurée et opérationnelle
-- Le compte Super Admin initial
-- La documentation technique de déploiement
-
-### 12.2 Obligations du client
-
-Le client s'engage à :
-- Fournir les contenus textuels nécessaires (pages À propos, Contact, etc.)
-- Fournir le logo et les éléments graphiques pour le filigrane
-- Assurer la disponibilité pour les phases de validation et recette
-- Fournir un retour dans un délai raisonnable lors des phases de validation
-
-### 12.3 Propriété intellectuelle
-
-Le code source sera la propriété du client à la livraison finale et au paiement intégral de la prestation.
-
-### 12.4 Garantie
-
-Le prestataire assure une période de garantie de **______ jours/mois** après la livraison pour la correction de bugs liés aux fonctionnalités décrites dans ce document.
-
-### 12.5 Modifications et avenants
-
-Toute demande de modification, ajout de fonctionnalité, ou changement de périmètre non prévu dans ce document fera l'objet d'un **avenant signé par les deux parties**, accompagné d'une estimation de coût et de délai supplémentaires.
+- ✅ La plateforme web complète et fonctionnelle
+- ✅ Le compte Super Admin initial configuré
+- ✅ Le code source complet du projet
+- ✅ La documentation de mise en ligne
 
 ---
 
-## 13. Validation et signatures
+## 12. Obligations du client
 
-Le présent Cahier des Charges est approuvé par les deux parties ci-dessous. La signature de ce document vaut acceptation de l'ensemble des spécifications fonctionnelles, techniques et des conditions décrites.
+Le client s'engage à :
+- Fournir les textes des pages (À propos, Contact, etc.)
+- Fournir le logo et les éléments visuels pour le filigrane
+- Être disponible pour les phases de validation
+- Donner un retour dans un délai raisonnable
+
+---
+
+## 13. Garantie
+
+Le prestataire assure une période de garantie de **______ jours** après la livraison pour la correction de tout dysfonctionnement lié aux fonctionnalités décrites dans ce document.
+
+---
+
+## 14. Modifications
+
+Toute demande d'ajout ou de modification non prévue dans ce document fera l'objet d'un **avenant signé par les deux parties**, avec une estimation de coût et de délai supplémentaires.
+
+---
+
+## 15. Validation et signatures
+
+La signature de ce document vaut acceptation de l'ensemble des spécifications et conditions décrites.
 
 ---
 
@@ -355,5 +259,5 @@ Le présent Cahier des Charges est approuvé par les deux parties ci-dessous. La
 
 ---
 
-*Document généré le 21 Avril 2026 — Version 5.1*
-*Projet immo_lamis — Tous droits réservés*
+*Document établi le 21 Avril 2026 — Projet immo_lamis*
+*CH Développement — Tous droits réservés*
