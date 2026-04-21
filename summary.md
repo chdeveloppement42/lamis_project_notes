@@ -1,11 +1,11 @@
 =====================================================================
-  immo_lamis — DETAILED PROJECT SUMMARY
+  immo_lamis — PROJECT SUMMARY (FINAL)
 =====================================================================
 
 PROJECT NAME        : immo_lamis
 TYPE                : Secure Real Estate Listing Web Platform
 SPECIFICATION       : CLOSED ✅
-VERSION             : 5.0
+VERSION             : 5.1
 
 ---------------------------------------------------------------------
 1. CORE CONCEPT
@@ -35,6 +35,8 @@ PROVIDER (account required + admin validation)
   - Post listings (only after validation)
   - Save listings as draft or publish immediately
   - Upload multiple photos per listing
+  - Manage personal profile, update contact details, and change password
+  - Triggers re-validation (PENDING state) if email or document is updated
 
 SUPER ADMIN (single account — platform owner)
   - Full unrestricted access to everything
@@ -308,15 +310,21 @@ PROVIDER PAGES
       - Category, title, description, price, city, district
       - Photo upload + draft/publish toggle
 
+  6.9 Profile Settings Page (auth required)
+      - Update personal info (Name, Phone, Address)
+      - Change password securely
+      - Update Email or Document (shows warning that this will
+        trigger account suspension pending re-validation)
+
 ADMIN PANEL
 
-  6.9  Dashboard           → all roles
-  6.10 Notifications       → configurable per role
-  6.11 Provider Management → configurable per role
-  6.12 User Management     → configurable per role
-  6.13 Category Management → configurable per role
-  6.14 Listing Moderation  → configurable per role
-  6.15 Permission Manager  → Super Admin only
+  6.10 Dashboard           → all roles
+  6.11 Notifications       → configurable per role
+  6.12 Provider Management → configurable per role
+  6.13 User Management     → configurable per role
+  6.14 Category Management → configurable per role
+  6.15 Listing Moderation  → configurable per role
+  6.16 Permission Manager  → Super Admin only
 
 ---------------------------------------------------------------------
 7. MEDIA PIPELINE
@@ -418,20 +426,45 @@ ADMIN PANEL
      CASL handles all permission checking logic inside Guards.
      Reduces boilerplate and keeps permission logic centralized.
 
+  6. RE-VALIDATION ON SENSITIVE PROFILE UPDATES
+     If a provider updates their email address or their business
+     document via the Profile Settings page, the backend MUST instantly
+     revert their AccountStatus to PENDING. Their existing listings
+     can remain live, but they lose the ability to post new listings
+     until an admin re-validates their profile.
+
 ---------------------------------------------------------------------
-13. NEXT STEPS (in order)
+13. DEVELOPMENT TIMELINE (6-Week Sprint)
+---------------------------------------------------------------------
+
+  Week    Focus                                       Duration
+  ──────────────────────────────────────────────────────────────
+  1       Foundation & Security (RBAC/Auth)            7 Days
+  2       Media Pipeline & Core Provider Features      7 Days
+  3       Admin Moderation Panel & Dashboard           7 Days
+  4       Visitor UX & Search Engine                   7 Days
+  5       Bug Squashing & UI Refinement                7 Days
+  6       Deployment & Final Testing                   7 Days
+
+  CRITICAL PATH:
+  - Permission Seed: Don't start UI until RolePermission table is populated
+  - Watermark Performance: If Sharp slows the API, move to background job early
+  - Re-validation Loop: Test email/doc change → PENDING logic thoroughly
+
+---------------------------------------------------------------------
+14. NEXT STEPS (in order)
 ---------------------------------------------------------------------
 
   Step 1  →  Seed default roles & permissions (DB)        ✅ Designed
   Step 2  →  Full database schema review & validation      ✅ Designed
-  Step 3  →  Project folder structure (frontend + backend)
-  Step 4  →  UI/UX wireframes (key pages)
-  Step 5  →  Backend development
-  Step 6  →  Frontend development
-  Step 7  →  Integration & testing
-  Step 8  →  Deployment
+  Step 3  →  Project folder structure (frontend + backend) ⏳
+  Step 4  →  UI/UX wireframes (key pages)                  ⏳
+  Step 5  →  Backend development                           ⏳
+  Step 6  →  Frontend development                          ⏳
+  Step 7  →  Integration & testing                         ⏳
+  Step 8  →  Deployment                                    ⏳
 
 =====================================================================
   immo_lamis — Specification CLOSED ✅ — Ready for Development
-  Version 5.0
+  Version 5.1
 =====================================================================
