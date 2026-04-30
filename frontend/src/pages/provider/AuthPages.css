@@ -2,26 +2,81 @@
    AUTH PAGES — Login & Register (Split Layout)
    ═══════════════════════════════════════════════════════════════ */
 
+
 .auth-page {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
 }
 
-/* Left Panel */
+/* Panneau Gauche - Conteneur */
 .auth-page__left {
+  position: relative; /* Indispensable pour l'image en absolute */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-10);
-  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
-  color: var(--color-white);
+  overflow: hidden; /* Pour que l'image ne dépasse pas */
+  color: white;
 }
 
+/* L'image placée dans le dossier public */
+.auth-page__bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* L'image remplit tout sans se déformer */
+  z-index: 1; /* Derrière tout */
+}
+
+/* L'overlay pour assombrir l'image et rendre le texte lisible */
+.auth-page__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45); /* Ajustez l'opacité ici (0.45 = 45%) */
+  z-index: 2;
+}
+
+/* Le contenu textuel (Logo, H1, P) */
 .auth-page__brand {
+  position: relative;
+  z-index: 3; /* Au-dessus de l'image et de l'overlay */
   max-width: 400px;
+  text-align: center;
 }
 
+.auth-page__brand h1 {
+  font-size: var(--text-4xl);
+  color: #fff;
+  margin-top: 20px;
+}
+
+/* Correction du panneau droit */
+.auth-page__right {
+  z-index: 10;
+  background: var(--color-gray-50);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Left Panel */
+
+
+
+.error-message {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  padding: 0.75rem;
+  border-left: 4px solid #e53e3e;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
 .auth-page__logo {
   display: inline-flex;
   align-items: center;

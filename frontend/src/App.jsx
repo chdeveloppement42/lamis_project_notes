@@ -46,10 +46,10 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
           </Route>
 
-          {/* STANDALONE AUTH ROUTES */}
+          {/* AUTH ROUTES (Public layout: header/footer) */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          
+
           {/* PROVIDER ROUTES */}
           <Route path="/provider" element={<ProtectedRoute allowedUserTypes={['PROVIDER']} />}>
             <Route element={<ProviderLayout />}>

@@ -136,9 +136,14 @@ export default function PublicLayout() {
         </div>
 
         <div className="footer__bottom">
-          <div className="container">
-            <p>© {new Date().getFullYear()} Immo Lamis. Tous droits réservés.</p>
-          </div>
+          <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+      <p>© {new Date().getFullYear()} Immo Lamis. Tous droits réservés.</p>
+      
+      {/* Ajout du crédit groupe de développement */}
+      <p style={{ fontSize: '0.85rem', opacity: 0.8 }}>
+        Propulsé par le groupe de développement web <span style={{ color: 'var(--color-primary-light)', fontWeight: '600' }}>CH-PUB</span>
+      </p>
+    </div>
         </div>
       </footer>
     </div>

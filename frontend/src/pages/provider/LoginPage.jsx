@@ -42,15 +42,22 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-page__left">
-        <div className="auth-page__brand">
-          <Link to="/" className="auth-page__logo">
-            <span className="auth-page__logo-icon">🏠</span>
-            Immo<span style={{ color: 'var(--color-primary-light)' }}>Lamis</span>
-          </Link>
-          <h1>Bon retour !</h1>
-          <p>Connectez-vous pour accéder à votre espace</p>
-        </div>
-      </div>
+    <img 
+      src="/.png" 
+      alt="Partenaire Immo Lamis" 
+      className="auth-page__bg-img" 
+    />
+    <div className="auth-page__overlay"></div>
+    
+    <div className="auth-page__brand">
+      <Link to="/" className="auth-page__logo">
+        <span className="auth-page__logo-icon">🏠</span>
+        Immo<span style={{ color: 'var(--color-primary-light)' }}>Lamis</span>
+      </Link>
+      <h1>Rejoignez-nous</h1>
+      <p>Créez votre compte fournisseur et publiez vos biens immobiliers sur notre plateforme.</p>
+    </div>
+  </div>
 
       <div className="auth-page__right">
         <form className="auth-form" onSubmit={handleSubmit}>

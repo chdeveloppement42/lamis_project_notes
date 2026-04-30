@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { getPublishedListings } from '../../api/listings.api';
 import { getCategories } from '../../api/categories.api';
 import ListingCard from '../../components/ListingCard';
 import './ServicesPage.css';
 
+
 export default function ServicesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // Filter state — initialized from URL params (from hero search)
   const [filters, setFilters] = useState({
     categoryId: searchParams.get('categoryId') || '',
     city: searchParams.get('city') || '',
@@ -22,18 +22,21 @@ export default function ServicesPage() {
   const [listings, setListings] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch categories on mount
   useEffect(() => {
     getCategories()
-      .then(setCategories)
+      .then((data) => {
+        if (Array.isArray(data)) setCategories(data);
+        else if (Array.isArray(data?.data)) setCategories(data.data);
+        else setCategories([]);
+      })
       .catch(() => setCategories([]));
   }, []);
 
-  // Fetch listings whenever filters or page change
   useEffect(() => {
-    setLoading(true);
+    let didCancel = false;
+
     const params = {};
     if (filters.categoryId) params.categoryId = filters.categoryId;
     if (filters.city) params.city = filters.city;
@@ -42,9 +45,15 @@ export default function ServicesPage() {
     params.page = page;
     params.limit = limit;
 
+    // Avoid calling setState synchronously in the effect body (eslint rule).
+    Promise.resolve().then(() => {
+      if (!didCancel) setLoading(true);
+    });
+
     getPublishedListings(params)
       .then((data) => {
-        // Handle both paginated response { data, meta } and plain array
+        if (didCancel) return;
+
         if (data && data.data) {
           setListings(data.data);
           setTotalCount(data.meta?.total || data.data.length);
@@ -60,20 +69,28 @@ export default function ServicesPage() {
         }
       })
       .catch(() => {
+        if (didCancel) return;
+
         setListings([]);
         setTotalCount(0);
+        setTotalPages(1);
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!didCancel) setLoading(false);
+      });
+
+    return () => {
+      didCancel = true;
+    };
   }, [filters, page]);
 
   const handleFilterChange = (field, value) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
-    setPage(1); // Reset to page 1 on filter change
+    setPage(1);
   };
 
   const handleApplyFilters = (e) => {
     e.preventDefault();
-    // Sync URL params for shareability
     const params = new URLSearchParams();
     if (filters.categoryId) params.set('categoryId', filters.categoryId);
     if (filters.city) params.set('city', filters.city);
@@ -88,18 +105,19 @@ export default function ServicesPage() {
     setSearchParams({});
     setPage(1);
   };
-
+const heroImages = ['/appartement.png'];
   return (
     <div className="services-page">
-      <div className="services-page__hero">
-        <div className="container">
+      <div className="services-page__hero" style={{position:'relative',overflow:'hidden'}}>
+        <img src={heroImages[0]}  alt="Background" className="hero-img-display" />
+        <div className="container" >
           <h1>Nos Annonces</h1>
-          <p>Parcourez tous les biens vérifiés et validés par notre équipe</p>
+          <p>Parcourez tous les biens vérifiés et validés par notre équipe 
+            pour concrétiser vos projets en toute sérénité.</p>
         </div>
       </div>
 
       <div className="container services-page__content">
-        {/* ─── Sidebar Filters ─────────────────────────── */}
         <aside className="services-filters">
           <form onSubmit={handleApplyFilters}>
             <h3 className="services-filters__title">Filtres</h3>
@@ -167,69 +185,37 @@ export default function ServicesPage() {
           </form>
         </aside>
 
-        {/* ─── Listings Grid ──────────────────────────── */}
-        <div className="services-grid">
-          <div className="services-grid__header">
-            <p className="services-grid__count">
-              <strong>{totalCount}</strong> annonce{totalCount !== 1 ? 's' : ''} trouvée{totalCount !== 1 ? 's' : ''}
-            </p>
+        <main className="services-main">
+          <div className="services-results">
+            <p className="results-count">{totalCount} annonce{totalCount !== 1 ? 's' : ''} trouvée{totalCount !== 1 ? 's' : ''}</p>
           </div>
 
           {loading ? (
-            <div className="services-grid__loading">
-              <div className="spinner" />
-              <p>Chargement des annonces...</p>
-            </div>
-          ) : listings.length > 0 ? (
-            <>
-              <div className="services-grid__cards">
-                {listings.map((listing) => (
-                  <ListingCard key={listing.id} listing={listing} />
-                ))}
-              </div>
-
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="pagination">
-                  <button
-                    className="pagination__btn"
-                    disabled={page <= 1}
-                    onClick={() => setPage((p) => p - 1)}
-                  >
-                    ← Précédent
-                  </button>
-                  <div className="pagination__pages">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                      <button
-                        key={p}
-                        className={`pagination__page ${p === page ? 'pagination__page--active' : ''}`}
-                        onClick={() => setPage(p)}
-                      >
-                        {p}
-                      </button>
-                    ))}
-                  </div>
-                  <button
-                    className="pagination__btn"
-                    disabled={page >= totalPages}
-                    onClick={() => setPage((p) => p + 1)}
-                  >
-                    Suivant →
-                  </button>
-                </div>
-              )}
-            </>
+            <div className="loading">Chargement des annonces...</div>
+          ) : listings.length === 0 ? (
+            <div className="loading">Aucune annonce trouvée.</div>
           ) : (
-            <div className="services-grid__empty">
-              <div className="services-grid__empty-icon">🏠</div>
-              <h3>Aucune annonce trouvée</h3>
-              <p>Essayez de modifier vos filtres ou revenez plus tard.</p>
-              <button className="btn btn-secondary" onClick={handleClearFilters}>
-                Réinitialiser les filtres
-              </button>
+            <div className="listings-grid">
+              {listings.map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
             </div>
           )}
-        </div>
+
+          {totalPages > 1 && (
+            <div className="pagination">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i}
+                  className={i + 1 === page ? 'active' : ''}
+                  onClick={() => setPage(i + 1)}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );

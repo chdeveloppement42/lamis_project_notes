@@ -63,17 +63,30 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-page__left">
-        <div className="auth-page__brand">
-          <Link to="/" className="auth-page__logo">
-            <span className="auth-page__logo-icon">🏠</span>
-            Immo<span style={{ color: 'var(--color-primary-light)' }}>Lamis</span>
-          </Link>
-          <h1>Rejoignez-nous</h1>
-          <p>Créez votre compte fournisseur et publiez vos biens immobiliers</p>
-        </div>
-      </div>
+  
+      <div className="auth-page">
+  {/* Panneau Gauche : Image Immersive */}
+  <div className="auth-page__left">
+    {/* On utilise l'image de la résidence pour le côté "promotion/fournisseur" */}
+    <img 
+      src="/villa.png" 
+      alt="Partenaire Immo Lamis" 
+      className="auth-page__bg-img" 
+    />
+    <div className="auth-page__overlay"></div>
+    
+    <div className="auth-page__brand">
+      <Link to="/" className="auth-page__logo">
+        <span className="auth-page__logo-icon">🏠</span>
+        Immo<span style={{ color: 'var(--color-primary-light)' }}>Lamis</span>
+      </Link>
+      <h1>Rejoignez-nous</h1>
+      <p>
+        Créez votre compte fournisseur en quelques clics et commencez à 
+        publier vos biens immobiliers sur la plateforme n°1 en Algérie.
+      </p>
+    </div>
+  </div>
 
       <div className="auth-page__right">
         <form className="auth-form" onSubmit={handleSubmit}>
