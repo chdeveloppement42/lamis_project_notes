@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { LoggerModule } from 'nestjs-pino';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -13,10 +17,56 @@ import { StorageModule } from './storage/storage.module';
 import { MediaModule } from './media/media.module';
 import { ContactModule } from './contact/contact.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { envValidationSchema } from './config/env.validation';
 
 @Module({
-  imports: [AuthModule, CaslModule, ProvidersModule, ListingsModule, CategoriesModule, AdminModule, RolesModule, NotificationsModule, StorageModule, MediaModule, ContactModule, PrismaModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: envValidationSchema,
+      validationOptions: { abortEarly: true },
+    }),
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const isDev = config.get<string>('NODE_ENV') !== 'production';
+        return {
+          pinoHttp: {
+            level: isDev ? 'debug' : 'info',
+            transport: isDev ? { target: 'pino-pretty', options: { colorize: true, singleLine: true } } : undefined,
+            redact: ['req.headers.authorization', 'req.body.password'],
+          },
+        };
+      },
+    }),
+    ThrottlerModule.forRoot([
+      {
+        name: 'default',
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
+    AuthModule,
+    CaslModule,
+    ProvidersModule,
+    ListingsModule,
+    CategoriesModule,
+    AdminModule,
+    RolesModule,
+    NotificationsModule,
+    StorageModule,
+    MediaModule,
+    ContactModule,
+    PrismaModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

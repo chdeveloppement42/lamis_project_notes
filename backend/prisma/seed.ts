@@ -20,6 +20,7 @@ async function main() {
     { action: 'manage:admins', description: 'Créer / Modifier / Désactiver des comptes administrateurs' },
     { action: 'view:notifications', description: 'Consulter les notifications de la plateforme' },
     { action: 'manage:permissions', description: 'Gérer les rôles et permissions (Super Admin uniquement)' },
+    { action: 'read:roles', description: 'Consulter la liste des rôles disponibles' },
   ];
 
   for (const perm of permissionsData) {
