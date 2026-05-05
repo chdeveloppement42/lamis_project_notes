@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Playfair+Display:ital,wght@1,600&display=swap');
+
+:root {
+  --immo-bg: #142836;
+  --immo-gold: #D9B48F;
+  --immo-blue: #34657F;
+  --white: #FFFFFF;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.aymen-style-wrapper {
+  background-color: var(--immo-bg);
+  color: var(--white);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+}
+
+.container { max-width: 1300px; margin: 0 auto; padding: 0 25px; }
+
+/* --- HERO --- */
+.hero-full { height: 90vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.hero-slider { position: absolute; inset: 0; z-index: 1; }
+.hero-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease; }
+.hero-slide.active { opacity: 1; }
+
+.hero-content-centered { position: relative; z-index: 10; text-align: center; }
+.hero-main-title { font-size: 6rem; font-weight: 800; letter-spacing: 8px; color: #fff; margin: 0; }
+.gold-text { color: var(--immo-gold); }
+.hero-desc-centered { font-size: 1.4rem; letter-spacing: 3px; margin-top: 20px; font-weight: 300; text-transform: uppercase; }
+
+/* --- SECTIONS --- */
+.unified-section { padding: 100px 0; }
+.pt-0 { padding-top: 0; }
+.section-header-large { text-align: center; margin-bottom: 60px; }
+.cursive-accent { font-family: 'Playfair Display', serif; font-style: italic; color: var(--immo-gold); font-size: 2.8rem; margin-bottom: -15px; }
+.massive-title { font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; }
+
+/* --- GRILLES (DESKTOP) --- */
+.why-grid-aymen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.why-card-aymen { 
+  background: rgba(255, 255, 255, 0.03); 
+  padding: 40px; 
+  display: flex; gap: 20px; 
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+}
+
+.categories-grid-aymen { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+.cat-card-aymen {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 40px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.cat-card-aymen:hover { border-color: var(--immo-gold); transform: translateY(-10px); background: rgba(255,255,255,0.05); }
+
+.listings-grid-aymen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+/* --- SLIDER MOBILE LOGIC --- */
+.mobile-slider-wrapper { position: relative; }
+
+.slider-nav-btn {
+  display: none; /* Caché sur desktop */
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  z-index: 20;
+  background: var(--immo-gold);
+  color: var(--immo-bg);
+  border: none;
+  width: 45px; height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+.slider-nav-btn.prev { left: -10px; }
+.slider-nav-btn.next { right: -10px; }
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 992px) {
+  .why-grid-aymen, .listings-grid-aymen { grid-template-columns: 1fr; }
+  .massive-title { font-size: 2.5rem; }
+  .hero-main-title { font-size: 3.5rem; }
+
+  .slider-nav-btn { display: flex; align-items: center; justify-content: center; }
+
+  .mobile-slider {
+    display: flex !important;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 0;
+    scrollbar-width: none;
+  }
+  .mobile-slider::-webkit-scrollbar { display: none; }
+
+  .cat-card-aymen, .mobile-slide-item {
+    min-width: 280px;
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+  }
+}
+
+/* --- BOUTON OR --- */
+.btn-container-center { display: flex; justify-content: center; margin-top: 4rem; }
+.btn-aymen-gold {
+  padding: 18px 45px;
+  background: var(--immo-gold);
+  color: var(--immo-bg);
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: 2px;
+  border-radius: 4px;
+  transition: var(--transition);
+}
+.btn-aymen-gold:hover { background: #fff; transform: translateY(-5px); }
+
+.white-p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; }

@@ -1,0 +1,169 @@
+/* --- Couleurs ImmoLamis (Adaptées au mode sombre Aymen) --- */
+:root {
+  --immo-bg-card: #1B3444; /* Un bleu plus profond que le fond de page */
+  --immo-vert: #34657F;
+  --immo-dore: #D9B48F;
+  --immo-blanc: #ffffff;
+}
+
+.listing-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--immo-bg-card);
+  border-radius: 12px; /* Un peu moins arrondi pour plus de sérieux */
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-decoration: none;
+}
+
+.listing-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--immo-dore);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* --- IMAGE & SLIDER --- */
+.listing-card__image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: #0d1b25;
+  overflow: hidden;
+}
+
+.listing-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.listing-card:hover .listing-card__img {
+  transform: scale(1.05);
+}
+
+.listing-card__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: var(--immo-dore);
+  color: #142836;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px; /* Forme rectangulaire élégante */
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  z-index: 5;
+}
+
+/* --- BOUTONS SLIDE --- */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  background: rgba(20, 40, 54, 0.8);
+  border: 1px solid rgba(217, 180, 143, 0.5);
+  color: var(--immo-dore);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.listing-card:hover .slider-btn { opacity: 1; }
+.slider-btn:hover { background: var(--immo-dore); color: #142836; }
+
+.slider-btn.prev { left: 10px; }
+.slider-btn.next { right: 10px; }
+
+/* --- POINTS INDICATEURS --- */
+.slider-dots {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 5;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+.dot.active {
+  background: var(--immo-dore);
+  width: 18px;
+  border-radius: 10px;
+}
+
+/* --- TEXTE & BODY --- */
+.listing-card__body {
+  padding: 1.5rem;
+}
+
+.listing-card__title {
+  font-family: 'Outfit', sans-serif;
+  color: var(--immo-blanc);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listing-card__location {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.listing-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.listing-card__price {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  color: var(--immo-dore);
+  font-size: 1.3rem;
+}
+
+.listing-card__avatar {
+  width: 32px;
+  height: 32px;
+  background: rgba(217, 180, 143, 0.1);
+  border: 1px solid rgba(217, 180, 143, 0.3);
+  color: var(--immo-dore);
+  border-radius: 50%; /* Avatar rond plus classique */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+}

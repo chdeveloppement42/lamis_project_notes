@@ -1,0 +1,213 @@
+/* ═══════════════════════════════════════════════════════════════════
+   IMMO LAMIS — GLOBAL LAYOUT & RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --immo-blue: #34657F;
+  --immo-dark: #142836;
+  --immo-gold: #D9B48F;
+  --immo-bg-creme: #fcfdf2;
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 1. HEADER & NAVIGATION --- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 85px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.header--scrolled {
+  background: rgba(20, 40, 54, 0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  height: 70px;
+}
+
+.header__inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+
+/* Logo Style */
+.header__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.header__logo-icon {
+  background: var(--immo-gold);
+  color: var(--immo-dark);
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-weight: 800;
+}
+
+.header__logo-text {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.header__logo-accent { color: var(--immo-gold); }
+
+/* Nav Links */
+.header__nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.header__nav-link {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.header__nav-link:hover, .header__nav-link--active {
+  color: var(--immo-gold);
+}
+
+/* --- 2. BOUTONS --- */
+.btn-primary {
+  background: var(--immo-gold);
+  color: var(--immo-dark);
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-secondary {
+  color: #ffffff;
+  margin-right: 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* --- 3. BURGER MENU --- */
+.header__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.header__burger span {
+  width: 28px;
+  height: 3px;
+  background: var(--immo-gold);
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* --- 4. FOOTER (SOMBRE & LUXE) --- */
+.footer {
+  background: var(--immo-dark);
+  color: #ffffff;
+  padding-top: 4rem;
+  border-top: 3px solid var(--immo-gold);
+}
+
+.footer__inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+  padding: 0 2rem 4rem;
+}
+
+.footer__description {
+  margin-top: 1.5rem;
+  opacity: 0.7;
+  line-height: 1.6;
+}
+
+.footer__links h4 {
+  color: var(--immo-gold);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.footer__links a, .footer__links span {
+  display: block;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  margin-bottom: 0.8rem;
+  transition: 0.3s;
+}
+
+.footer__links a:hover { color: var(--immo-gold); padding-left: 5px; }
+
+.footer__bottom {
+  background: rgba(0,0,0,0.2);
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(217, 180, 143, 0.1);
+}
+
+.footer__bottom-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.footer__credit-group { color: var(--immo-gold); font-weight: 700; }
+
+/* --- 5. RESPONSIVE --- */
+@media (max-width: 992px) {
+  .header__actions { display: none; } /* On cache les boutons desktop */
+  .header__burger { display: flex; }
+
+  .header__nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: var(--immo-dark);
+    flex-direction: column;
+    padding: 6rem 2rem;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+  }
+
+  .header__nav--open { right: 0; }
+
+  .footer__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer__inner { grid-template-columns: 1fr; text-align: center; }
+  .footer__links h4 { border-bottom: 1px solid rgba(217,180,143,0.2); padding-bottom: 5px; }
+  .header__logo-text { font-size: 1.2rem; }
+}

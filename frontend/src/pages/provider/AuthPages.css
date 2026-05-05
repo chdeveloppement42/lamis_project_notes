@@ -1,0 +1,218 @@
+/* ═══════════════════════════════════════════════════════════════════
+   IMMO LAMIS — AUTH PAGES (LOGIN & REGISTER)
+   Background : Bleu Sombre (#142836)
+   Style : Compact & Luxe
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap');
+
+/* --- 1. CONFIGURATION DU BODY --- */
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  background-color: #142836; /* Bleu sombre identique au contact */
+  color: #ffffff;
+}
+
+:root {
+  --primary-blue: #34657F;
+  --dark-blue: #142836;
+  --accent-gold: #D9B48F;
+  --white: #ffffff;
+  --transition-lux: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- 2. CONTENEUR & CARTE --- */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem; /* Réduit pour limiter la hauteur */
+  background: radial-gradient(circle at top right, rgba(217, 180, 143, 0.05), transparent),
+              var(--dark-blue);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 1050px;
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(217, 180, 143, 0.1);
+  align-self: center; /* Centrage vertical optimal */
+}
+
+.register-card { 
+  max-width: 1000px; /* Plus étroit pour l'élégance */
+}
+
+/* --- 3. SECTION GAUCHE (BRANDING) --- */
+.auth-card__left {
+  background: linear-gradient(135deg, #1B3444 0%, var(--dark-blue) 100%);
+  padding: 3rem 2.5rem; /* Padding réduit */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  border-right: 1px solid rgba(217, 180, 143, 0.1);
+}
+
+.auth-visual__content h1 {
+  font-size: 2.5rem; /* Taille réduite pour compacité */
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
+}
+
+.auth-visual__content p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+.auth-visual__footer {
+  position: absolute;
+  bottom: 2rem;
+  left: 2.5rem;
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* --- 4. SECTION DROITE (FORMULAIRE) --- */
+.auth-card__right {
+  padding: 2.5rem 3.5rem; /* Espacement vertical compact */
+  background: var(--white);
+  color: var(--dark-blue);
+}
+
+.auth-form__header h2 {
+  font-size: 1.8rem; /* Plus compact */
+  font-weight: 800;
+  color: var(--dark-blue);
+  margin-bottom: 5px;
+}
+
+.auth-form__header p {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem; /* Marge réduite */
+}
+
+/* --- 5. INPUTS & LABELS COMPACTS --- */
+.form-group {
+  margin-bottom: 1rem; /* Réduit de 1.5rem à 1rem */
+}
+
+.form-group label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.75rem; /* Plus petit */
+  color: var(--primary-blue);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.85rem 1rem; /* Hauteur réduite */
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  background: #fdfdfd;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: var(--transition-lux);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+  background: #fdfaf7;
+  box-shadow: 0 5px 15px rgba(217, 180, 143, 0.1);
+}
+
+/* --- 6. BOUTONS STYLE CONTACT --- */
+.auth-submit-btn {
+  width: 100%;
+  padding: 1rem; /* Moins massif */
+  background: var(--primary-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: var(--transition-lux);
+  margin-top: 0.5rem;
+}
+
+.auth-submit-btn:hover {
+  background: var(--dark-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(52, 101, 127, 0.2);
+}
+
+/* --- 7. ERREUR & SUCCÈS --- */
+.auth-error {
+  background: #fdf2f2;
+  color: #9b2c2c;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border: 1px solid #fbd5d5;
+}
+/* ─── AJOUT RESPONSIVE : AUTH PAGES ─── */
+
+@media (max-width: 968px) {
+  .auth-card {
+    grid-template-columns: 1fr; /* Formulaire seul sur mobile */
+    max-width: 500px;
+    margin: 1rem;
+    border-radius: 1rem;
+  }
+
+  .auth-card__left {
+    display: none; /* On cache la section visuelle bleue */
+  }
+
+  .auth-card__right {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-form__header h2 {
+    font-size: 1.6rem;
+  }
+
+  .auth-container {
+    padding: 1rem;
+  }
+  
+  .register-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-form__header h2 {
+    font-size: 1.4rem;
+  }
+  
+  .auth-submit-btn {
+    padding: 0.9rem;
+    font-size: 0.9rem;
+  }
+}
