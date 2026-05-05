@@ -6,105 +6,82 @@ export default function ProviderLayout() {
   const location = useLocation();
   const { user, logout } = useAuth();
 
-  // Status-based logic
   const status = user?.status || 'PENDING';
-  const isPending = status === 'PENDING';
-  const isRejected = status === 'REJECTED';
-  const isSuspended = status === 'SUSPENDED';
-  const isBlocked = isPending || isRejected || isSuspended;
+  const isBlocked = status !== 'VALIDATED';
 
   const navLinks = [
-    { to: '/provider/listings', label: 'Mes annonces', icon: '📋' },
+    { 
+      to: '/provider/listings', 
+      label: 'Annonces', 
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9h18M3 15h18M3 21h18M3 3h18"/></svg> 
+    },
     { 
       to: '/provider/post', 
       label: 'Publier', 
-      icon: isBlocked ? '🔒' : '📝', 
-      disabled: isBlocked,
-      tooltip: isBlocked ? 'Validation requise' : null 
+      icon: isBlocked ? 
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> : 
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y2="12" x2="19" y2="12"/></svg>,
+      disabled: isBlocked 
     },
-    { to: '/provider/profile', label: 'Mon profil', icon: '👤' },
+    { 
+      to: '/provider/profile', 
+      label: 'Profil', 
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> 
+    },
   ];
 
   const initials = user
     ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase()
-    : 'F';
+    : 'P';
 
   return (
     <div className="provider-layout">
-      {/* ─── Status Banners (Enhanced UX) ──────────────────────────── */}
+      {/* Bannières de Statut */}
       <div className="provider-layout__banners">
-        {isPending && (
+        {status === 'PENDING' && (
           <div className="provider-banner provider-banner--warning">
-            <div className="container">
-              <span className="provider-banner__icon">⏳</span>
-              <div className="provider-banner__content">
-                <strong>Compte en attente de validation</strong>
-                <p>Votre profil est en cours d'examen par notre équipe. La publication d'annonces sera disponible dès votre validation.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {isRejected && (
-          <div className="provider-banner provider-banner--danger">
-            <div className="container">
-              <span className="provider-banner__icon">❌</span>
-              <div className="provider-banner__content">
-                <strong>Inscription rejetée</strong>
-                <p>Veuillez vérifier vos documents dans votre profil ou contacter le support.</p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {isSuspended && (
-          <div className="provider-banner provider-banner--danger">
-            <div className="container">
-              <span className="provider-banner__icon">🚫</span>
-              <div className="provider-banner__content">
-                <strong>Compte suspendu</strong>
-                <p>Votre accès a été restreint. Veuillez contacter l'administration.</p>
-              </div>
+            <div className="container banner-inner">
+              <span className="banner-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </span>
+              <p><strong>Compte en attente.</strong> La publication sera activée après validation.</p>
             </div>
           </div>
         )}
       </div>
 
-      {/* Top Bar */}
+      {/* Header Desktop */}
       <header className="provider-header">
-        <div className="container provider-header__inner">
-          <Link to="/" className="provider-header__logo">
-            <span className="provider-header__logo-icon">🏠</span>
-            Immo<span className="provider-header__logo-accent">Lamis</span>
+        <div className="provider-header__inner">
+          <Link to="/" className="provider-logo">
+            <div className="provider-logo__icon">IL</div>
+            <span className="provider-logo__text">Immo<span className="accent">Lamis</span></span>
           </Link>
 
-          <nav className="provider-header__nav">
+          <nav className="provider-desktop-nav">
             {navLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.disabled ? '#' : link.to}
-                className={`provider-header__link ${location.pathname === link.to ? 'provider-header__link--active' : ''} ${link.disabled ? 'provider-header__link--disabled' : ''}`}
-                title={link.tooltip}
+                className={`nav-item ${location.pathname === link.to ? 'active' : ''} ${link.disabled ? 'disabled' : ''}`}
                 onClick={(e) => link.disabled && e.preventDefault()}
               >
-                <span>{link.icon}</span>
-                {link.label}
+                <span className="nav-icon">{link.icon}</span>
+                <span className="nav-label">{link.label}</span>
               </Link>
             ))}
           </nav>
 
           <div className="provider-header__actions">
-            <div className="provider-header__user">
-              <div className="provider-header__avatar">{initials}</div>
-              <div className="provider-header__user-info">
-                <span className="provider-header__user-name">{user?.firstName || 'Fournisseur'}</span>
-                <span className={`provider-header__status provider-header__status--${status.toLowerCase()}`}>
-                  {status === 'VALIDATED' ? 'Vérifié' : status === 'PENDING' ? 'En attente' : 'Restreint'}
-                </span>
+            <div className="user-profile">
+              <div className="avatar">{initials}</div>
+              <div className="user-details">
+                <span className="user-name">{user?.firstName || 'Prestataire'}</span>
+                <span className={`status-badge status--${status.toLowerCase()}`}>{status}</span>
               </div>
             </div>
-            <button className="provider-logout-btn" title="Déconnexion" onClick={logout}>
-              🚪
+            <button className="logout-btn" onClick={logout} title="Déconnexion">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </button>
           </div>
         </div>
@@ -116,17 +93,17 @@ export default function ProviderLayout() {
         </div>
       </main>
 
-      {/* ─── Mobile Bottom Nav ──────────────────────────────────────── */}
+      {/* Navigation Mobile (Bottom Bar) */}
       <nav className="provider-mobile-nav">
         {navLinks.map((link) => (
           <Link
             key={link.to}
             to={link.disabled ? '#' : link.to}
-            className={`provider-mobile-nav__link ${location.pathname === link.to ? 'provider-mobile-nav__link--active' : ''} ${link.disabled ? 'provider-mobile-nav__link--disabled' : ''}`}
+            className={`mobile-nav-item ${location.pathname === link.to ? 'active' : ''} ${link.disabled ? 'disabled' : ''}`}
             onClick={(e) => link.disabled && e.preventDefault()}
           >
-            <span className="provider-mobile-nav__icon">{link.icon}</span>
-            <span className="provider-mobile-nav__label">{link.label.split(' ')[0]}</span>
+            <span className="mobile-icon">{link.icon}</span>
+            <span className="mobile-label">{link.label}</span>
           </Link>
         ))}
       </nav>

@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axiosInstance';
 import './Dashboard.css';
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const [stats, setStats] = useState({
     pendingProviders: 0,
     publishedListings: 0,
@@ -12,18 +10,18 @@ export default function Dashboard() {
     unreadNotifications: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const res = await axiosInstance.get('/admin/dashboard-stats');
-        if (res.data) {
-          setStats(res.data);
-        }
+        if (res.data) setStats(res.data);
       } catch (err) {
         console.error('Dashboard stats error:', err);
       } finally {
         setLoading(false);
+        setIsVisible(true); // Déclenche l'animation d'entrée
       }
     };
     fetchStats();
@@ -33,41 +31,37 @@ export default function Dashboard() {
     { label: 'Fournisseurs en attente', value: stats.pendingProviders, icon: '👥', color: '#fef3c7' },
     { label: 'Annonces publiées', value: stats.publishedListings, icon: '🏠', color: '#d1fae5' },
     { label: 'Catégories actives', value: stats.activeCategories, icon: '📂', color: '#dbeafe' },
-    { label: 'Notifications non lues', value: stats.unreadNotifications, icon: '🔔', color: '#fce7f3' },
+    { label: 'Notifications non lues', value: stats.unreadNotifications, icon: '🔔', color: '#fce7f3', pulse: true },
   ];
 
   return (
-    <div className="dashboard">
-      <div className="dashboard__welcome">
+    <div className={`dashboard ${isVisible ? 'dashboard--visible' : ''}`}>
+      <div className="dashboard__welcome fade-in-down">
         <h1>Bienvenue sur votre espace Admin 👋</h1>
         <p>Voici un aperçu de l'activité de votre plateforme</p>
       </div>
 
       <div className="dashboard__stats">
         {statCards.map((card, i) => (
-          <div key={i} className="stat-card" style={{ borderLeftColor: card.color }}>
-            <div className="stat-card__icon" style={{ backgroundColor: card.color }}>{card.icon}</div>
+          <div 
+            key={i} 
+            className={`stat-card ${card.pulse && stats.unreadNotifications > 0 ? 'stat-card--pulse' : ''}`} 
+            style={{ 
+              borderLeft: `4px solid ${card.color}`,
+              animationDelay: `${i * 0.15}s` // Délai progressif pour chaque carte
+            }}
+          >
+            <div className="stat-card__icon" style={{ backgroundColor: card.color }}>
+              {card.icon}
+            </div>
             <div className="stat-card__info">
-              <span className="stat-card__value">{loading ? '…' : card.value}</span>
+              <span className="stat-card__value">
+                {loading ? <span className="loader-dots">...</span> : card.value}
+              </span>
               <span className="stat-card__label">{card.label}</span>
             </div>
           </div>
         ))}
-      </div>
-
-      <div className="dashboard__actions">
-        <h3>Actions rapides</h3>
-        <div className="dashboard__actions-grid">
-          <button className="dashboard__action-btn dashboard__action-btn--primary" onClick={() => navigate('/admin/providers')}>
-            Gérer les fournisseurs
-          </button>
-          <button className="dashboard__action-btn" onClick={() => navigate('/admin/listings')}>
-            Modérer les annonces
-          </button>
-          <button className="dashboard__action-btn" onClick={() => navigate('/admin/categories')}>
-            Gérer les catégories
-          </button>
-        </div>
       </div>
     </div>
   );

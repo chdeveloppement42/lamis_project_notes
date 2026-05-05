@@ -1,220 +1,208 @@
-/* ═══════════════════════════════════════════════════════════════
-   PROVIDER LAYOUT
-   ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════════
+   IMMO LAMIS — PROVIDER LAYOUT (DARK BLUE & GOLD)
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --immo-blue: #34657F;
+  --immo-dark: #142836;
+  --immo-gold: #D9B48F;
+  --immo-light: #f8f9fa;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
 .provider-layout {
   min-height: 100vh;
-  background: var(--color-gray-50);
+  background: #f4f7f9;
 }
 
+/* --- HEADER --- */
 .provider-header {
-  background: var(--color-white);
-  border-bottom: 1px solid var(--color-gray-200);
-  height: var(--header-height);
+  background: var(--immo-dark);
+  height: 75px;
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
 }
 
 .provider-header__inner {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
 }
 
-.provider-header__logo {
+/* Logo */
+.provider-logo {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-display);
-  font-size: var(--text-xl);
+  gap: 10px;
+  text-decoration: none;
+}
+
+.provider-logo__icon {
+  background: var(--immo-gold);
+  color: var(--immo-dark);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
   font-weight: 800;
-  color: var(--color-gray-900);
+  font-size: 0.9rem;
 }
 
-.provider-header__logo-icon { font-size: var(--text-2xl); }
-.provider-header__logo-accent { color: var(--color-primary); }
+.provider-logo__text {
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
 
-.provider-header__nav {
+.provider-logo__text .accent { color: var(--immo-gold); }
+
+/* Navigation Desktop */
+.provider-desktop-nav {
   display: flex;
-  gap: var(--space-1);
+  gap: 1.5rem;
 }
 
-.provider-header__link {
+.nav-item {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--text-sm);
+  gap: 8px;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
   font-weight: 500;
-  color: var(--color-gray-600);
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-fast);
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: var(--transition);
 }
 
-.provider-header__link:hover {
-  color: var(--color-primary);
-  background: var(--color-primary-50);
+.nav-icon svg { width: 18px; height: 18px; }
+
+.nav-item:hover, .nav-item.active {
+  color: var(--immo-gold);
+  background: rgba(217, 180, 143, 0.1);
 }
 
-.provider-header__link--active {
-  color: var(--color-primary);
-  background: var(--color-primary-50);
-  font-weight: 600;
+.nav-item.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
+/* Actions & Profile */
 .provider-header__actions {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: 1.5rem;
 }
 
-.provider-header__user {
+.user-profile {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  color: var(--color-gray-700);
+  gap: 12px;
+  padding-right: 1.5rem;
+  border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-.provider-header__avatar {
-  width: 36px;
-  height: 36px;
+.avatar {
+  width: 38px;
+  height: 38px;
+  background: var(--immo-gold);
+  color: var(--immo-dark);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-  color: var(--color-white);
   font-weight: 700;
-  font-size: var(--text-sm);
-  border-radius: var(--radius-full);
 }
 
-.provider-main {
-  padding: var(--space-8) 0;
+.user-details { display: flex; flex-direction: column; }
+.user-name { color: #ffffff; font-weight: 600; font-size: 0.9rem; }
+
+.status-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
-/* ─── Status Banners ──────────────────────────────────────── */
-.provider-layout__banners {
-  position: sticky;
-  top: 0;
-  z-index: 101;
-}
+.status--pending { background: #fff3e0; color: #ef6c00; }
+.status--validated { background: #e8f5e9; color: #2e7d32; }
 
-.provider-banner {
-  padding: var(--space-4) 0;
-  font-size: var(--text-sm);
-}
-
-.provider-banner .container {
+.logout-btn {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  max-width: 1200px;
+  justify-content: center;
+  transition: var(--transition);
 }
 
-.provider-banner__icon {
-  font-size: var(--text-2xl);
-  flex-shrink: 0;
+.logout-btn:hover {
+  background: #e74c3c;
+  transform: translateY(-2px);
 }
 
-.provider-banner__content strong {
-  display: block;
-  font-size: var(--text-base);
-  margin-bottom: var(--space-1);
+/* --- BANNER --- */
+.provider-banner {
+  background: #fff8e1;
+  border-bottom: 1px solid #ffe082;
+  padding: 12px 0;
 }
 
-.provider-banner__content p {
-  margin: 0;
-  opacity: 0.9;
+.banner-inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #856404;
+  font-size: 0.9rem;
 }
 
-.provider-banner--warning {
-  background: #fffbeb;
-  color: #92400e;
-  border-bottom: 1px solid #fde68a;
+/* --- MOBILE NAV (BOTTOM BAR) --- */
+.provider-mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--immo-dark);
+  height: 65px;
+  border-top: 2px solid var(--immo-gold);
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
 }
 
-.provider-banner--danger {
-  background: #fef2f2;
-  color: #991b1b;
-  border-bottom: 1px solid #fecaca;
-}
-
-/* ─── Header Enhancements ──────────────────────────────────── */
-.provider-header {
-  background: var(--color-white);
-  border-bottom: 1px solid var(--color-gray-200);
-  height: var(--header-height);
-  position: sticky;
-  top: 0; /* Will sit below banners if present */
-  z-index: 100;
-}
-
-.provider-header__link--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(1);
-}
-
-.provider-header__link--disabled:hover {
-  background: transparent;
-  color: var(--color-gray-600);
-}
-
-.provider-header__user-info {
+.mobile-nav-item {
   display: flex;
   flex-direction: column;
-}
-
-.provider-header__user-name {
-  font-weight: 600;
-  color: var(--color-gray-900);
-}
-
-.provider-header__status {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-}
-
-.provider-header__status--pending { color: var(--color-warning); }
-.provider-header__status--validated { color: var(--color-success); }
-.provider-header__status--rejected,
-.provider-header__status--suspended { color: var(--color-danger); }
-
-.provider-logout-btn {
-  background: var(--color-gray-100);
-  border: none;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-lg);
-  display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 1.2rem;
-  transition: all var(--transition-fast);
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  gap: 4px;
 }
 
-.provider-logout-btn:hover {
-  background: var(--color-gray-200);
-  transform: translateY(-1px);
-}
+.mobile-icon svg { width: 22px; height: 22px; }
+.mobile-label { font-size: 0.7rem; font-weight: 600; }
 
-/* ─── Mobile Adjustments ────────────────────────────────────── */
-.provider-mobile-nav__link--disabled {
-  opacity: 0.4;
-  pointer-events: none;
-}
+.mobile-nav-item.active { color: var(--immo-gold); }
 
 @media (max-width: 768px) {
-  .provider-header__nav { display: none; }
-  .provider-header__user-info { display: none; }
+  .provider-desktop-nav, .user-details { display: none; }
   .provider-mobile-nav { display: flex; }
+  .provider-header__inner { padding: 0 1rem; }
   .provider-main { padding-bottom: 80px; }
-  .provider-banner .container { padding: 0 var(--space-4); }
 }

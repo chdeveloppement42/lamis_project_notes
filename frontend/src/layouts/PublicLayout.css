@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   IMMO LAMIS — GLOBAL LAYOUT & RESPONSIVE
+   IMMO LAMIS — GLOBAL LAYOUT & RESPONSIVE (WITH ICONS)
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -21,12 +21,14 @@
   display: flex;
   align-items: center;
   transition: var(--transition);
+  background: transparent;
 }
 
+/* État lors du scroll */
 .header--scrolled {
-  background: rgba(20, 40, 54, 0.95);
+  background: rgba(20, 40, 54, 0.98);
   backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   height: 70px;
 }
 
@@ -58,6 +60,7 @@
   justify-content: center;
   border-radius: 8px;
   font-weight: 800;
+  box-shadow: 0 4px 10px rgba(217, 180, 143, 0.3);
 }
 
 .header__logo-text {
@@ -68,24 +71,63 @@
 
 .header__logo-accent { color: var(--immo-gold); }
 
-/* Nav Links */
+/* --- 2. NAV LINKS WITH ICONS --- */
 .header__nav {
   display: flex;
   gap: 2rem;
+  align-items: center;
 }
 
 .header__nav-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   font-weight: 600;
   transition: var(--transition);
+  position: relative;
 }
 
-.header__nav-link:hover, .header__nav-link--active {
+.nav-link-icon svg {
+  width: 18px;
+  height: 18px;
+  transition: var(--transition);
+}
+
+.header__nav-link:hover, 
+.header__nav-link--active {
   color: var(--immo-gold);
 }
 
-/* --- 2. BOUTONS --- */
+.header__nav-link:hover .nav-link-icon svg {
+  transform: translateY(-2px);
+}
+
+/* Barre soulignée pour l'état actif */
+.header__nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--immo-gold);
+  transition: var(--transition);
+  transform: translateX(-50%);
+}
+
+.header__nav-link--active::after {
+  width: 100%;
+}
+
+/* --- 3. BOUTONS & ACTIONS --- */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .btn-primary {
   background: var(--immo-gold);
   color: var(--immo-dark);
@@ -94,16 +136,30 @@
   font-weight: 700;
   text-decoration: none;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--immo-gold);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--immo-gold);
+  box-shadow: 0 0 20px rgba(217, 180, 143, 0.4);
 }
 
 .btn-secondary {
   color: #ffffff;
-  margin-right: 1.5rem;
   text-decoration: none;
   font-weight: 600;
+  transition: var(--transition);
 }
 
-/* --- 3. BURGER MENU --- */
+.btn-secondary:hover {
+  color: var(--immo-gold);
+}
+
+/* --- 4. BURGER MENU --- */
 .header__burger {
   display: none;
   flex-direction: column;
@@ -111,6 +167,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  z-index: 1100;
 }
 
 .header__burger span {
@@ -121,7 +178,12 @@
   transition: 0.3s;
 }
 
-/* --- 4. FOOTER (SOMBRE & LUXE) --- */
+/* Animation Burger ouvert */
+.header__burger--open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.header__burger--open span:nth-child(2) { opacity: 0; }
+.header__burger--open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* --- 5. FOOTER --- */
 .footer {
   background: var(--immo-dark);
   color: #ffffff;
@@ -142,6 +204,7 @@
   margin-top: 1.5rem;
   opacity: 0.7;
   line-height: 1.6;
+  max-width: 300px;
 }
 
 .footer__links h4 {
@@ -163,7 +226,7 @@
 .footer__links a:hover { color: var(--immo-gold); padding-left: 5px; }
 
 .footer__bottom {
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.3);
   padding: 1.5rem 2rem;
   border-top: 1px solid rgba(217, 180, 143, 0.1);
 }
@@ -173,33 +236,53 @@
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  font-size: 0.9rem;
-  opacity: 0.8;
 }
 
 .footer__credit-group { color: var(--immo-gold); font-weight: 700; }
 
-/* --- 5. RESPONSIVE --- */
+/* --- 6. RESPONSIVE MOBILE MENU --- */
 @media (max-width: 992px) {
-  .header__actions { display: none; } /* On cache les boutons desktop */
+  .header__actions { display: none; } /* Cacher boutons desktop */
   .header__burger { display: flex; }
 
   .header__nav {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 280px;
+    width: 300px;
     height: 100vh;
     background: var(--immo-dark);
     flex-direction: column;
     padding: 6rem 2rem;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+    transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.5);
+    align-items: flex-start;
+    gap: 1.5rem;
   }
 
-  .header__nav--open { right: 0; }
+  .header__nav--open {
+    right: 0;
+  }
+
+  .header__nav-link {
+    font-size: 1.2rem;
+    width: 100%;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav-link-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .header__mobile-actions {
+    margin-top: 2rem;
+    width: 100%;
+  }
 
   .footer__inner {
     grid-template-columns: 1fr 1fr;
@@ -208,6 +291,7 @@
 
 @media (max-width: 600px) {
   .footer__inner { grid-template-columns: 1fr; text-align: center; }
-  .footer__links h4 { border-bottom: 1px solid rgba(217,180,143,0.2); padding-bottom: 5px; }
+  .footer__description { margin: 1.5rem auto 0; }
   .header__logo-text { font-size: 1.2rem; }
+  .footer__bottom-content { justify-content: center; text-align: center; }
 }

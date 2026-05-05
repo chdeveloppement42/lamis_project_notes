@@ -11,16 +11,13 @@ export default function ProfilePage() {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
 
-  // Password state
   const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' });
   const [pwMsg, setPwMsg] = useState(null);
   const [pwErr, setPwErr] = useState(null);
 
   useEffect(() => {
     axiosInstance.get('/providers/profile')
-      .then((res) => {
-        setProfile(res.data);
-      })
+      .then((res) => setProfile(res.data))
       .catch(() => setError('Erreur lors du chargement du profil.'))
       .finally(() => setLoading(false));
   }, []);
@@ -48,24 +45,6 @@ export default function ProfilePage() {
     }
   };
 
-  const handleSensitiveUpdate = async (e) => {
-    e.preventDefault();
-    setSaving(true);
-    setMessage(null);
-    setError(null);
-    try {
-      const body = {};
-      if (profile.newEmail) body.email = profile.newEmail;
-      const res = await axiosInstance.patch('/providers/profile/sensitive', body);
-      setProfile({ ...profile, ...res.data });
-      setMessage('Données mises à jour. Votre compte est en attente de re-validation.');
-    } catch (err) {
-      setError(err.response?.data?.message || 'Erreur lors de la mise à jour.');
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     setPwMsg(null);
@@ -84,29 +63,30 @@ export default function ProfilePage() {
       setPwMsg(res.data.message);
       setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (err) {
-      setPwErr(err.response?.data?.message || 'Erreur lors du changement de mot de passe.');
+      setPwErr(err.response?.data?.message || 'Erreur lors du changement.');
     }
   };
 
-  if (loading) {
-    return (
-      <div className="provider-page">
-        <h1>Mon Profil</h1>
-        <p>Chargement...</p>
+  if (loading) return (
+    <div className="provider-page">
+      <div className="loading-container">
+        <p>Chargement de votre profil...</p>
       </div>
-    );
-  }
+    </div>
+  );
 
   return (
-    <div className="provider-page">
-      <h1>Mon Profil</h1>
-      <p className="provider-page__subtitle">Gérez vos informations personnelles</p>
+    <div className="provider-page animate-fade-in">
+      <div className="header-mobile">
+        <h1>Mon Profil</h1>
+        <p className="provider-page__subtitle">Gérez vos informations personnelles</p>
+      </div>
 
       {message && <div className="provider-alert provider-alert--success">✅ {message}</div>}
       {error && <div className="provider-alert provider-alert--error">❌ {error}</div>}
 
       <div className="provider-page__grid">
-        {/* ─── Personal Info ─────────────────────────── */}
+        {/* Section 1: Infos Générales */}
         <form className="provider-card" onSubmit={handleSaveProfile}>
           <h3>Informations personnelles</h3>
           <div className="provider-card__row">
@@ -127,15 +107,14 @@ export default function ProfilePage() {
             <label className="form-label">Adresse</label>
             <input type="text" className="form-input" value={profile?.address || ''} onChange={update('address')} />
           </div>
-          <button className="btn btn-primary" type="submit" disabled={saving}>
-            {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+          <button className="btn-provider-primary w-full" type="submit" disabled={saving}>
+            {saving ? 'Sauvegarde...' : 'Sauvegarder le profil'}
           </button>
         </form>
 
-        {/* ─── Password Change (GAP 2) ──────────────── */}
+        {/* Section 2: Sécurité */}
         <form className="provider-card" onSubmit={handlePasswordChange}>
-          <h3>🔒 Changer le mot de passe</h3>
-
+          <h3>🔒 Sécurité</h3>
           {pwMsg && <div className="provider-alert provider-alert--success">✅ {pwMsg}</div>}
           {pwErr && <div className="provider-alert provider-alert--error">❌ {pwErr}</div>}
 
@@ -147,42 +126,36 @@ export default function ProfilePage() {
           </div>
           <div className="provider-card__row">
             <div className="form-group">
-              <label className="form-label">Nouveau mot de passe</label>
-              <input type="password" className="form-input" required placeholder="Min. 4 caractères"
+              <label className="form-label">Nouveau</label>
+              <input type="password" className="form-input" required placeholder="Min. 4 car."
                 value={pwForm.newPassword}
                 onChange={(e) => setPwForm({ ...pwForm, newPassword: e.target.value })} />
             </div>
             <div className="form-group">
-              <label className="form-label">Confirmer</label>
+              <label className="form-label">Confirmation</label>
               <input type="password" className="form-input" required placeholder="Retapez"
                 value={pwForm.confirmPassword}
                 onChange={(e) => setPwForm({ ...pwForm, confirmPassword: e.target.value })} />
             </div>
           </div>
-          <button className="btn btn-primary" type="submit">Modifier le mot de passe</button>
+          <button className="btn-provider-secondary w-full" type="submit">Modifier le mot de passe</button>
         </form>
 
-        {/* ─── Sensitive Data ────────────────────────── */}
-        <form className="provider-card provider-card--warning" onSubmit={handleSensitiveUpdate}>
+        {/* Section 3: Zone Critique */}
+        <div className="provider-card provider-card--warning">
           <h3>⚠️ Données sensibles</h3>
           <p className="provider-card__warning-text">
-            La modification de votre email ou de votre document justificatif entraînera la suspension temporaire
-            de votre compte en attente de re-validation par un administrateur.
+            Votre compte est lié à l'email : <strong>{profile?.email}</strong>. 
+            Toute modification nécessite une re-validation administrative.
           </p>
           <div className="form-group">
-            <label className="form-label">Email actuel : {profile?.email}</label>
-            <input type="email" className="form-input" placeholder="Nouvel email (optionnel)"
-              value={profile?.newEmail || ''}
-              onChange={(e) => setProfile({ ...profile, newEmail: e.target.value })} />
+            <label className="form-label">Nouveau document justificatif</label>
+            <input type="file" className="form-input-file" />
           </div>
-          <div className="form-group">
-            <label className="form-label">Document justificatif</label>
-            <input type="file" className="form-input" />
-          </div>
-          <button className="btn" type="submit" style={{ background: 'var(--color-warning)', color: '#fff' }}>
-            Mettre à jour (Déclenchera une re-validation)
+          <button className="btn-provider-warning w-full" type="button">
+            Soumettre pour re-validation
           </button>
-        </form>
+        </div>
       </div>
     </div>
   );

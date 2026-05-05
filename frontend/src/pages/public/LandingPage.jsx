@@ -32,9 +32,28 @@ export default function LandingPage() {
   ];
 
   useEffect(() => {
+    // Initialisation AOS avec une durée de 1s
     AOS.init({ duration: 1000, once: true });
-    getCategories().then(setCategories).catch(() => setCategories([]));
-    getLatestListings().then(setLatestListings).catch(() => setLatestListings([]));
+
+    // Chargement des données avec rafraîchissement AOS
+    const fetchData = async () => {
+      try {
+        const [cats, listings] = await Promise.all([
+          getCategories(),
+          getLatestListings()
+        ]);
+        setCategories(cats);
+        setLatestListings(listings);
+        // On attend un court instant que le DOM soit rendu pour AOS
+        setTimeout(() => {
+          AOS.refresh();
+        }, 500);
+      } catch (err) {
+        console.error("Erreur chargement:", err);
+      }
+    };
+    
+    fetchData();
 
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -42,7 +61,6 @@ export default function LandingPage() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // Fonction de scroll pour les sliders mobiles
   const scrollContainer = (id, direction) => {
     const el = document.getElementById(id);
     const scrollAmount = 320;
@@ -103,7 +121,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── SECTION NOS CATÉGORIES (SLIDER MOBILE) ─── */}
+      {/* ─── SECTION NOS CATÉGORIES (AVEC ANIMATION) ─── */}
       <section className="unified-section pt-0">
         <div className="container">
           <div className="section-header-large" data-aos="fade-up">
@@ -115,7 +133,13 @@ export default function LandingPage() {
             <button className="slider-nav-btn prev" onClick={() => scrollContainer('cat-slider', 'left')}><ChevronLeft /></button>
             <div className="categories-grid-aymen mobile-slider" id="cat-slider">
               {categories.map((cat, index) => (
-                <Link key={cat.id} to={`/services?categoryId=${cat.id}`} className="cat-card-aymen">
+                <Link 
+                  key={cat.id} 
+                  to={`/services?categoryId=${cat.id}`} 
+                  className="cat-card-aymen"
+                  data-aos="fade-up"
+                  data-aos-delay={index * 100}
+                >
                   <div className="cat-icon-aymen">
                     {CATEGORY_ICONS[cat.slug] || <Home size={40}/>}
                   </div>
@@ -129,7 +153,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ─── SECTION NOS ANNONCES (SLIDER MOBILE) ─── */}
+      {/* ─── SECTION NOS ANNONCES (AVEC ANIMATION) ─── */}
       <section className="unified-section pt-0">
         <div className="container">
           <div className="section-header-large" data-aos="fade-up">
@@ -140,9 +164,14 @@ export default function LandingPage() {
           <div className="mobile-slider-wrapper">
             <button className="slider-nav-btn prev" onClick={() => scrollContainer('listing-slider', 'left')}><ChevronLeft /></button>
             <div className="listings-grid-aymen mobile-slider" id="listing-slider">
-              {latestListings.slice(0, 6).map((listing) => (
-                <div className="mobile-slide-item" key={listing.id}>
-                   <ListingCard listing={listing} />
+              {latestListings.slice(0, 6).map((listing, index) => (
+                <div 
+                  className="mobile-slide-item" 
+                  key={listing.id}
+                  data-aos="fade-up"
+                  data-aos-delay={index * 150}
+                >
+                    <ListingCard listing={listing} />
                 </div>
               ))}
             </div>
