@@ -75,49 +75,56 @@ export default function ProvidersManager() {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan="6" style={{textAlign: 'center', padding: '20px'}}>Chargement...</td></tr>
-            ) : providers.length === 0 ? (
-               <tr><td colSpan="6" style={{textAlign: 'center', padding: '20px'}}>Aucun fournisseur trouvé</td></tr>
-            ) : providers.map((p) => (
-              <tr key={p.id}>
-                <td>
-                  <div className="admin-table__user">
-                    <div className="admin-table__avatar">{p.firstName?.charAt(0) || 'F'}</div>
-                    <div>
-                      <strong>{p.firstName} {p.lastName}</strong>
-                      <span className="admin-table__email">{p.email}</span>
-                    </div>
-                  </div>
-                </td>
-                <td>{p.phone || '—'}</td>
-                <td>
-                  {p.documentUrl ? (
-                    <a href={getImageUrl(p.documentUrl)} target="_blank" rel="noreferrer" className="admin-btn admin-btn--sm admin-btn--outline">Voir</a>
-                  ) : '—'}
-                </td>
-                <td><span className={`admin-badge ${getStatusClass(p.status)}`}>{getStatusLabel(p.status, 'account')}</span></td>
-                <td>{new Date(p.createdAt).toLocaleDateString()}</td>
-                <td>
-                  <div className="admin-table__actions">
-                    {p.status === ACCOUNT_STATUS.PENDING && (
-                      <>
-                        <button onClick={() => handleAction(p.id, 'validate')} className="admin-btn admin-btn--sm admin-btn--primary">Valider</button>
-                        <button onClick={() => handleAction(p.id, 'reject')} className="admin-btn admin-btn--sm admin-btn--outline" style={{ color: 'var(--color-danger)' }}>Rejeter</button>
-                      </>
-                    )}
-                    {p.status === ACCOUNT_STATUS.VALIDATED && (
-                      <button onClick={() => handleAction(p.id, 'suspend')} className="admin-btn admin-btn--sm admin-btn--warning">Suspendre</button>
-                    )}
-                    {p.status === ACCOUNT_STATUS.SUSPENDED && (
-                      <button onClick={() => handleAction(p.id, 'reactivate')} className="admin-btn admin-btn--sm admin-btn--primary">Réactiver</button>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          
+<tbody>
+  {loading ? (
+    <tr><td colSpan="6" style={{textAlign: 'center', padding: '20px'}}>Chargement...</td></tr>
+  ) : providers.length === 0 ? (
+    <tr><td colSpan="6" style={{textAlign: 'center', padding: '20px'}}>Aucun fournisseur trouvé</td></tr>
+  ) : providers.map((p) => (
+    <tr key={p.id}>
+      {/* Pas de label pour le premier car il contient l'avatar/nom */}
+      <td>
+        <div className="admin-table__user">
+          <div className="admin-table__avatar">{p.firstName?.charAt(0) || 'F'}</div>
+          <div>
+            <strong>{p.firstName} {p.lastName}</strong>
+            <span className="admin-table__email">{p.email}</span>
+          </div>
+        </div>
+      </td>
+      <td data-label="Contact">{p.phone || '—'}</td>
+      <td data-label="Document">
+        {p.documentUrl ? (
+          <a href={getImageUrl(p.documentUrl)} target="_blank" rel="noreferrer" className="admin-btn admin-btn--sm admin-btn--outline">Voir</a>
+        ) : '—'}
+      </td>
+      <td data-label="Statut">
+        <span className={`admin-badge ${getStatusClass(p.status)}`}>
+          {getStatusLabel(p.status, 'account')}
+        </span>
+      </td>
+      <td data-label="Inscription">{new Date(p.createdAt).toLocaleDateString()}</td>
+      <td data-label="Actions">
+        <div className="admin-table__actions">
+          {p.status === ACCOUNT_STATUS.PENDING && (
+            <>
+              <button onClick={() => handleAction(p.id, 'validate')} className="admin-btn admin-btn--sm admin-btn--primary">Valider</button>
+              <button onClick={() => handleAction(p.id, 'reject')} className="admin-btn admin-btn--sm admin-btn--outline" style={{ color: 'var(--color-danger)' }}>Rejeter</button>
+            </>
+          )}
+          {p.status === ACCOUNT_STATUS.VALIDATED && (
+            <button onClick={() => handleAction(p.id, 'suspend')} className="admin-btn admin-btn--sm admin-btn--warning">Suspendre</button>
+          )}
+          {p.status === ACCOUNT_STATUS.SUSPENDED && (
+            <button onClick={() => handleAction(p.id, 'reactivate')} className="admin-btn admin-btn--sm admin-btn--primary">Réactiver</button>
+          )}
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
         </table>
       </div>
     </div>

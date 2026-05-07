@@ -1,37 +1,20 @@
 /* ═══════════════════════════════════════════════════════════════
-   PROVIDER PAGES (Profile + My Listings)
+   PROVIDER LISTINGS — Premium Theme
    ═══════════════════════════════════════════════════════════════ */
 
 .provider-page {
-    padding: var(--space-6);
-    animation: fadeIn 0.5s ease;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
-.provider-page h1 {
-    font-size: var(--text-2xl);
-    margin-bottom: var(--space-2);
-    color: var(--color-gray-900);
-}
-
-.provider-page__subtitle {
-    color: var(--color-gray-500);
-    margin-bottom: var(--space-8);
-}
-
-/* ─── Page Header Row ─────────────────────────────────────── */
-.provider-page__header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--space-6);
-}
-
-/* ─── Listings Table (Desktop) ────────────────────────────── */
+/* Table Stylisée */
 .provider-listings-table {
-    background: var(--color-white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sm);
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     overflow: hidden;
+    border: 1px solid rgba(15, 38, 51, 0.05);
 }
 
 .provider-listings-table table {
@@ -40,65 +23,92 @@
 }
 
 .provider-listings-table th {
+    background: #f8fafc;
+    padding: 1.2rem 1rem;
     text-align: left;
-    padding: var(--space-4);
-    font-size: var(--text-xs);
-    font-weight: 600;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-gray-500);
-    background: var(--color-gray-50);
-    border-bottom: 1px solid var(--color-gray-200);
+    letter-spacing: 1px;
+    color: var(--admin-navy);
+    border-bottom: 2px solid #edf2f7;
 }
 
 .provider-listings-table td {
-    padding: var(--space-4);
-    font-size: var(--text-sm);
-    border-bottom: 1px solid var(--color-gray-100);
-    color: var(--color-gray-700);
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
 }
 
-.provider-listings-table__title {
-    font-weight: 600;
-    color: var(--color-gray-900);
+.td-title strong {
+    color: var(--admin-navy);
+    font-size: 1rem;
 }
 
-/* ─── Badges & Buttons ────────────────────────────────────── */
-.provider-status-badge {
-    display: inline-block;
-    padding: 2px 12px;
-    border-radius: var(--radius-full);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    color: white;
+.td-price {
+    font-weight: 800;
+    color: var(--admin-navy);
 }
 
-.btn-view-photos {
-    background: #34657F; /* Bleu signature Immo Lamis */
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
+/* Badges de Statut */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-published { background: #ecfdf5; color: #059669; }
+.status-draft { background: #f1f5f9; color: #64748b; }
+.status-unpublished { background: #fef2f2; color: #dc2626; }
+
+/* Boutons Actions */
+.action-buttons-group {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action-icon {
+    width: 38px;
+    height: 38px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-action-icon.edit:hover { background: var(--admin-beige-light); border-color: var(--admin-beige); }
+.btn-action-icon.delete:hover { background: #fee2e2; border-color: #ef4444; }
+
+/* Bouton Galerie */
+.btn-view-photos {
+    background: var(--admin-navy);
+    color: var(--admin-beige);
+    border: 1px solid var(--admin-beige);
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 .btn-view-photos:hover {
-    background: #D9B48F; /* Or/Beige signature Immo Lamis */
-    transform: translateY(-1px);
+    background: var(--admin-beige);
+    color: var(--admin-navy);
 }
 
-/* ─── Galerie & Zoom Logic ────────────────────────────────── */
+/* ─── Galerie Overlay (Sombre & Or) ────────────────────────── */
 .gallery-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
-    background: rgba(10, 20, 30, 0.98);
-    z-index: 10000;
+    background: rgba(15, 38, 51, 0.98);
+    z-index: 9999;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -108,27 +118,16 @@
 .gallery-scroll-container {
     display: flex;
     overflow-x: auto;
-    overflow-y: hidden;
     width: 100%;
-    height: 80vh;
+    height: 70vh;
+    gap: 2rem;
+    padding: 0 10%;
     scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 0 50px;
-}
-
-/* Barre de scroll personnalisée (dorée) */
-.gallery-scroll-container::-webkit-scrollbar {
-    height: 8px;
-}
-.gallery-scroll-container::-webkit-scrollbar-thumb {
-    background: #D9B48F;
-    border-radius: 10px;
 }
 
 .gallery-item {
     flex: 0 0 auto;
     width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,134 +135,147 @@
 }
 
 .gallery-img {
+    max-height: 100%;
     max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
-    border: 2px solid #D9B48F;
-    border-radius: 8px;
+    border-radius: 12px;
+    border: 2px solid var(--admin-beige);
     cursor: zoom-in;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.4s ease;
 }
 
 .gallery-img.zoomed {
-    transform: scale(1.6);
+    transform: scale(1.5);
     cursor: zoom-out;
-    max-width: none;
 }
 
 .close-gallery {
     position: absolute;
-    top: 20px; right: 30px;
+    top: 30px; right: 40px;
     background: none; border: none;
-    color: #D9B48F; font-size: 50px;
-    cursor: pointer; z-index: 10001;
+    color: var(--admin-beige);
+    font-size: 3rem;
+    cursor: pointer;
 }
 
-.gallery-footer {
-    color: white;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    opacity: 0.7;
-}
-
-/* ─── Cards & Grid (For Profile/Post) ─────────────────────── */
-.provider-page__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-6);
-}
-
-.provider-card {
-    padding: var(--space-8);
-    background: var(--color-white);
-    border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sm);
-}
-
-.provider-card h3 {
-    font-size: var(--text-lg);
-    margin-bottom: var(--space-6);
-    padding-bottom: var(--space-3);
-    border-bottom: 2px solid var(--color-gray-100);
-}
-
-/* ─── Responsive Mobile ───────────────────────────────────── */
-@media (max-width: 768px) {
-    .provider-page__header-row {
-        flex-direction: column;
-        gap: var(--space-4);
-        align-items: flex-start;
-    }
-
-    .provider-page__grid { grid-template-columns: 1fr; }
-
-    /* Transformation du tableau en cartes */
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 1024px) {
     .provider-listings-table thead { display: none; }
-    
-    .provider-listings-table table, 
-    .provider-listings-table tbody, 
-    .provider-listings-table tr, 
-    .provider-listings-table td {
-        display: block;
-        width: 100%;
-    }
-
     .provider-listings-table tr {
-        background: white;
-        margin-bottom: var(--space-4);
-        border-radius: var(--radius-xl);
-        padding: var(--space-4);
-        border: 1px solid var(--color-gray-100);
+        display: block;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border: 1px solid #edf2f7;
     }
-
     .provider-listings-table td {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: var(--space-3) 0;
-        border-bottom: 1px solid var(--color-gray-50);
+        padding: 0.8rem 0;
+        border: none;
+        border-bottom: 1px dashed #f1f5f9;
     }
-
     .provider-listings-table td::before {
         content: attr(data-label);
         font-weight: 700;
-        color: #34657F;
-        font-size: var(--text-xs);
+        color: var(--admin-navy);
     }
-
-    .gallery-scroll-container {
-        padding: 0 10px;
-        gap: 10px;
-    }
-
-    .gallery-img { max-width: 95%; }
-
-    .show-mobile { display: inline; }
-    .hide-mobile { display: none; }
+}
+/* --- Correction pour Catégorie (Tag coloré) --- */
+.category-tag {
+    display: inline-block;
+    background-color: #e9d5c1; /* Beige foncé pour le contraste */
+    color: #5d432c !important; /* Texte chocolat foncé pour être sûr qu'il soit lisible */
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(15, 38, 51, 0.1);
 }
 
-@media (min-width: 769px) {
-    .show-mobile { display: none; }
+/* --- Correction pour Ville/Localisation --- */
+.provider-listings-table td[data-label="Ville"],
+.provider-listings-table td[data-label="Localisation"],
+.provider-listings-table td {
+    color: var(--admin-navy) !important; /* Force le texte en bleu nuit */
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* --- Style spécifique pour le Titre pour qu'il soit plus fort --- */
+.td-title strong {
+    color: var(--admin-navy) !important;
+    font-weight: 700;
+    display: block;
 }
-/* Grille de prévisualisation mobile */
+
+/* --- Assurer que le tableau a un fond propre --- */
+.provider-listings-table {
+    background-color: #ffffff !important;
+}
+
+.provider-listings-table tr:hover {
+    background-color: #fcfaf8; /* Très léger reflet beige au survol */
+}
+/* ═══════════════════════════════════════════════════════════════
+   POST LISTING — FORM STYLE (Premium Blue & Beige)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Style du Header spécifique mobile */
+.header-mobile {
+    background: linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
+    padding: 2rem;
+    border-radius: 24px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(217, 180, 143, 0.3);
+}
+
+.header-mobile h1 {
+    color: var(--admin-beige) !important;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* Alertes (Validation compte) */
+.provider-alert {
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.provider-alert--error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+}
+
+/* Grilles de formulaire */
+.provider-card__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Zone d'Upload Photo */
 .mobile-previews-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 10px;
-    margin-top: 10px;
+    gap: 12px;
+    margin-top: 15px;
 }
 
 .preview-thumb {
     position: relative;
     aspect-ratio: 1;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #D9B48F;
+    border: 2px solid var(--admin-beige);
+    box-shadow: var(--shadow-sm);
 }
 
 .preview-thumb img {
@@ -274,131 +286,222 @@
 
 .btn-remove {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 4px;
+    right: 4px;
     background: rgba(220, 38, 38, 0.9);
     color: white;
     border: none;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 .add-photo-btn {
     aspect-ratio: 1;
-    border: 2px dashed #D9B48F;
-    border-radius: 8px;
+    border: 2px dashed var(--admin-beige);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: #f8fafd;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.add-photo-btn:hover {
+    background: var(--admin-beige-light);
+    transform: scale(0.98);
 }
 
 .add-photo-btn .plus {
-    font-size: 24px;
-    color: #34657F;
+    font-size: 32px;
+    color: var(--admin-navy);
+    font-weight: 300;
 }
 
-/* Footer mobile (Boutons côte à côte) */
+.provider-upload__hint {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 10px;
+    font-style: italic;
+    text-align: right;
+}
+
+/* Footer et Boutons */
 .provider-card__footer-mobile {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 20px;
-    padding-bottom: 30px; /* Espace pour le scroll */
+    grid-template-columns: 1fr 2fr;
+    gap: 12px;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .btn-provider-primary {
-    background: #34657F;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
+    background: var(--admin-navy);
+    color: var(--admin-beige);
+    border: 1px solid var(--admin-beige);
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-provider-primary:hover:not(:disabled) {
+    background: var(--admin-beige);
+    color: var(--admin-navy);
 }
 
 .btn-provider-secondary {
     background: white;
-    color: #34657F;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #34657F;
-    font-weight: 600;
+    color: var(--admin-navy);
+    border: 1px solid #e2e8f0;
+    padding: 14px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
 }
-/* Utilitaires de largeur */
+
+.btn-provider-primary:disabled, 
+.btn-provider-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ─── RESPONSIVE MOBILE ────────────────────────────────────── */
+@media (max-width: 600px) {
+    .provider-card__row {
+        grid-template-columns: 1fr; /* Un seul champ par ligne sur petit mobile */
+        gap: 0;
+    }
+    
+    .provider-page {
+        padding: 10px;
+    }
+
+    .header-mobile {
+        padding: 1.5rem;
+        border-radius: 16px;
+    }
+}
+/* ═══════════════════════════════════════════════════════════════
+   PROFILE PAGE — Layout & Specific Components
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Grille de la page Profil */
+.provider-page__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* Titres dans les cartes */
+.provider-card h3 {
+    color: var(--admin-navy);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--admin-beige-light);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Alertes spécifiques */
+.provider-alert--success {
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+/* Zone Critique (Warning) */
+.provider-card--warning {
+    border: 1px solid #fcd34d;
+    background-color: #fffbeb;
+}
+
+.provider-card__warning-text {
+    font-size: 0.85rem;
+    color: #92400e;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.provider-card__warning-text strong {
+    color: var(--admin-navy);
+}
+
+/* Boutons spécifiques Profil */
+.btn-provider-warning {
+    background: #b45309;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-provider-warning:hover {
+    background: #92400e;
+}
+
 .w-full {
     width: 100%;
 }
 
-/* Style spécifique pour les titres de cartes */
-.provider-card h3 {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #34657F; /* Bleu Lamis */
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
-
-/* Input file stylisé */
+/* Input File personnalisé */
 .form-input-file {
-    padding: 10px;
-    background: #fff;
+    font-size: 0.8rem;
+    color: var(--admin-navy);
+    background: white;
+    padding: 8px;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    font-size: 0.85rem;
     width: 100%;
-}
-
-/* Bouton d'alerte/warning spécifique à Immo Lamis */
-.btn-provider-warning {
-    background: #fffbeb;
-    color: #b45309;
-    border: 1px solid #fcd34d;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
 }
 
-.btn-provider-warning:hover {
-    background: #fef3c7;
-}
-
-/* Animation de chargement */
-.loading-container {
-    height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #34657F;
+.form-input-file::-webkit-file-upload-button {
+    background: var(--admin-navy);
+    color: var(--admin-beige);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-right: 10px;
+    cursor: pointer;
     font-weight: 600;
 }
 
-/* --- Adaptations Mobile supplémentaires --- */
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .provider-page {
-        padding: 15px;
-    }
-    
-    .provider-card {
-        padding: 20px;
-        margin-bottom: 15px;
+    .provider-page__grid {
+        grid-template-columns: 1fr; /* Une seule colonne sur tablette et mobile */
     }
 
     .header-mobile h1 {
         font-size: 1.5rem;
     }
+}
 
-    .provider-card__row {
-        grid-template-columns: 1fr; /* Empilement sur mobile */
-        gap: 0;
-    }
+/* Animation douce pour les changements d'état */
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

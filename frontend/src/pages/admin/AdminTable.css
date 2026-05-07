@@ -1,352 +1,555 @@
 /* ═══════════════════════════════════════════════════════════════
-   ADMIN TABLE (shared by Providers & Listings managers)
+   ADMIN SHARED COMPONENTS (Tables, Badges, Cards, Filters)
    ═══════════════════════════════════════════════════════════════ */
 
-.admin-table-page__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--space-6);
+:root {
+    --admin-beige: #d9b48f;
+    --admin-beige-light: #f4eade;
+    --admin-navy: #0f2633;
+    --admin-navy-light: #1a3a4a;
+    --admin-white: #ffffff;
 }
-.admin-table-page__header h2 { font-size: var(--text-xl); margin-bottom: var(--space-1); }
-.admin-table-page__header p { color: var(--color-gray-500); font-size: var(--text-sm); }
 
+/* ─── TABLE PAGE HEADER ─────────────────────────────────────── */
+.admin-table-page__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centré verticalement pour le filtre */
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+    padding: var(--space-6);
+    border-radius: var(--radius-xl);
+    background: 
+        linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(217, 180, 143, 0.3);
+}
+
+.admin-table-page__header h2 { 
+    font-size: var(--text-2xl); 
+    color: var(--admin-beige);
+    font-weight: 800;
+    margin: 0;
+}
+
+.admin-table-page__header p {
+    color: rgba(255, 255, 255, 0.7);
+    margin: 4px 0 0 0;
+    font-size: var(--text-sm);
+}
+
+/* ─── FILTERS (Sélecteur de statut) ────────────────────────── */
+.admin-table-page__filters .form-input {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid var(--admin-beige) !important;
+    color: var(--admin-beige) !important;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.admin-table-page__filters .form-input:focus {
+    background: var(--admin-beige) !important;
+    color: var(--admin-navy) !important;
+}
+
+.admin-table-page__filters option {
+    background: var(--admin-navy);
+    color: white;
+}
+
+/* ─── TABLE DESIGN ─────────────────────────────────────────── */
 .admin-table-wrapper {
-  background: var(--color-white);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-sm);
-  overflow-x: auto;
+    background: var(--admin-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    border: 1px solid rgba(15, 38, 51, 0.08);
 }
 
 .admin-table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .admin-table thead {
-  background: var(--color-gray-50);
+    background: var(--admin-navy);
 }
 
 .admin-table th {
-  padding: var(--space-4) var(--space-5);
-  text-align: left;
-  font-size: var(--text-xs);
-  font-weight: 600;
-  color: var(--color-gray-500);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--color-gray-200);
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--admin-beige);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .admin-table td {
-  padding: var(--space-4) var(--space-5);
-  font-size: var(--text-sm);
-  color: var(--color-gray-700);
-  border-bottom: 1px solid var(--color-gray-100);
-  vertical-align: middle;
-}
-
-.admin-table tbody tr {
-  transition: background var(--transition-fast);
+    padding: 1rem 1.5rem;
+    font-size: var(--text-sm);
+    color: var(--admin-navy);
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .admin-table tbody tr:hover {
-  background: var(--color-gray-50);
+    background: rgba(217, 180, 143, 0.04);
 }
 
+/* ─── PROVIDER SPECIFICS (Avatar & Email) ─────────────────── */
 .admin-table__user {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .admin-table__avatar {
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-  color: var(--color-white);
-  font-weight: 700;
-  font-size: var(--text-sm);
-  border-radius: var(--radius-full);
-  flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--admin-beige), #b38e6d);
+    color: var(--admin-navy);
+    font-weight: 800;
+    border-radius: 12px; /* Carré arrondi moderne */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(217, 180, 143, 0.2);
 }
 
 .admin-table__email {
-  display: block;
-  font-size: var(--text-xs);
-  color: var(--color-gray-400);
-  margin-top: 2px;
+    display: block;
+    font-size: 12px;
+    color: #64748b;
 }
 
-.admin-table__actions {
-  display: flex;
-  gap: var(--space-2);
+/* ─── BADGES ──────────────────────────────────────────────── */
+.admin-badge {
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: 800;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-/* ─── SHARED ADMIN UTILITIES ─────────────────────────────── */
+.admin-badge--success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+.admin-badge--warning { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+.admin-badge--danger { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
 
-.admin-page {
-  animation: fadeIn var(--transition-base);
+/* ─── BUTTONS ─────────────────────────────────────────────── */
+.admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 12px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
 }
 
+/* Bouton Principal (Valider/Réactiver) */
+.admin-btn--primary { 
+    background: var(--admin-navy); 
+    color: var(--admin-beige);
+    border: 1px solid var(--admin-beige);
+}
+
+.admin-btn--primary:hover { 
+    background: var(--admin-beige);
+    color: var(--admin-navy);
+    transform: translateY(-2px);
+}
+
+/* Bouton Secondaire (Voir Document/Rejeter) */
+.admin-btn--outline {
+    background: transparent;
+    border: 1px solid var(--admin-navy);
+    color: var(--admin-navy);
+}
+
+.admin-btn--outline:hover {
+    background: #f8fafc;
+    border-color: var(--admin-beige);
+    color: var(--admin-beige);
+}
+
+.admin-btn--warning {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.admin-btn--warning:hover { background: #fef3c7; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .admin-table-page__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .admin-table-page__filters { width: 100%; }
+    .admin-table-page__filters .form-input { width: 100% !important; }
+
+    .admin-table tbody tr {
+        border: 1px solid rgba(217, 180, 143, 0.2);
+        padding: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .admin-table td::before {
+        color: #94a3b8;
+        font-size: 9px;
+    }
+
+    .admin-table__actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+}
+/* ═══════════════════════════════════════════════════════════════
+   NOTIFICATIONS PAGE — Premium Blue & Gold Style
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Header de la page spécifique aux notifications */
 .admin-page__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--space-8);
+    background: linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
+    padding: 2.5rem;
+    border-radius: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(217, 180, 143, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 .admin-page__title {
-  font-size: var(--text-2xl);
-  margin-bottom: var(--space-1);
+    color: var(--admin-beige);
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
 }
 
 .admin-page__subtitle {
-  color: var(--color-gray-500);
-  font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 5px;
+    font-weight: 500;
 }
 
-.admin-loading {
-  display: flex;
-  justify-content: center;
-  padding: var(--space-20);
-  color: var(--color-gray-500);
-  font-weight: 500;
-}
-
-/* Badges */
-.admin-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 12px;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: var(--radius-full);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.admin-badge--success { background: #d1fae5; color: #065f46; }
-.admin-badge--warning { background: #fef3c7; color: #92400e; }
-.admin-badge--danger { background: #fee2e2; color: #991b1b; }
-.admin-badge--info { background: #dbeafe; color: #1e40af; }
-
-/* Buttons */
-.admin-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: 10px 20px;
-  font-weight: 600;
-  font-size: var(--text-sm);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
-  white-space: nowrap;
-}
-
-.admin-btn--sm { padding: 6px 12px; font-size: 12px; }
-.admin-btn--primary { background: var(--color-primary); color: var(--color-white); }
-.admin-btn--primary:hover { background: var(--color-primary-dark); transform: translateY(-1px); }
-.admin-btn--outline { border: 1px solid var(--color-gray-300); color: var(--color-gray-700); }
-.admin-btn--outline:hover { background: var(--color-gray-50); border-color: var(--color-gray-400); }
-.admin-btn--danger { background: #fee2e2; color: #991b1b; }
-.admin-btn--danger:hover { background: #fecaca; }
-.admin-btn--warning { background: #fef3c7; color: #92400e; }
-.admin-btn--warning:hover { background: #fde68a; }
-
-/* Forms */
-.admin-input {
-  width: 100%;
-  padding: 10px 14px;
-  background: var(--color-gray-50);
-  border: 1px solid var(--color-gray-200);
-  border-radius: var(--radius-md);
-  font-size: var(--text-sm);
-  transition: all var(--transition-fast);
-}
-
-.admin-input:focus {
-  border-color: var(--color-primary);
-  background: var(--color-white);
-  box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
-}
-
-.admin-inline-form {
-  display: flex;
-  gap: var(--space-3);
-  background: var(--color-gray-50);
-  padding: var(--space-4);
-  border-radius: var(--radius-lg);
-  margin-bottom: var(--space-6);
-  border: 1px dashed var(--color-gray-300);
-}
-
-.admin-inline-form--grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  align-items: center;
-}
-
-/* ─── NOTIFICATIONS ──────────────────────────────────────── */
-
+/* Liste des notifications */
 .notifications-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
+/* Carte de notification individuelle */
 .notification-card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4) var(--space-6);
-  background: var(--color-white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-gray-100);
-  cursor: pointer;
-  transition: all var(--transition-base);
-  position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem 2rem;
+    background: var(--admin-white);
+    border-radius: 20px;
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    cursor: pointer;
 }
 
 .notification-card:hover {
-  transform: translateX(4px);
-  border-color: var(--color-primary-200);
-  box-shadow: var(--shadow-md);
+    transform: translateX(8px);
+    border-color: var(--admin-beige);
+    box-shadow: 0 10px 20px rgba(15, 38, 51, 0.05);
 }
 
+/* Style spécifique pour NON-LUES */
 .notification-card--unread {
-  background: var(--color-primary-50);
-  border-color: var(--color-primary-100);
+    background: linear-gradient(to right, #ffffff, #fffdfb);
+    border-left: 5px solid var(--admin-beige);
 }
 
+.notification-card--unread .notification-card__message {
+    font-weight: 700;
+    color: var(--admin-navy);
+}
+
+/* Icône de type de notification */
 .notification-card__icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-white);
-  border-radius: var(--radius-full);
-  font-size: var(--text-xl);
-  box-shadow: var(--shadow-sm);
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    background: #f8fafc;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
 }
 
-.notification-card__content { flex: 1; }
-.notification-card__message { font-size: var(--text-sm); font-weight: 500; color: var(--color-gray-800); }
-.notification-card__time { font-size: 11px; color: var(--color-gray-400); margin-top: 2px; }
+.notification-card--unread .notification-card__icon {
+    background: var(--admin-beige-light);
+    transform: scale(1.1);
+}
 
+/* Contenu du texte */
+.notification-card__content {
+    flex: 1;
+}
+
+.notification-card__message {
+    font-size: 1rem;
+    color: #475569;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+.notification-card__time {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 500;
+}
+
+/* Pastille "Non-lu" */
 .notification-card__dot {
-  width: 8px;
-  height: 8px;
-  background: var(--color-primary);
-  border-radius: var(--radius-full);
+    width: 10px;
+    height: 10px;
+    background: var(--admin-beige);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(217, 180, 143, 0.6);
 }
 
+/* État vide */
 .notifications-empty {
-  text-align: center;
-  padding: var(--space-20);
-  color: var(--color-gray-400);
-}
-.notifications-empty__icon { font-size: 4rem; display: block; margin-bottom: var(--space-4); opacity: 0.2; }
-
-/* ─── ROLES & PERMISSIONS ─────────────────────────────────── */
-
-.admin-role-form {
-  background: var(--color-white);
-  padding: var(--space-6);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-md);
-  margin-bottom: var(--space-8);
-  border: 1px solid var(--color-primary-100);
+    text-align: center;
+    padding: 5rem 2rem;
+    background: #f8fafc;
+    border-radius: 24px;
+    border: 2px dashed #e2e8f0;
 }
 
-.admin-role-form__header { margin-bottom: var(--space-6); }
-
-.admin-role-form__permissions h4 {
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  color: var(--color-gray-500);
-  margin-bottom: var(--space-4);
-  letter-spacing: 0.05em;
+.notifications-empty__icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+    opacity: 0.3;
 }
 
-.permissions-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
+.notifications-empty p {
+    color: #64748b;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.permission-checkbox {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-3);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-gray-100);
-  cursor: pointer;
-  transition: all var(--transition-fast);
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .admin-page__header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .notification-card {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .notification-card__icon {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        font-size: 1.2rem;
+    }
 }
+/* ═══════════════════════════════════════════════════════════════
+   PERMISSIONS & ROLES — Premium Grid Layout
+   ═══════════════════════════════════════════════════════════════ */
 
-.permission-checkbox:hover { background: var(--color-gray-50); border-color: var(--color-gray-300); }
-.permission-checkbox input { margin-top: 4px; }
-
-.permission-checkbox__label strong { display: block; font-size: var(--text-sm); color: var(--color-gray-800); }
-.permission-checkbox__label small { display: block; font-size: 11px; color: var(--color-gray-400); }
-
+/* Grille des Rôles */
 .roles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: var(--space-6);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-6);
+    margin-top: 2rem;
 }
 
+/* Carte de Rôle */
 .role-card {
-  background: var(--color-white);
-  border-radius: var(--radius-xl);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-gray-100);
-  display: flex;
-  flex-direction: column;
+    background: var(--admin-white);
+    border-radius: 24px;
+    padding: 1.8rem;
+    border: 1px solid rgba(15, 38, 51, 0.08);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.role-card--super { border-color: var(--color-primary-200); background: linear-gradient(to bottom right, var(--color-white), var(--color-primary-50)); }
+.role-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--admin-beige);
+}
+
+/* Style spécial Super Admin */
+.role-card--super {
+    background: linear-gradient(145deg, #0f2633, #1a3a4a);
+    border: 1px solid var(--admin-beige);
+}
+
+.role-card--super h3 { color: var(--admin-beige) !important; }
+.role-card--super .permission-tag { 
+    background: rgba(217, 180, 143, 0.15); 
+    color: var(--admin-beige);
+    border: 1px solid rgba(217, 180, 143, 0.3);
+}
 
 .role-card__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 10px;
 }
-.role-card__header h3 { font-size: var(--text-lg); }
 
+.role-card__header h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--admin-navy);
+    margin: 0;
+}
+
+/* Liste des badges de permissions (Tags) */
 .role-card__permissions {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 2rem;
+    flex: 1;
 }
 
 .permission-tag {
-  background: var(--color-gray-100);
-  color: var(--color-gray-600);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: 600;
+    padding: 4px 10px;
+    background: #f1f5f9;
+    color: #475569;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-.permission-tag--empty { font-style: italic; color: var(--color-gray-400); }
+.permission-tag--empty {
+    font-style: italic;
+    opacity: 0.5;
+    background: transparent;
+}
 
+/* Actions au bas de la carte */
 .role-card__actions {
-  display: flex;
-  gap: var(--space-3);
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--color-gray-100);
+    display: flex;
+    gap: 10px;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
 }
 
+/* ─── FORMULAIRE DE RÔLE ───────────────────────────────────── */
+.admin-role-form {
+    background: #f8fafc;
+    border-radius: 24px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    border: 2px solid var(--admin-beige);
+    animation: slideDown 0.4s ease-out;
+}
+
+.admin-role-form__header {
+    margin-bottom: 2rem;
+}
+
+.admin-role-form .admin-input {
+    font-size: 1.2rem;
+    font-weight: 700;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Grille de Checkboxes */
+.permissions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin: 1.5rem 0 2rem 0;
+}
+
+.permission-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+}
+
+.permission-checkbox:hover {
+    border-color: var(--admin-beige);
+    background: var(--admin-beige-light);
+}
+
+.permission-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--admin-navy);
+    margin-top: 3px;
+}
+
+.permission-checkbox__label strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--admin-navy);
+    text-transform: uppercase;
+}
+
+.permission-checkbox__label small {
+    display: block;
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.2;
+}
+
+/* Bouton Danger spécifique */
+.admin-btn--danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.admin-btn--danger:hover {
+    background: #ef4444;
+    color: white;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .roles-grid { grid-template-columns: 1fr; }
+    .permissions-grid { grid-template-columns: 1fr; }
+}

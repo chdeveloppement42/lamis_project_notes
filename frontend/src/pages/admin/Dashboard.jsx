@@ -21,7 +21,7 @@ export default function Dashboard() {
         console.error('Dashboard stats error:', err);
       } finally {
         setLoading(false);
-        setIsVisible(true); // Déclenche l'animation d'entrée
+        setIsVisible(true); 
       }
     };
     fetchStats();

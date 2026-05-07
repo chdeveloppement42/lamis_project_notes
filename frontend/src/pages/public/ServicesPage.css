@@ -12,7 +12,7 @@
   font-family: 'Outfit', sans-serif;
 }
 
-/* --- HERO --- */
+/* --- HERO SECTION --- */
 .hero-services {
   height: 45vh;
   position: relative;
@@ -21,6 +21,7 @@
   justify-content: center;
   overflow: hidden;
 }
+
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -37,45 +38,224 @@
   padding: 60px 20px;
 }
 
-/* --- SIDEBAR FILTERS --- */
+/* --- CONTENEUR DES FILTRES (SIDEBAR) --- */
 .filters-sidebar {
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 30px;
+  border: 1px solid rgba(217, 180, 143, 0.2);
+  padding: 40px 30px;
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
   height: fit-content;
   position: sticky;
   top: 100px;
 }
 
-.sidebar-header-mobile { display: none; }
+.filter-title-luxe {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: var(--aymen-gold);
+  border-bottom: 1px solid rgba(217, 180, 143, 0.3);
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
 
-/* --- RESULTATS & SLIDER --- */
-.mobile-slider-container { position: relative; }
+.sidebar-header-mobile { 
+  display: none; 
+}
 
-.listings-grid-aymen {
+/* --- CHAMPS DE RECHERCHE --- */
+.filter-group-luxe {
+  margin-bottom: 25px;
+}
+
+.filter-group-luxe label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.filter-group-luxe select, 
+.filter-group-luxe input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 10px;
+  color: white;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  border-radius: 0;
+}
+
+.filter-group-luxe select:focus, 
+.filter-group-luxe input:focus {
+  outline: none;
+  border-bottom: 1px solid var(--aymen-gold);
+  background: rgba(217, 180, 143, 0.05);
+}
+
+.filter-group-luxe select option {
+  background: var(--aymen-bg);
+  color: white;
+}
+
+/* --- BOUTONS --- */
+.btn-aymen-gold {
+  width: 100%;
+  background: var(--aymen-gold);
+  color: var(--aymen-bg);
+  border: 1px solid var(--aymen-gold);
+  padding: 16px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-aymen-gold:hover {
+  background: transparent;
+  color: var(--aymen-gold);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-reset-luxe {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 20px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  transition: color 0.3s;
+}
+
+.btn-reset-luxe:hover {
+  color: #ff4d4d;
+}
+
+/* --- GRILLE DE RESULTATS (3x3) --- */
+.results-main {
+  width: 100%;
+}
+
+.results-info {
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.results-info p {
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  color: var(--aymen-gold);
+  font-weight: 300;
+}
+
+.listings-grid-aymen.grid-3x3 {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* 3 COLONNES FORCEES */
   gap: 25px;
 }
 
-/* Navigation Boutons (Slider) */
-.slider-nav-btn {
-  display: none;
-  position: absolute;
-  top: 50%; transform: translateY(-50%);
-  z-index: 10;
-  background: var(--aymen-gold);
-  border: none;
-  width: 40px; height: 40px;
-  border-radius: 50%;
+/* --- PAGINATION LUXE --- */
+.pagination-luxe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.pagination-aymen {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pag-numbers {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-aymen button {
+  background: #1B3444;
+  border: 1px solid rgba(217, 180, 143, 0.3);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.pagination-aymen button.active {
+  background: #D9B48F;
+  color: #142836;
+  border-color: #D9B48F;
+}
+
+.pagination-aymen button:hover:not(:disabled) {
+  border-color: #D9B48F;
+  color: #D9B48F;
+}
+
+.pagination-aymen button:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
+.pag-info-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* --- LOADERS --- */
+.loader-aymen-container {
+  padding: 100px 0;
+  text-align: center;
+}
+
+.spinner-gold {
+  color: var(--aymen-gold);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 1024px) {
-  .services-layout { grid-template-columns: 1fr; padding: 30px 15px; }
+  .services-layout { 
+    grid-template-columns: 1fr; 
+    padding: 30px 15px; 
+  }
 
-  /* Le tiroir de recherche mobile */
+  .listings-grid-aymen.grid-3x3 {
+    grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
+  }
+
   .filters-sidebar {
     position: fixed;
     top: 0; left: -100%;
@@ -84,9 +264,12 @@
     background: var(--aymen-bg);
     transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 20px;
+    overflow-y: auto;
   }
 
-  .filters-sidebar.open { left: 0; }
+  .filters-sidebar.open { 
+    left: 0; 
+  }
 
   .sidebar-header-mobile {
     display: flex;
@@ -97,10 +280,10 @@
     padding-bottom: 15px;
   }
 
-  /* Le bouton de déclenchement mobile */
   .mobile-filter-trigger {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     margin: 20px auto;
     background: var(--aymen-gold);
@@ -109,13 +292,10 @@
     padding: 12px 30px;
     font-weight: 800;
     border-radius: 50px;
+    cursor: pointer;
   }
 
-  /* Transformation en Slider */
-  .slider-nav-btn { display: flex; align-items: center; justify-content: center; }
-  .slider-nav-btn.prev { left: -10px; }
-  .slider-nav-btn.next { right: -10px; }
-
+  /* Slider pour mobile */
   .mobile-slider {
     display: flex !important;
     overflow-x: auto;
@@ -124,7 +304,6 @@
     padding: 10px 0;
     scrollbar-width: none;
   }
-  .mobile-slider::-webkit-scrollbar { display: none; }
 
   .mobile-slide-item {
     min-width: 85vw;
@@ -133,22 +312,12 @@
   }
 }
 
-/* Boutons & Inputs Luxe */
-.btn-aymen-gold {
-  background: var(--aymen-gold);
-  color: var(--aymen-bg);
-  border: none;
-  padding: 15px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-
-.filter-group-luxe select, .filter-group-luxe input {
-  width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 12px;
-  color: white;
-  margin-top: 5px;
+@media (max-width: 600px) {
+  .listings-grid-aymen.grid-3x3 {
+    grid-template-columns: 1fr; /* 1 colonne sur petit mobile */
+  }
+  
+  .pag-numbers {
+    display: none;
+  }
 }

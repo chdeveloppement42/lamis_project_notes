@@ -1,21 +1,22 @@
-/* --- Couleurs ImmoLamis (Adaptées au mode sombre Aymen) --- */
+/* --- VARIABLES & BASE --- */
 :root {
-  --immo-bg-card: #1B3444; /* Un bleu plus profond que le fond de page */
-  --immo-vert: #34657F;
+  --immo-bg-card: #1B3444;
   --immo-dore: #D9B48F;
   --immo-blanc: #ffffff;
+  --transition-smooth: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .listing-card {
   display: flex;
   flex-direction: column;
   background: var(--immo-bg-card);
-  border-radius: 12px; /* Un peu moins arrondi pour plus de sérieux */
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: var(--transition-smooth);
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-decoration: none;
+  height: 100%;
 }
 
 .listing-card:hover {
@@ -24,11 +25,11 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* --- IMAGE & SLIDER --- */
+/* --- CONTENEUR IMAGE & SLIDER --- */
 .listing-card__image-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 10; /* Format immobilier standard */
   background: #0d1b25;
   overflow: hidden;
 }
@@ -45,14 +46,15 @@
   transform: scale(1.05);
 }
 
+/* --- BADGE --- */
 .listing-card__badge {
   position: absolute;
   top: 1rem;
   left: 1rem;
   background: var(--immo-dore);
   color: #142836;
-  padding: 0.5rem 1.2rem;
-  border-radius: 4px; /* Forme rectangulaire élégante */
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 1px;
@@ -60,7 +62,7 @@
   z-index: 5;
 }
 
-/* --- BOUTONS SLIDE --- */
+/* --- BOUTONS NAVIGATION (SLIDER) --- */
 .slider-btn {
   position: absolute;
   top: 50%;
@@ -68,7 +70,7 @@
   width: 36px;
   height: 36px;
   background: rgba(20, 40, 54, 0.8);
-  border: 1px solid rgba(217, 180, 143, 0.5);
+  border: 1px solid rgba(217, 180, 143, 0.3);
   color: var(--immo-dore);
   border-radius: 50%;
   cursor: pointer;
@@ -76,18 +78,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  opacity: 0;
-  transition: 0.3s;
+  opacity: 0; /* Caché par défaut, visible au hover */
+  transition: var(--transition-smooth);
 }
 
-.listing-card:hover .slider-btn { opacity: 1; }
-.slider-btn:hover { background: var(--immo-dore); color: #142836; }
+.listing-card:hover .slider-btn {
+  opacity: 1;
+}
+
+.slider-btn:hover {
+  background: var(--immo-dore);
+  color: #142836;
+  transform: translateY(-50%) scale(1.1);
+}
 
 .slider-btn.prev { left: 10px; }
 .slider-btn.next { right: 10px; }
 
-/* --- POINTS INDICATEURS --- */
+/* --- POINTS INDICATEURS (DOTS) --- */
 .slider-dots {
   position: absolute;
   bottom: 15px;
@@ -101,29 +109,28 @@
 .dot {
   width: 6px;
   height: 6px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
   transition: 0.3s;
+  cursor: pointer;
 }
 
 .dot.active {
   background: var(--immo-dore);
-  width: 18px;
+  width: 18px; /* Effet pilule */
   border-radius: 10px;
 }
 
-/* --- TEXTE & BODY --- */
+/* --- CONTENU TEXTE --- */
 .listing-card__body {
-  padding: 1.5rem;
+  padding: 1.25rem;
 }
 
 .listing-card__title {
-  font-family: 'Outfit', sans-serif;
   color: var(--immo-blanc);
   font-weight: 600;
-  font-size: 1.15rem;
-  margin-bottom: 0.6rem;
-  letter-spacing: 0.5px;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -132,10 +139,9 @@
 .listing-card__location {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.85rem;
-  font-weight: 400;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
 }
 
 .listing-card__footer {
@@ -143,15 +149,14 @@
   justify-content: space-between;
   align-items: center;
   margin-top: 1.2rem;
-  padding-top: 1.2rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .listing-card__price {
-  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: var(--immo-dore);
-  font-size: 1.3rem;
+  font-size: 1.25rem;
 }
 
 .listing-card__avatar {
@@ -160,10 +165,10 @@
   background: rgba(217, 180, 143, 0.1);
   border: 1px solid rgba(217, 180, 143, 0.3);
   color: var(--immo-dore);
-  border-radius: 50%; /* Avatar rond plus classique */
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
 }

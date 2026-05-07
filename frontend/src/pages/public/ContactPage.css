@@ -154,4 +154,147 @@
   .massive-title { font-size: 2.2rem; }
   .aymen-form .input-row { grid-template-columns: 1fr; }
   .form-container-luxe { padding: 30px 20px; }
+}/* --- FAQ Tabs Styles --- */
+.faq-tabs-container {
+  max-width: 900px;
+  margin: -60px auto 60px auto; /* Chevauchement sur le Hero */
+  position: relative;
+  z-index: 20;
+}
+
+.faq-tabs-nav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: -1px; /* Pour coller au contenu */
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 15px 25px;
+  border: none;
+  background: #1B3444;
+  color: #fff;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.3s;
+  opacity: 0.8;
+  border: 1px solid rgba(217, 180, 143, 0.1);
+}
+
+.tab-btn.active {
+  background: #D9B48F;
+  color: #142836;
+  opacity: 1;
+  border-color: #D9B48F;
+}
+
+.faq-content-box {
+  background: #1B3444;
+  border: 1px solid rgba(217, 180, 143, 0.2);
+  border-radius: 0 0 15px 15px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Accordéon */
+.faq-accordion-item {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+
+.faq-accordion-item:last-child { border: none; }
+
+.faq-question-row {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.faq-accordion-item:hover .faq-question-row {
+  color: #D9B48F;
+}
+
+.faq-answer-row {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0 20px;
+}
+
+.faq-accordion-item.open .faq-answer-row {
+  max-height: 200px;
+  padding-bottom: 25px;
+}
+
+.faq-answer-row p {
+  color: #b0c4d1;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* --- Mobile Optimization --- */
+@media (max-width: 768px) {
+  .faq-tabs-container {
+    margin-top: 20px;
+    padding: 0 15px;
+  }
+
+  .faq-tabs-nav {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .tab-btn {
+    border-radius: 8px;
+    font-size: 0.9rem;
+    padding: 12px;
+  }
+
+  .faq-content-box {
+    border-radius: 12px;
+    margin-top: 10px;
+  }
+
+  .faq-question-row {
+    font-size: 0.9rem;
+    padding: 15px 10px;
+  }
+}
+/* Espacement entre Formulaire et FAQ */
+.section-spacer {
+  height: 80px; /* Ajustez la hauteur de l'espace ici */
+}
+
+/* Style pour la carte de téléphone cliquable */
+.clickable-card {
+  text-decoration: none;
+  color: inherit;
+  display: flex !important;
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  background: #254257 !important; /* Un peu plus clair au survol */
+  transform: translateY(-3px);
+  border-color: #D9B48F !important;
+}
+
+/* Optimisation Mobile */
+@media (max-width: 768px) {
+  .section-spacer {
+    height: 40px; /* Espace plus petit sur mobile */
+  }
+  
+  .faq-tabs-container {
+    margin-top: 0; /* On enlève le margin négatif s'il y en avait */
+  }
 }

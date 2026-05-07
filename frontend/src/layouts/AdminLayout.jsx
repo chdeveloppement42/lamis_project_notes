@@ -12,15 +12,12 @@ export default function AdminLayout() {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
-  // ─── NOTIFICATION POLLING (10s) ───────────────────────────────
   const fetchUnread = useCallback(async () => {
     if (!user || user.userType !== 'ADMIN') return;
     try {
       const res = await axiosInstance.get('/notifications/unread-count');
       setUnreadCount(res.data);
-    } catch {
-      // Silently fail
-    }
+    } catch { /* Fail silently */ }
   }, [user]);
 
   useEffect(() => {
@@ -39,41 +36,26 @@ export default function AdminLayout() {
     { to: '/admin/permissions', label: 'Permissions', icon: '🛡️', permission: 'manage:permissions' },
   ];
 
-  // Filter nav items by permission
   const visibleNavItems = navItems.filter(
     item => !item.permission || hasPermission(item.permission)
   );
 
-  const initials = user
-    ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase()
-    : 'AD';
-
-  const handleLogout = () => {
-    logout();
-  };
+  const initials = user ? `${user.firstName?.[0] || ''}${user.lastName?.[0] || ''}`.toUpperCase() : 'AD';
 
   return (
-    <div className={`admin-layout ${sidebarCollapsed ? 'admin-layout--collapsed' : ''} ${mobileSidebarOpen ? 'admin-layout--mobile-open' : ''}`}>
-      {/* ─── SIDEBAR ─────────────────────────────────────────── */}
+    <div className={`admin-layout ${sidebarCollapsed ? 'admin-layout--collapsed' : ''}`}>
+      {/* SIDEBAR */}
       <aside className={`admin-sidebar ${mobileSidebarOpen ? 'admin-sidebar--mobile-open' : ''}`}>
         <div className="admin-sidebar__header">
           <Link to="/admin/dashboard" className="admin-sidebar__logo">
-            <div className="admin-sidebar__logo-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg>
-            </div>
+            <div className="admin-sidebar__logo-icon">🏠</div>
             {!sidebarCollapsed && (
               <span className="admin-sidebar__logo-text">
                 Immo<span>Lamis</span>
               </span>
             )}
           </Link>
-          <button
-            className="admin-sidebar__toggle"
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-          >
+          <button className="admin-sidebar__toggle" onClick={() => setSidebarCollapsed(!sidebarCollapsed)}>
             {sidebarCollapsed ? '→' : '←'}
           </button>
         </div>
@@ -83,7 +65,7 @@ export default function AdminLayout() {
             <Link
               key={item.to}
               to={item.to}
-              className={`admin-sidebar__link ${location.pathname === item.to ? 'admin-sidebar__link--active' : ''}`}
+              className={`admin-sidebar__link ${location.pathname.startsWith(item.to) ? 'admin-sidebar__link--active' : ''}`}
               title={sidebarCollapsed ? item.label : undefined}
             >
               <span className="admin-sidebar__link-icon">{item.icon}</span>
@@ -100,47 +82,45 @@ export default function AdminLayout() {
         </nav>
 
         <div className="admin-sidebar__footer">
-          <Link to="/admin/profile" className={`admin-sidebar__link ${location.pathname === '/admin/profile' ? 'admin-sidebar__link--active' : ''}`} title="Mon profil">
+          <Link to="/admin/profile" className="admin-sidebar__link">
             <span className="admin-sidebar__link-icon">⚙️</span>
             {!sidebarCollapsed && <span className="admin-sidebar__link-label">Mon Profil</span>}
           </Link>
-          <Link to="/" className="admin-sidebar__link" title="Retour au site">
+                    <Link to="/" className="admin-sidebar__link" title="Retour au site">
             <span className="admin-sidebar__link-icon">🌐</span>
             {!sidebarCollapsed && <span className="admin-sidebar__link-label">Voir le site</span>}
           </Link>
-          <button className="admin-sidebar__link admin-sidebar__link--danger" title="Déconnexion" onClick={handleLogout}>
+
+          <button className="admin-sidebar__link admin-sidebar__link--danger" onClick={logout}>
             <span className="admin-sidebar__link-icon">🚪</span>
             {!sidebarCollapsed && <span className="admin-sidebar__link-label">Déconnexion</span>}
           </button>
         </div>
       </aside>
 
-      {/* Mobile Overlay */}
-      {mobileSidebarOpen && (
-        <div className="admin-sidebar-overlay" onClick={() => setMobileSidebarOpen(false)} />
-      )}
+      {/* MOBILE OVERLAY */}
+      {mobileSidebarOpen && <div className="admin-sidebar-overlay" onClick={() => setMobileSidebarOpen(false)} />}
 
-      {/* ─── MAIN CONTENT ────────────────────────────────────── */}
-      <div className={`admin-content ${mobileSidebarOpen ? 'admin-content--shifted' : ''}`}>
+      {/* MAIN CONTENT AREA */}
+      <div className="admin-content-wrapper">
         <header className="admin-topbar">
           <div className="admin-topbar__left">
-            <button className="admin-topbar__mobile-toggle" onClick={() => setMobileSidebarOpen(true)}>
-              ☰
-            </button>
+            <button className="admin-topbar__mobile-toggle" onClick={() => setMobileSidebarOpen(true)}>☰</button>
             <h2 className="admin-topbar__title">
-              {visibleNavItems.find(i => location.pathname.startsWith(i.to))?.label || 'Admin'}
+              {visibleNavItems.find(i => location.pathname.startsWith(i.to))?.label || 'Administration'}
             </h2>
           </div>
+          
           <div className="admin-topbar__right">
-            <button className="admin-topbar__notif" onClick={() => navigate('/admin/notifications')}>
-              🔔 {unreadCount > 0 && <span className="admin-topbar__notif-badge">{unreadCount}</span>}
+             <button className="admin-topbar__notif-btn" onClick={() => navigate('/admin/notifications')}>
+              🔔 {unreadCount > 0 && <span className="notif-dot">{unreadCount}</span>}
             </button>
             <div className="admin-topbar__user">
-              <div className="admin-topbar__avatar">{initials}</div>
               <div className="admin-topbar__user-info">
                 <span className="admin-topbar__user-name">{user?.firstName} {user?.lastName}</span>
                 <span className="admin-topbar__user-role">{user?.isSuperAdmin ? 'Super Admin' : 'Admin'}</span>
               </div>
+              <div className="admin-topbar__avatar">{initials}</div>
             </div>
           </div>
         </header>

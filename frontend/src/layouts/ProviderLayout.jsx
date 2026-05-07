@@ -1,10 +1,16 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './ProviderLayout.css';
+import { useEffect } from 'react';
 
 export default function ProviderLayout() {
   const location = useLocation();
   const { user, logout } = useAuth();
+
+  useEffect(() => {
+    // Remet le scroll en haut à chaque navigation
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname]);
 
   const status = user?.status || 'PENDING';
   const isBlocked = status !== 'VALIDATED';

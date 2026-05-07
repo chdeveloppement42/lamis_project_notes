@@ -22,7 +22,7 @@ export default function AboutPage() {
     <div className="aymen-about-wrapper">
       {/* 1. HERO SECTION LUXE */}
       <section className="about-hero-luxe">
-        <div className="hero-overlay-dark" style={{ backgroundImage: `url('/appartement.png')` }} />
+        <div className="hero-overlay-dark" style={{ backgroundImage: `url('/bureau.png')` }} />
         <div className="container hero-content-luxe" data-aos="zoom-out">
           <p className="cursive-accent">Notre Histoire</p>
           <h1 className="massive-title">À PROPOS D'IMMO LAMIS</h1>

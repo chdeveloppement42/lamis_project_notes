@@ -16,8 +16,14 @@ export default function PublicLayout() {
   }, []);
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [location]);
+    // Remet le scroll en haut à chaque navigation
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+    // Évite l'avertissement ESLint (setState dans un effect synchronously)
+    requestAnimationFrame(() => {
+      setMenuOpen(false);
+    });
+  }, [location.pathname]);
 
   const navLinks = [
     { 
@@ -97,7 +103,7 @@ export default function PublicLayout() {
         <div className="footer__inner">
           <div className="footer__section">
             <h2 className="header__logo-text">Immo<span className="header__logo-accent">Lamis</span></h2>
-            <p className="footer__description">L'excellence immobilière à Alger. Trouvez des biens d'exception adaptés à vos exigences.</p>
+            <p className="footer__description">L'excellence immobilière à Algerie. Trouvez des biens d'exception adaptés à vos exigences.</p>
           </div>
           <div className="footer__links">
             <h4>Navigation</h4>
@@ -108,8 +114,8 @@ export default function PublicLayout() {
           <div className="footer__links">
             <h4>Support</h4>
             <Link to="/contact">Contact</Link>
-            <Link to="/faq">FAQ</Link>
-            <Link to="/terms">Conditions</Link>
+            <Link to="/login">Connexion</Link>
+            
           </div>
           <div className="footer__links">
             <h4>Contact</h4>

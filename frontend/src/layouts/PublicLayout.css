@@ -3,9 +3,11 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 :root {
+  /* Branding public = Admin/Provider (bleu + beige/or) */
   --immo-blue: #34657F;
   --immo-dark: #142836;
   --immo-gold: #D9B48F;
+  --immo-bg: #0f2430;
   --immo-bg-creme: #fcfdf2;
   --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -26,10 +28,12 @@
 
 /* État lors du scroll */
 .header--scrolled {
-  background: rgba(20, 40, 54, 0.98);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  background: rgba(20, 40, 54, 0.96);
+  backdrop-filter: blur(12px);
   height: 70px;
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(217, 180, 143, 0.2);
 }
 
 .header__inner {
@@ -42,7 +46,7 @@
   padding: 0 2rem;
 }
 
-/* Logo Style */
+/* Logo Style (cohérent Admin/Provider) */
 .header__logo {
   display: flex;
   align-items: center;
@@ -51,25 +55,29 @@
 }
 
 .header__logo-icon {
-  background: var(--immo-gold);
-  color: var(--immo-dark);
-  width: 35px;
-  height: 35px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  font-weight: 800;
-  box-shadow: 0 4px 10px rgba(217, 180, 143, 0.3);
+  border-radius: 10px;
+  font-weight: 900;
+  color: var(--immo-dark);
+  background: linear-gradient(135deg, var(--immo-gold), #f2d6b0);
+  box-shadow: 0 10px 25px rgba(217, 180, 143, 0.25);
+  border: 1px solid rgba(217, 180, 143, 0.45);
 }
 
 .header__logo-text {
-  font-size: 1.5rem;
-  font-weight: 800;
+  font-size: 1.35rem;
+  font-weight: 900;
   color: #ffffff;
+  letter-spacing: 0.2px;
 }
 
-.header__logo-accent { color: var(--immo-gold); }
+.header__logo-accent {
+  color: var(--immo-gold);
+}
 
 /* --- 2. NAV LINKS WITH ICONS --- */
 .header__nav {
@@ -95,7 +103,7 @@
   transition: var(--transition);
 }
 
-.header__nav-link:hover, 
+.header__nav-link:hover,
 .header__nav-link--active {
   color: var(--immo-gold);
 }
@@ -104,21 +112,30 @@
   transform: translateY(-2px);
 }
 
-/* Barre soulignée pour l'état actif */
+.header__nav-link--active {
+  background: rgba(217, 180, 143, 0.08);
+  border: 1px solid rgba(217, 180, 143, 0.22);
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+
+/* Soulignage discret (laisser le background actif) */
 .header__nav-link::after {
   content: '';
   position: absolute;
-  bottom: -5px;
+  bottom: -6px;
   left: 50%;
   width: 0;
   height: 2px;
   background: var(--immo-gold);
   transition: var(--transition);
   transform: translateX(-50%);
+  opacity: 0.0;
 }
 
 .header__nav-link--active::after {
   width: 100%;
+  opacity: 1;
 }
 
 /* --- 3. BOUTONS & ACTIONS --- */
@@ -185,10 +202,11 @@
 
 /* --- 5. FOOTER --- */
 .footer {
-  background: var(--immo-dark);
+  background: linear-gradient(180deg, rgba(20, 40, 54, 1), rgba(15, 36, 48, 1));
   color: #ffffff;
   padding-top: 4rem;
-  border-top: 3px solid var(--immo-gold);
+  border-top: 3px solid rgba(217, 180, 143, 0.95);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .footer__inner {
@@ -213,6 +231,7 @@
   text-transform: uppercase;
   font-size: 0.9rem;
   letter-spacing: 1px;
+  font-weight: 800;
 }
 
 .footer__links a, .footer__links span {
@@ -252,15 +271,16 @@
     position: fixed;
     top: 0;
     right: -100%;
-    width: 300px;
+    width: 320px;
     height: 100vh;
-    background: var(--immo-dark);
+    background: linear-gradient(180deg, rgba(20, 40, 54, 1), rgba(15, 36, 48, 1));
     flex-direction: column;
     padding: 6rem 2rem;
     transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: -10px 0 40px rgba(0,0,0,0.5);
     align-items: flex-start;
     gap: 1.5rem;
+    border-left: 1px solid rgba(217, 180, 143, 0.18);
   }
 
   .header__nav--open {

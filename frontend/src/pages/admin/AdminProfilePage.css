@@ -1,126 +1,223 @@
 /* ═══════════════════════════════════════════════════════════════
-   ADMIN PROFILE PAGE
+   ADMIN PROFILE PAGE — Premium Security Style
    ═══════════════════════════════════════════════════════════════ */
 
 .admin-profile {
-  max-width: 720px;
+    max-width: 850px;
+    margin: 0 auto;
 }
 
 .admin-profile__header {
-  margin-bottom: var(--space-8);
+    margin-bottom: var(--space-8);
+    background: linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
+    padding: 2.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(217, 180, 143, 0.3);
+    box-shadow: var(--shadow-md);
 }
 
 .admin-profile__header h1 {
-  font-size: var(--text-2xl);
-  margin-bottom: var(--space-2);
+    font-size: 2.2rem;
+    color: var(--admin-beige);
+    font-weight: 800;
+    margin-bottom: var(--space-2);
 }
 
 .admin-profile__header p {
-  color: var(--color-gray-500);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
 }
 
-/* Info Card */
+/* ─── INFO CARD (L'identité) ──────────────────────────────── */
 .admin-profile__info-card {
-  display: flex;
-  align-items: center;
-  gap: var(--space-6);
-  padding: var(--space-6);
-  background: var(--color-white);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-gray-200);
-  margin-bottom: var(--space-8);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    padding: 2rem;
+    background: var(--color-white);
+    border-radius: 24px;
+    border: 1px solid rgba(15, 38, 51, 0.08);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    margin-bottom: var(--space-8);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Petit effet décoratif en fond de carte */
+.admin-profile__info-card::after {
+    content: 'ADMIN';
+    position: absolute;
+    right: -20px;
+    bottom: -10px;
+    font-size: 5rem;
+    font-weight: 900;
+    color: rgba(15, 38, 51, 0.03);
+    pointer-events: none;
 }
 
 .admin-profile__avatar {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
-  color: var(--color-white);
-  font-weight: 800;
-  font-size: var(--text-xl);
-  border-radius: var(--radius-full);
-  flex-shrink: 0;
-}
-
-.admin-profile__details {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--admin-navy), var(--admin-navy-light));
+    color: var(--admin-beige);
+    font-weight: 900;
+    font-size: 2rem;
+    border-radius: 24px; /* Carré arrondi moderne */
+    border: 2px solid var(--admin-beige);
+    box-shadow: 0 8px 20px rgba(15, 38, 51, 0.2);
+    flex-shrink: 0;
 }
 
 .admin-profile__details h3 {
-  font-size: var(--text-lg);
-  font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--admin-navy);
+    margin-bottom: 0.5rem;
 }
 
 .admin-profile__role {
-  font-size: var(--text-sm);
-  color: var(--color-primary);
-  font-weight: 500;
+    display: inline-block;
+    font-size: 0.85rem;
+    /* Fond beige plus saturé et foncé */
+    background: #e9d5c1; 
+    /* Texte brun/chocolat pour un contraste maximal */
+    color: #5d432c; 
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 800; /* Un peu plus épais pour la lisibilité */
+    margin-bottom: 0.5rem;
+    /* Optionnel : une bordure très fine pour bien définir le badge */
+    border: 1px solid rgba(15, 38, 51, 0.1); 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .admin-profile__email {
-  font-size: var(--text-sm);
-  color: var(--color-gray-500);
+    display: block;
+    font-size: 1rem;
+    color: var(--color-gray-500);
 }
 
-/* Section */
+/* ─── PASSWORD SECTION (Sécurité) ────────────────────────── */
 .admin-profile__section {
-  padding: var(--space-6);
-  background: var(--color-white);
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-gray-200);
+    padding: 2.5rem;
+    background: var(--color-white);
+    border-radius: 24px;
+    border: 1px solid rgba(15, 38, 51, 0.08);
+    box-shadow: var(--shadow-sm);
 }
 
 .admin-profile__section h2 {
-  font-size: var(--text-lg);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-gray-100);
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--admin-navy);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-/* Form */
-.admin-profile__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
+/* Amélioration des inputs du profil */
+.admin-profile__form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.admin-profile__form .form-label {
+    font-weight: 700;
+    color: var(--admin-navy);
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-profile__form .form-input {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.admin-profile__form .form-input:focus {
+    background: white;
+    border-color: var(--admin-beige);
+    box-shadow: 0 0 0 4px rgba(217, 180, 143, 0.15);
+    outline: none;
 }
 
 .admin-profile__form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-5);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
 }
 
-/* Alerts */
+/* Bouton Spécifique Profil */
+.admin-profile__form .btn-primary {
+    background: var(--admin-navy);
+    color: var(--admin-beige);
+    padding: 16px 30px;
+    border-radius: 12px;
+    font-weight: 800;
+    border: 1px solid var(--admin-beige);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.admin-profile__form .btn-primary:hover:not(:disabled) {
+    background: var(--admin-beige);
+    color: var(--admin-navy);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(15, 38, 51, 0.15);
+}
+
+/* Alertes Stylisées */
 .admin-profile__alert {
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-lg);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  margin-bottom: var(--space-4);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.4s ease;
 }
 
 .admin-profile__alert--success {
-  background: #d1fae5;
-  color: #065f46;
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #10b981;
 }
 
 .admin-profile__alert--error {
-  background: #fee2e2;
-  color: #991b1b;
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #ef4444;
 }
 
-@media (max-width: 768px) {
-  .admin-profile__form-row {
-    grid-template-columns: 1fr;
-  }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-  .admin-profile__info-card {
-    flex-direction: column;
-    text-align: center;
-  }
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .admin-profile__form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-profile__info-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 3rem 1.5rem;
+    }
+
+    .admin-profile__avatar {
+        margin-bottom: 1rem;
+    }
 }
