@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Building2, Home, Briefcase, Trees, Store, Warehouse,
@@ -29,7 +29,19 @@ export default function LandingPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
+  // REFS POUR LES BOUTONS SLIDE
+  const catRef = useRef(null);
+  const annoncesRef = useRef(null);
+
   const slides = [{ url: '/appartement.png' }, { url: '/villa.png' }, { url: '/entrop.png' }, { url: '/terrain.png' }];
+
+  const scroll = (ref, direction) => {
+    if (ref.current) {
+      const { scrollLeft, clientWidth } = ref.current;
+      const move = direction === 'left' ? -clientWidth : clientWidth;
+      ref.current.scrollBy({ left: move, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
@@ -48,7 +60,6 @@ export default function LandingPage() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // LOGIQUE DE PAGINATION
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = latestListings.slice(indexOfFirstItem, indexOfLastItem);
@@ -56,85 +67,84 @@ export default function LandingPage() {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Scroll fluide vers le début de la section annonces lors du changement de page
     document.getElementById('annonces-section').scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="aymen-style-wrapper">
       
-      {/* HERO SECTION - inchangée */}
+      {/* HERO SECTION */}
       <section className="hero-full">
         <div className="hero-slider">
           {slides.map((slide, index) => (
-            <div key={index} className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
-              style={{ backgroundImage: `linear-gradient(rgba(10, 25, 35, 0.2), rgba(10, 25, 35, 0.5)), url(${slide.url})` }}
+            <div 
+              key={index} 
+              className={`hero-slide ${index === currentSlide ? 'active' : ''}`}
+              style={{ backgroundImage: `linear-gradient(rgba(10, 25, 35, 0.4), rgba(10, 25, 35, 0.7)), url(${slide.url})` }}
             />
           ))}
         </div>
         <div className="hero-content-centered" data-aos="zoom-in">
           <h1 className="hero-main-title">IMMO<span className="gold-text">LAMIS</span></h1>
-          <p className="hero-desc-centered">L'excellence immobilière à Alger et au-delà.</p>
+          <div className="hero-text-wrapper">
+            <p className="hero-desc-centered">L'excellence immobilière à Algerie et au-delà.</p>
+            <p className="hero-sub-desc">Découvrez une sélection exclusive de biens d'exception.</p>
+          </div>
+          <div className="hero-actions">
+            <Link to="/services" className="btn-discover">Découvrir notre catalogue <span className="btn-arrow">→</span></Link>
+          </div>
         </div>
       </section>
-{/* ─── POURQUOI NOUS CHOISIR (VERSION PRESTIGE) ─── */}
+
+      {/* POURQUOI NOUS CHOISIR */}
       <section className="unified-section">
         <div className="container">
           <div className="section-header-large" data-aos="fade-up">
             <p className="cursive-accent">L'Engagement</p>
             <h2 className="massive-title">L'EXCELLENCE IMMO LAMIS</h2>
           </div>
-
           <div className="why-grid-aymen">
-            {/* CARTE 1 : SÉCURITÉ */}
             <div className="why-card-aymen" data-aos="fade-up">
               <div className="why-icon-luxe"><ShieldCheck size={35} /></div>
               <div className="why-text-luxe">
                 <h3>SÉRÉNITÉ TOTALE</h3>
-                <p className="white-p">
-                  Bien plus qu'une vérification, nous sécurisons votre patrimoine. 
-                  Chaque transaction bénéficie d'un audit juridique rigoureux pour un investissement sans compromis.
-                </p>
+                <p className="white-p">Audit juridique rigoureux pour un investissement sans compromis.</p>
               </div>
             </div>
-
-            {/* CARTE 2 : EMPLACEMENT */}
             <div className="why-card-aymen" data-aos="fade-up" data-aos-delay="100">
               <div className="why-icon-luxe"><MapPin size={35} /></div>
               <div className="why-text-luxe">
                 <h3>ADRESSES D'EXCEPTION</h3>
-                <p className="white-p">
-                  Nous sélectionnons l'invisible : des emplacements stratégiques et prestigieux à Alger, 
-                  offrant à la fois un cadre de vie unique et une forte valorisation immobilière.
-                </p>
+                <p className="white-p">Emplacements stratégiques et prestigieux à Alger.</p>
               </div>
             </div>
-
-            {/* CARTE 3 : SUPPORT */}
             <div className="why-card-aymen" data-aos="fade-up" data-aos-delay="200">
               <div className="why-icon-luxe"><Headphones size={35} /></div>
               <div className="why-text-luxe">
                 <h3>SERVICE CONCIERGERIE</h3>
-                <p className="white-p">
-                  Votre temps est précieux. Notre équipe dédiée vous accompagne personnellement 7j/7, 
-                  du premier contact jusqu'à la remise des clés, et bien au-delà.
-                </p>
+                <p className="white-p">Accompagnement personnel 7j/7 jusqu'à la remise des clés.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
-    
-      {/* NOS CATÉGORIES - inchangée */}
+
+      {/* NOS CATÉGORIES AVEC SLIDE MOBILE */}
       <section className="unified-section pt-0">
         <div className="container">
           <div className="section-header-large" data-aos="fade-up">
             <p className="cursive-accent">Explorez</p>
             <h2 className="massive-title">NOS CATÉGORIES</h2>
           </div>
-          <div className="categories-grid-aymen">
+
+          <div className="slider-nav-container">
+            <button className="btn-slide-nav" onClick={() => scroll(catRef, 'left')}><ChevronLeft size={20}/></button>
+            <button className="btn-slide-nav" onClick={() => scroll(catRef, 'right')}><ChevronRight size={20}/></button>
+          </div>
+
+          <div className="categories-grid-aymen mobile-slider-touch" ref={catRef}>
             {categories.map((cat, index) => (
-              <Link key={cat.id} to={`/services?categoryId=${cat.id}`} className="cat-card-aymen" data-aos="fade-up" data-aos-delay={index * 100}>
+              <Link key={cat.id} to={`/services?categoryId=${cat.id}`} className="cat-card-aymen">
                 <div className="cat-icon-aymen">{CATEGORY_ICONS[cat.slug] || <Home size={40}/>}</div>
                 <h3>{cat.name.toUpperCase()}</h3>
                 <p className="white-p">Découvrir</p>
@@ -143,83 +153,112 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
- <section className="unified-section pt-0" id="annonces-section">
-  <div className="container">
-    {/* En-tête : On remplace "Nos Annonces" par une promesse de valeur */}
-    <div className="section-header-large" data-aos="fade-up">
-      <p className="cursive-accent">Sélection Exclusive</p>
-      <h2 className="massive-title">NOS DERNIÈRES <span className="gold-text">PÉPITES</span></h2>
-      <p className="section-subtitle-luxe">
-        Découvrez des propriétés d'exception rigoureusement sélectionnées pour leur architecture et leur emplacement unique.
-      </p>
-      <div className="title-underline"></div>
-    </div>
 
-    {/* Grille 3x3 avec délai d'apparition (AOS Delay) */}
-    <div className="listings-grid-aymen grid-home-3x3">
-      {currentItems.map((listing, index) => (
-        <div 
-          className="listing-anim-wrapper" 
-          key={listing.id}
-          data-aos="fade-up"
-          data-aos-delay={index * 100} // Les cartes apparaissent l'une après l'autre
-        >
-          {/* Badge de statut pour créer l'urgence/prestige */}
-          <div className="premium-tag">
-            {index === 0 ? "Coup de Coeur" : "Nouveau"}
+      {/* NOS ANNONCES AVEC SLIDE MOBILE */}
+      <section className="unified-section pt-0" id="annonces-section">
+        <div className="container">
+          <div className="section-header-large" data-aos="fade-up">
+            <p className="cursive-accent">Sélection Exclusive</p>
+            <h2 className="massive-title">NOS DERNIÈRES <span className="gold-text">PÉPITES</span></h2>
+            <p className="section-subtitle-luxe">Architecture et emplacement unique.</p>
+            <div className="title-underline"></div>
           </div>
-          
-          <ListingCard listing={listing} />
-        </div>
-      ))}
-    </div>
 
-    {/* Pagination : Design minimaliste type "01 / 02" */}
-    {totalPages > 1 && (
-      <div className="pagination-luxe-wrapper" data-aos="fade-in">
-        <div className="pagination-aymen">
-          <button 
-            disabled={currentPage === 1} 
-            onClick={() => paginate(currentPage - 1)}
-            className="pag-nav-btn"
-          >
-            <ChevronLeft size={18} />
-          </button>
+          <div className="slider-nav-container">
+            <button className="btn-slide-nav" onClick={() => scroll(annoncesRef, 'left')}><ChevronLeft size={20}/></button>
+            <button className="btn-slide-nav" onClick={() => scroll(annoncesRef, 'right')}><ChevronRight size={20}/></button>
+          </div>
 
-          <div className="pag-numbers">
-            {[...Array(totalPages)].map((_, i) => (
-              <button 
-                key={i + 1} 
-                onClick={() => paginate(i + 1)}
-                className={`num-btn ${currentPage === i + 1 ? 'active' : ''}`}
-              >
-                {String(i + 1).padStart(2, '0')}
-              </button>
+          <div className="listings-grid-aymen grid-home-3x3 mobile-slider-touch" ref={annoncesRef}>
+            {currentItems.map((listing, index) => (
+              <div className="listing-anim-wrapper" key={listing.id}>
+                <div className="premium-tag">{index === 0 ? "Coup de Coeur" : "Nouveau"}</div>
+                <ListingCard listing={listing} />
+              </div>
             ))}
           </div>
 
-          <button 
-            disabled={currentPage === totalPages} 
-            onClick={() => paginate(currentPage + 1)}
-            className="pag-nav-btn"
-          >
-            <ChevronRight size={18} />
-          </button>
+          {/* PAGINATION */}
+          {totalPages > 1 && (
+            <div className="pagination-luxe-wrapper" data-aos="fade-in">
+              <div className="pagination-aymen">
+                <button disabled={currentPage === 1} onClick={() => paginate(currentPage - 1)} className="pag-nav-btn"><ChevronLeft size={18} /></button>
+                <div className="pag-numbers">
+                  {[...Array(totalPages)].map((_, i) => (
+                    <button key={i + 1} onClick={() => paginate(i + 1)} className={`num-btn ${currentPage === i + 1 ? 'active' : ''}`}>
+                      {String(i + 1).padStart(2, '0')}
+                    </button>
+                  ))}
+                </div>
+                <button disabled={currentPage === totalPages} onClick={() => paginate(currentPage + 1)} className="pag-nav-btn"><ChevronRight size={18} /></button>
+              </div>
+            </div>
+          )}
+
+          <div className="btn-container-center" data-aos="zoom-in">
+            <Link to="/services" className="btn-aymen-gold-glow">
+              <span className="main-text">EXPLORER LE CATALOGUE COMPLET</span>
+              <span className="sub-text">Opportunités exclusives à Alger</span>
+            </Link>
+          </div>
         </div>
-      </div>
-    )}
+      </section>
 
-    {/* CTA : Bouton avec sous-titre pour rassurer sur le volume du catalogue */}
-    <div className="btn-container-center" data-aos="zoom-in">
-      <Link to="/services" className="btn-aymen-gold-glow">
-        <span className="main-text">EXPLORER LE CATALOGUE COMPLET</span>
-        <span className="sub-text">Découvrez nos opportunités exclusives à Alger</span>
-      </Link>
-    </div>
-  </div>
-</section>
+      {/* STATS & PRESTIGE */}
+      <section className="unified-section stats-prestige-bg">
+        <div className="container">
+          <div className="stats-grid-aymen">
+            <div className="stat-item" data-aos="fade-up"><span className="stat-number">15+</span><span className="stat-label">Années d'Expertise</span><div className="stat-line"></div></div>
+            <div className="stat-item" data-aos="fade-up" data-aos-delay="100"><span className="stat-number">500+</span><span className="stat-label">Biens d'Exception</span><div className="stat-line"></div></div>
+            <div className="stat-item" data-aos="fade-up" data-aos-delay="200"><span className="stat-number">98%</span><span className="stat-label">Clients Satisfaits</span><div className="stat-line"></div></div>
+            <div className="stat-item" data-aos="fade-up" data-aos-delay="300"><span className="stat-number">24h/7</span><span className="stat-label">Accompagnement Dédié</span><div className="stat-line"></div></div>
+          </div>
+        </div>
+      </section>
 
-     
+      {/* TÉMOIGNAGES */}
+      <section className="unified-section testimonials-luxe">
+        <div className="container">
+          <div className="section-header-large" data-aos="fade-up">
+            <p className="cursive-accent">Témoignages</p>
+            <h2 className="massive-title">ILS NOUS FONT <span className="gold-text">CONFIANCE</span></h2>
+          </div>
+          <div className="testimonial-grid">
+            <div className="testimonial-card" data-aos="fade-right">
+              <div className="quote-icon">“</div>
+              <p className="testimonial-text">"Professionnalisme et discrétion inégalables."</p>
+              <div className="author-info"><h4>M. Benali</h4><span>Investisseur Privé</span></div>
+            </div>
+            <div className="testimonial-card gold-border" data-aos="fade-up">
+              <div className="quote-icon">“</div>
+              <p className="testimonial-text">"Un partenaire de confiance pour trouver nos bureaux."</p>
+              <div className="author-info"><h4>Mme. Saidi</h4><span>CEO Tech Algeria</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="unified-section cta-final-luxe">
+        <div className="container">
+          <div className="cta-wrapper-aymen" data-aos="zoom-in">
+            <div className="cta-content-luxe">
+              <p className="cursive-accent">Accès Privilégié</p>
+              <h2 className="massive-title">REJOIGNEZ LE CERCLE <span className="gold-text">IMMO LAMIS</span></h2>
+              <form className="newsletter-form-luxe" onSubmit={(e) => e.preventDefault()}>
+                <div className="input-group-luxe">
+                  <input type="email" placeholder="Votre adresse email" required />
+                  <button type="submit" className="btn-gold-submit">S'INSCRIRE</button>
+                </div>
+              </form>
+            </div>
+            <div className="cta-image-side">
+              <div className="overlay-gold-frame"></div>
+              <img src="/villa.png" alt="Propriété" className="cta-img-bg" />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -8,25 +8,28 @@
     --admin-navy: #0f2633;
     --admin-navy-light: #1a3a4a;
     --admin-white: #ffffff;
+    --space-6: 1.5rem;
+    --radius-xl: 1rem;
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
 }
 
 /* ─── TABLE PAGE HEADER ─────────────────────────────────────── */
 .admin-table-page__header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Centré verticalement pour le filtre */
+    align-items: center;
     gap: var(--space-6);
     margin-bottom: var(--space-6);
     padding: var(--space-6);
     border-radius: var(--radius-xl);
-    background: 
-        linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
+    background: linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
     box-shadow: var(--shadow-md);
     border: 1px solid rgba(217, 180, 143, 0.3);
 }
 
 .admin-table-page__header h2 { 
-    font-size: var(--text-2xl); 
+    font-size: 1.5rem; 
     color: var(--admin-beige);
     font-weight: 800;
     margin: 0;
@@ -35,10 +38,10 @@
 .admin-table-page__header p {
     color: rgba(255, 255, 255, 0.7);
     margin: 4px 0 0 0;
-    font-size: var(--text-sm);
+    font-size: 0.875rem;
 }
 
-/* ─── FILTERS (Sélecteur de statut) ────────────────────────── */
+/* ─── FILTERS ─────────────────────────────────────────────── */
 .admin-table-page__filters .form-input {
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid var(--admin-beige) !important;
@@ -54,11 +57,6 @@
 .admin-table-page__filters .form-input:focus {
     background: var(--admin-beige) !important;
     color: var(--admin-navy) !important;
-}
-
-.admin-table-page__filters option {
-    background: var(--admin-navy);
-    color: white;
 }
 
 /* ─── TABLE DESIGN ─────────────────────────────────────────── */
@@ -91,7 +89,7 @@
 
 .admin-table td {
     padding: 1rem 1.5rem;
-    font-size: var(--text-sm);
+    font-size: 0.875rem;
     color: var(--admin-navy);
     border-bottom: 1px solid #f1f5f9;
 }
@@ -100,7 +98,7 @@
     background: rgba(217, 180, 143, 0.04);
 }
 
-/* ─── PROVIDER SPECIFICS (Avatar & Email) ─────────────────── */
+/* ─── USER & AVATAR ────────────────────────────────────────── */
 .admin-table__user {
     display: flex;
     align-items: center;
@@ -113,7 +111,7 @@
     background: linear-gradient(135deg, var(--admin-beige), #b38e6d);
     color: var(--admin-navy);
     font-weight: 800;
-    border-radius: 12px; /* Carré arrondi moderne */
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,21 +124,19 @@
     color: #64748b;
 }
 
-/* ─── BADGES ──────────────────────────────────────────────── */
+/* ─── BADGES & BUTTONS ─────────────────────────────────────── */
 .admin-badge {
     padding: 6px 12px;
     font-size: 10px;
     font-weight: 800;
     border-radius: 8px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .admin-badge--success { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
 .admin-badge--warning { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
 .admin-badge--danger { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
 
-/* ─── BUTTONS ─────────────────────────────────────────────── */
 .admin-btn {
     display: inline-flex;
     align-items: center;
@@ -150,110 +146,85 @@
     font-weight: 700;
     font-size: 12px;
     border-radius: 10px;
-    transition: all 0.2s ease;
     cursor: pointer;
-    border: none;
+    transition: all 0.2s ease;
 }
 
-/* Bouton Principal (Valider/Réactiver) */
-.admin-btn--primary { 
-    background: var(--admin-navy); 
-    color: var(--admin-beige);
-    border: 1px solid var(--admin-beige);
-}
+.admin-btn--primary { background: var(--admin-navy); color: var(--admin-beige); border: 1px solid var(--admin-beige); }
+.admin-btn--primary:hover { background: var(--admin-beige); color: var(--admin-navy); }
+.admin-btn--outline { background: transparent; border: 1px solid var(--admin-navy); color: var(--admin-navy); }
+.admin-btn--outline:hover { background: #f8fafc; color: var(--admin-beige); border-color: var(--admin-beige); }
 
-.admin-btn--primary:hover { 
-    background: var(--admin-beige);
-    color: var(--admin-navy);
-    transform: translateY(-2px);
-}
-
-/* Bouton Secondaire (Voir Document/Rejeter) */
-.admin-btn--outline {
-    background: transparent;
-    border: 1px solid var(--admin-navy);
-    color: var(--admin-navy);
-}
-
-.admin-btn--outline:hover {
-    background: #f8fafc;
-    border-color: var(--admin-beige);
-    color: var(--admin-beige);
-}
-
-.admin-btn--warning {
-    background: #fffbeb;
-    color: #92400e;
-    border: 1px solid #fde68a;
-}
-
-.admin-btn--warning:hover { background: #fef3c7; }
-
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
+/* ─── RESPONSIVE MOBILE (Cards Mode) ───────────────────────── */
 @media (max-width: 768px) {
     .admin-table-page__header {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
-    
+
     .admin-table-page__filters { width: 100%; }
     .admin-table-page__filters .form-input { width: 100% !important; }
 
-    .admin-table tbody tr {
-        border: 1px solid rgba(217, 180, 143, 0.2);
-        padding: 1.25rem;
+    .admin-table thead { display: none; }
+    
+    .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tr {
+        background: white;
         margin-bottom: 1.5rem;
+        border-radius: 16px;
+        padding: 1rem;
+        border: 1px solid rgba(217, 180, 143, 0.2);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .admin-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        text-align: right;
+        border-bottom: 1px solid #f1f5f9;
     }
 
     .admin-table td::before {
+        content: attr(data-label);
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 10px;
         color: #94a3b8;
-        font-size: 9px;
+    }
+
+    .admin-table td:last-child {
+        border-bottom: none;
+        padding-top: 1rem;
+        flex-direction: column;
+        gap: 10px;
     }
 
     .admin-table__actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 8px;
+        width: 100%;
     }
 }
+
 /* ═══════════════════════════════════════════════════════════════
-   NOTIFICATIONS PAGE — Premium Blue & Gold Style
+   NOTIFICATIONS SECTION (Ajouté)
    ═══════════════════════════════════════════════════════════════ */
 
-/* Header de la page spécifique aux notifications */
-.admin-page__header {
-    background: linear-gradient(135deg, var(--admin-navy) 0%, #162e3c 100%);
-    padding: 2.5rem;
-    border-radius: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    border: 1px solid rgba(217, 180, 143, 0.3);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-.admin-page__title {
-    color: var(--admin-beige);
-    font-size: 2rem;
-    font-weight: 800;
-    margin: 0;
-}
-
-.admin-page__subtitle {
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 5px;
-    font-weight: 500;
-}
-
-/* Liste des notifications */
 .notifications-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-top: 1rem;
 }
 
-/* Carte de notification individuelle */
 .notification-card {
     display: flex;
     align-items: center;
@@ -273,7 +244,6 @@
     box-shadow: 0 10px 20px rgba(15, 38, 51, 0.05);
 }
 
-/* Style spécifique pour NON-LUES */
 .notification-card--unread {
     background: linear-gradient(to right, #ffffff, #fffdfb);
     border-left: 5px solid var(--admin-beige);
@@ -284,7 +254,6 @@
     color: var(--admin-navy);
 }
 
-/* Icône de type de notification */
 .notification-card__icon {
     width: 50px;
     height: 50px;
@@ -295,15 +264,12 @@
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    transition: all 0.3s ease;
 }
 
 .notification-card--unread .notification-card__icon {
     background: var(--admin-beige-light);
-    transform: scale(1.1);
 }
 
-/* Contenu du texte */
 .notification-card__content {
     flex: 1;
 }
@@ -321,7 +287,6 @@
     font-weight: 500;
 }
 
-/* Pastille "Non-lu" */
 .notification-card__dot {
     width: 10px;
     height: 10px;
@@ -330,7 +295,6 @@
     box-shadow: 0 0 10px rgba(217, 180, 143, 0.6);
 }
 
-/* État vide */
 .notifications-empty {
     text-align: center;
     padding: 5rem 2rem;
@@ -340,216 +304,160 @@
 }
 
 .notifications-empty__icon {
-    font-size: 4rem;
-    display: block;
+    font-size: 3rem;
     margin-bottom: 1rem;
+    display: block;
     opacity: 0.3;
 }
-
-.notifications-empty p {
-    color: #64748b;
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 768px) {
-    .admin-page__header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-    }
-    
-    .notification-card {
-        padding: 1rem;
-        gap: 1rem;
-    }
-
-    .notification-card__icon {
-        width: 40px;
-        height: 40px;
-        min-width: 40px;
-        font-size: 1.2rem;
-    }
-}
 /* ═══════════════════════════════════════════════════════════════
-   PERMISSIONS & ROLES — Premium Grid Layout
+   PERMISSIONS & ROLES SECTION (Ajouté)
    ═══════════════════════════════════════════════════════════════ */
 
-/* Grille des Rôles */
+/* --- Grille des Rôles --- */
 .roles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: var(--space-6);
-    margin-top: 2rem;
+    gap: 1.5rem;
+    margin-top: 1rem;
 }
 
-/* Carte de Rôle */
 .role-card {
     background: var(--admin-white);
-    border-radius: 24px;
-    padding: 1.8rem;
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
     border: 1px solid rgba(15, 38, 51, 0.08);
     display: flex;
     flex-direction: column;
+    gap: 1.2rem;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 
 .role-card:hover {
     transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
     border-color: var(--admin-beige);
+    box-shadow: 0 12px 24px rgba(15, 38, 51, 0.06);
 }
 
-/* Style spécial Super Admin */
 .role-card--super {
-    background: linear-gradient(145deg, #0f2633, #1a3a4a);
-    border: 1px solid var(--admin-beige);
-}
-
-.role-card--super h3 { color: var(--admin-beige) !important; }
-.role-card--super .permission-tag { 
-    background: rgba(217, 180, 143, 0.15); 
-    color: var(--admin-beige);
-    border: 1px solid rgba(217, 180, 143, 0.3);
+    border: 2px solid var(--admin-beige);
+    background: linear-gradient(to bottom right, #ffffff, #fffcf9);
 }
 
 .role-card__header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    gap: 10px;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .role-card__header h3 {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--admin-navy);
     margin: 0;
+    font-size: 1.25rem;
+    color: var(--admin-navy);
+    font-weight: 800;
 }
 
-/* Liste des badges de permissions (Tags) */
+/* --- Tags de Permissions --- */
 .role-card__permissions {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 2rem;
+    gap: 6px;
     flex: 1;
 }
 
 .permission-tag {
-    padding: 4px 10px;
-    background: #f1f5f9;
-    color: #475569;
-    border-radius: 8px;
-    font-size: 0.75rem;
+    background: var(--admin-beige-light);
+    color: var(--admin-navy);
+    font-size: 10px;
     font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
     text-transform: uppercase;
+    border: 1px solid rgba(217, 180, 143, 0.3);
 }
 
 .permission-tag--empty {
-    font-style: italic;
-    opacity: 0.5;
-    background: transparent;
+    background: #f1f5f9;
+    color: #94a3b8;
+    border: 1px dashed #cbd5e1;
 }
 
-/* Actions au bas de la carte */
 .role-card__actions {
     display: flex;
     gap: 10px;
-    padding-top: 1.5rem;
+    padding-top: 1rem;
     border-top: 1px solid #f1f5f9;
 }
 
-/* ─── FORMULAIRE DE RÔLE ───────────────────────────────────── */
+/* --- Formulaire de Création/Edition de Rôle --- */
 .admin-role-form {
-    background: #f8fafc;
-    border-radius: 24px;
+    background: var(--admin-navy);
     padding: 2rem;
-    margin-bottom: 3rem;
-    border: 2px solid var(--admin-beige);
-    animation: slideDown 0.4s ease-out;
+    border-radius: var(--radius-xl);
+    margin-bottom: 2rem;
+    border: 1px solid var(--admin-beige);
 }
 
-.admin-role-form__header {
+.admin-role-form h4 {
+    color: var(--admin-beige);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.permissions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
     margin-bottom: 2rem;
 }
 
-.admin-role-form .admin-input {
-    font-size: 1.2rem;
-    font-weight: 700;
-    width: 100%;
-    max-width: 400px;
-}
-
-/* Grille de Checkboxes */
-.permissions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-    margin: 1.5rem 0 2rem 0;
-}
-
+/* --- Custom Checkbox Style --- */
 .permission-checkbox {
     display: flex;
     align-items: flex-start;
     gap: 12px;
     padding: 12px;
-    background: white;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     cursor: pointer;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(217, 180, 143, 0.1);
 }
 
 .permission-checkbox:hover {
-    border-color: var(--admin-beige);
-    background: var(--admin-beige-light);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .permission-checkbox input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: var(--admin-navy);
-    margin-top: 3px;
+    accent-color: var(--admin-beige);
+    cursor: pointer;
 }
 
-.permission-checkbox__label strong {
-    display: block;
-    font-size: 0.9rem;
-    color: var(--admin-navy);
-    text-transform: uppercase;
-}
-
-.permission-checkbox__label small {
-    display: block;
-    font-size: 0.75rem;
-    color: #64748b;
-    line-height: 1.2;
-}
-
-/* Bouton Danger spécifique */
-.admin-btn--danger {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-}
-
-.admin-btn--danger:hover {
-    background: #ef4444;
+.permission-checkbox__label {
+    display: flex;
+    flex-direction: column;
     color: white;
 }
 
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+.permission-checkbox__label strong {
+    font-size: 0.85rem;
+    color: var(--admin-beige);
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 640px) {
-    .roles-grid { grid-template-columns: 1fr; }
-    .permissions-grid { grid-template-columns: 1fr; }
+.permission-checkbox__label small {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .roles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .permissions-grid {
+        grid-template-columns: 1fr;
+    }
 }

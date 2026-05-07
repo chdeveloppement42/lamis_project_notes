@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import './AdminTable.css';
-
 import { LISTING_STATUS, getStatusLabel, getStatusClass, ACCOUNT_STATUS } from '../../utils/statusUtils';
+import { LayoutList, User, Tag, Banknote, ShieldCheck, Calendar, Settings } from 'lucide-react';
 
 export default function ListingsManager() {
   const [listings, setListings] = useState([]);
@@ -23,7 +23,6 @@ export default function ListingsManager() {
   }, [statusFilter]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchListings();
   }, [fetchListings]);
 
@@ -35,7 +34,7 @@ export default function ListingsManager() {
       } else {
         await axiosInstance.patch(`/listings/${id}/${action}`);
       }
-      fetchListings(); // Refresh list
+      fetchListings();
     } catch (error) {
       console.error(`Failed to ${action} listing:`, error);
       alert('Erreur lors de l\'opération');
@@ -52,7 +51,6 @@ export default function ListingsManager() {
         <div className="admin-table-page__filters">
           <select 
             className="form-input" 
-            style={{ maxWidth: 200 }}
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -68,48 +66,70 @@ export default function ListingsManager() {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Annonce</th>
-              <th>Fournisseur</th>
-              <th>Catégorie</th>
-              <th>Prix</th>
-              <th>Statut</th>
-              <th>Date</th>
-              <th>Actions</th>
+              <th><LayoutList size={14} style={{marginRight: 8}}/>Annonce</th>
+              <th><User size={14} style={{marginRight: 8}}/>Fournisseur</th>
+              <th><Tag size={14} style={{marginRight: 8}}/>Catégorie</th>
+              <th><Banknote size={14} style={{marginRight: 8}}/>Prix</th>
+              <th><ShieldCheck size={14} style={{marginRight: 8}}/>Statut</th>
+              <th><Calendar size={14} style={{marginRight: 8}}/>Date</th>
+              <th><Settings size={14} style={{marginRight: 8}}/>Actions</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan="7" style={{textAlign: 'center', padding: '20px'}}>Chargement...</td></tr>
+              <tr><td colSpan="7" style={{textAlign: 'center', padding: '40px'}}>Chargement...</td></tr>
             ) : listings.length === 0 ? (
-               <tr><td colSpan="7" style={{textAlign: 'center', padding: '20px'}}>Aucune annonce trouvée</td></tr>
+               <tr><td colSpan="7" style={{textAlign: 'center', padding: '40px'}}>Aucune annonce trouvée</td></tr>
             ) : listings.map((l) => (
               <tr key={l.id}>
-                <td><strong>{l.title}</strong></td>
-                <td>{l.provider?.firstName} {l.provider?.lastName}</td>
-                <td><span className="admin-badge admin-badge--info">{l.category?.name || '—'}</span></td>
-                <td>{l.price} DA</td>
+                {/* Cellule Titre - Pas de label pour faire office de "Titre de carte" sur mobile */}
                 <td>
-                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                        <strong style={{color: 'var(--admin-navy)', fontSize: '1rem'}}>{l.title}</strong>
+                        <span style={{fontSize: '11px', color: '#94a3b8'}}>ID: #{l.id.toString().slice(-5)}</span>
+                    </div>
+                </td>
+
+                <td data-label="Fournisseur">
+                    {l.provider ? `${l.provider.firstName} ${l.provider.lastName}` : '—'}
+                </td>
+
+                <td data-label="Catégorie">
+                    <span className="admin-badge" style={{background: '#f1f5f9', color: '#475569', border: '1px solid #e2e8f0'}}>
+                        {l.category?.name || '—'}
+                    </span>
+                </td>
+
+                <td data-label="Prix">
+                    <strong style={{color: 'var(--admin-navy)'}}>{l.price?.toLocaleString()} DA</strong>
+                </td>
+
+                <td data-label="Statut">
+                  <div className="status-container-mobile">
                     <span className={`admin-badge ${getStatusClass(l.status)}`}>
                       {getStatusLabel(l.status)}
                     </span>
                     {l.provider?.status && l.provider.status !== ACCOUNT_STATUS.VALIDATED && (
-                      <span className="admin-badge" style={{ backgroundColor: '#64748b', fontSize: '0.7rem', whiteSpace: 'nowrap' }}>
+                      <span className="admin-badge" style={{ backgroundColor: '#64748b', fontSize: '9px', marginTop: '4px', display: 'block' }}>
                         Masqué (Fournisseur {getStatusLabel(l.provider.status, 'account')})
                       </span>
                     )}
                   </div>
                 </td>
-                <td>{new Date(l.createdAt).toLocaleDateString()}</td>
-                <td>
+
+                <td data-label="Date">
+                    {new Date(l.createdAt).toLocaleDateString('fr-FR')}
+                </td>
+
+                <td data-label="Actions">
                   <div className="admin-table__actions">
                     {l.status !== 'PUBLISHED' && (
-                      <button onClick={() => handleAction(l.id, 'publish')} className="admin-btn admin-btn--sm admin-btn--primary">Publier</button>
+                      <button onClick={() => handleAction(l.id, 'publish')} className="admin-btn admin-btn--primary">Publier</button>
                     )}
                     {l.status === 'PUBLISHED' && (
-                      <button onClick={() => handleAction(l.id, 'unpublish')} className="admin-btn admin-btn--sm admin-btn--warning">Dépublier</button>
+                      <button onClick={() => handleAction(l.id, 'unpublish')} className="admin-btn admin-btn--warning">Dépublier</button>
                     )}
-                    <button onClick={() => handleAction(l.id, 'delete')} className="admin-btn admin-btn--sm admin-btn--outline" style={{ color: 'var(--color-danger)' }}>Supprimer</button>
+                    <button onClick={() => handleAction(l.id, 'delete')} className="admin-btn admin-btn--outline" style={{ color: '#ef4444', borderColor: '#fee2e2' }}>Supprimer</button>
                   </div>
                 </td>
               </tr>

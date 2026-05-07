@@ -5,7 +5,7 @@
 
 .detail-page__hero {
   padding: calc(var(--header-height) + var(--space-6)) 0 var(--space-4);
-  background: #ffffff;
+  background:  rgba(52, 101, 127, 0.22);
   border-bottom: 1px solid rgba(52, 101, 127, 0.18);
 }
 
@@ -18,12 +18,12 @@
 }
 
 .detail-page__breadcrumb a {
-  color: rgba(52, 101, 127, 0.8);
+  color: rgba(64, 122, 153, 0.8);
   transition: color var(--transition-fast, 150ms ease);
 }
 
 .detail-page__breadcrumb a:hover {
-  color: #34657F;
+  color: #9db7c5;
 }
 
 .detail-page__sep {

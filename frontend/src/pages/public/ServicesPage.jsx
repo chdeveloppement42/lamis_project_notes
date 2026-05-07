@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom'; // Ajout de Link pour le bouton conciergerie
 import { getPublishedListings } from '../../api/listings.api';
 import { getCategories } from '../../api/categories.api';
 import ListingCard from '../../components/ListingCard';
@@ -11,7 +11,6 @@ import './ServicesPage.css';
 export default function ServicesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // États des filtres
   const [filters, setFilters] = useState({
     categoryId: searchParams.get('categoryId') || '',
     city: searchParams.get('city') || '',
@@ -19,7 +18,6 @@ export default function ServicesPage() {
     maxPrice: searchParams.get('maxPrice') || '',
   });
 
-  // CONFIGURATION : 3 colonnes x 3 lignes = 9 items
   const [page, setPage] = useState(1);
   const limit = 9; 
 
@@ -51,12 +49,12 @@ export default function ServicesPage() {
         if (data && data.data) {
           setListings(data.data);
           setTotalCount(data.meta?.total || data.data.length);
-          // Calculer le total de pages si l'API ne le renvoie pas déjà par rapport à la limite de 9
           setTotalPages(data.meta?.totalPages || Math.ceil((data.meta?.total || data.data.length) / limit));
         } else {
           setListings([]);
           setTotalCount(0);
         }
+        // Scroll fluide vers le haut à chaque changement de page ou filtre
         window.scrollTo({ top: 0, behavior: 'smooth' });
       })
       .catch(() => {
@@ -91,6 +89,7 @@ export default function ServicesPage() {
 
   return (
     <div className="aymen-services-wrapper">
+      {/* HERO SECTION - Assure-toi que /service.png existe dans public */}
       <section className="hero-services">
         <div className="hero-overlay" style={{ backgroundImage: `url('/service.png')` }} />
         <div className="container hero-content-services" data-aos="zoom-out">
@@ -156,7 +155,6 @@ export default function ServicesPage() {
             </div>
           ) : (
             <>
-              {/* Grille forcée à 3 colonnes via CSS */}
               <div className="listings-grid-aymen grid-3x3">
                 {listings.length > 0 ? (
                   listings.map((listing) => (
@@ -172,41 +170,55 @@ export default function ServicesPage() {
               {totalPages > 1 && (
                 <div className="pagination-luxe-container" data-aos="fade-up">
                   <div className="pagination-aymen">
-                    <button 
-                      disabled={page === 1} 
-                      onClick={() => setPage(page - 1)}
-                      className="pag-nav-btn"
-                    >
+                    <button disabled={page === 1} onClick={() => setPage(page - 1)} className="pag-nav-btn">
                       <ChevronLeft size={20} />
                     </button>
-
                     <div className="pag-numbers">
                       {[...Array(totalPages)].map((_, i) => (
-                        <button 
-                          key={i + 1} 
-                          className={i + 1 === page ? 'active' : ''} 
-                          onClick={() => setPage(i + 1)}
-                        >
+                        <button key={i + 1} className={i + 1 === page ? 'active' : ''} onClick={() => setPage(i + 1)}>
                           {i + 1}
                         </button>
                       ))}
                     </div>
-
-                    <button 
-                      disabled={page === totalPages} 
-                      onClick={() => setPage(page + 1)}
-                      className="pag-nav-btn"
-                    >
+                    <button disabled={page === totalPages} onClick={() => setPage(page + 1)} className="pag-nav-btn">
                       <ChevronRight size={20} />
                     </button>
                   </div>
-                  <p className="pag-info-text">Page {page} sur {totalPages}</p>
                 </div>
               )}
             </>
           )}
         </main>
       </div>
+
+      {/* ─── SECTION ACCOMPAGNEMENT ─── */}
+      <section className="conciergerie-section" data-aos="fade-up">
+        <div className="container">
+          <div className="conciergerie-box">
+            <div className="conciergerie-content">
+              <p className="cursive-accent">Service Chasseur de Biens</p>
+              <h2 className="massive-title-small">VOUS NE TROUVEZ PAS VOTRE <span className="gold-text">IDÉAL ?</span></h2>
+              <p className="white-p">
+                Notre catalogue public n'est que la partie visible. Nous disposons de nombreuses propriétés en 
+                <strong> "Off-Market"</strong>. Confiez-nous vos critères, et notre équipe activera son réseau 
+                exclusif pour vous trouver la perle rare.
+              </p>
+              <div className="conciergerie-features">
+                <div className="feat-item"><span className="feat-dot"></span><p>Recherche personnalisée</p></div>
+                <div className="feat-item"><span className="feat-dot"></span><p>Négociation de haut niveau</p></div>
+                <div className="feat-item"><span className="feat-dot"></span><p>Expertise juridique incluse</p></div>
+              </div>
+              <Link to="/contact" className="btn-aymen-gold-outline mt-4">
+                CONTACTER UN CONSEILLER
+              </Link>
+            </div>
+            <div className="conciergerie-visual">
+              <div className="gold-border-frame"></div>
+              <img src="/appartement.png" alt="Intérieur de luxe" />
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

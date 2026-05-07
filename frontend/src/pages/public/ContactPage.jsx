@@ -21,7 +21,6 @@ const FAQ_CONTENT = {
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [status, setStatus] = useState({ submitted: false, error: null, loading: false });
-  
   const [activeTab, setActiveTab] = useState('acheteur');
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -44,7 +43,6 @@ export default function ContactPage() {
 
   return (
     <div className="aymen-contact-wrapper">
-      {/* HERO SECTION */}
       <section className="contact-hero-luxe">
         <div className="hero-overlay-dark" style={{ backgroundImage: `url('/local.png')` }} />
         <div className="container hero-content-luxe" data-aos="zoom-out">
@@ -54,38 +52,34 @@ export default function ContactPage() {
       </section>
 
       <section className="contact-main-section container">
-        
-        {/* GRILLE FORMULAIRE ET INFO */}
         <div className="contact-grid-luxe">
-          {/* SIDEBAR INFO */}
-<div className="contact-sidebar-luxe" data-aos="fade-right">
-  <div className="info-stack-luxe">
-    
-    {/* LIEN EMAIL CLIQUABLE */}
-    <a href="mailto:contact@immolamis.com" className="modern-card-luxe clickable-card">
-      <div className="icon-circle-gold"><Mail size={22} /></div>
-      <div className="card-details">
-        <h3>Email (Cliquer pour écrire)</h3>
-        <p>contact@immolamis.com</p>
-      </div>
-    </a>
+          
+          {/* SIDEBAR : RESTAURÉE COMME AVANT */}
+          <div className="contact-sidebar-luxe" data-aos="fade-right">
+            <div className="info-stack-luxe">
+              <a href="mailto:contact@immolamis.com" className="modern-card-luxe clickable-card">
+                <div className="icon-circle-gold"><Mail size={22} /></div>
+                <div className="card-details">
+                  <h3>Email</h3>
+                  <p>contact@immolamis.com</p>
+                </div>
+              </a>
 
-    {/* LIEN TÉLÉPHONE CLIQUABLE */}
-    <a href="tel:+213555123456" className="modern-card-luxe clickable-card">
-      <div className="icon-circle-gold"><Phone size={22} /></div>
-      <div className="card-details">
-        <h3>Téléphone (Cliquer pour appeler)</h3>
-        <p>+213 555 123 456</p>
-      </div>
-    </a>
-    
-  </div>
+              <a href="tel:+213555123456" className="modern-card-luxe clickable-card">
+                <div className="icon-circle-gold"><Phone size={22} /></div>
+                <div className="card-details">
+                  <h3>Téléphone</h3>
+                  <p>+213 555 123 456</p>
+                </div>
+              </a>
+            </div>
 
-  <div className="map-container-luxe">
-    <iframe title="Map" src="https://www.openstreetmap.org/export/embed.html?bbox=2.9%2C36.7%2C3.1%2C36.8&layer=mapnik"></iframe>
-  </div>
-</div>
+            <div className="map-container-luxe">
+              <iframe title="Map" src="https://www.openstreetmap.org/export/embed.html?bbox=2.9%2C36.7%2C3.1%2C36.8&layer=mapnik"></iframe>
+            </div>
+          </div>
 
+          {/* FORMULAIRE */}
           <div className="form-container-luxe" data-aos="fade-left">
             <div className="form-header">
               <h2>Message Direct</h2>
@@ -117,32 +111,24 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* ESPACE ET SECTION FAQ EN BAS */}
         <div className="section-spacer"></div>
+
+        {/* TITRE FAQ HARMONISÉ */}
+        <p className="cursive-accent centered" data-aos="fade-up">Questions Fréquentes</p>
 
         <div className="faq-tabs-container" data-aos="fade-up">
           <div className="faq-tabs-nav">
-            <button 
-              className={`tab-btn ${activeTab === 'acheteur' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('acheteur'); setActiveIndex(null); }}
-            >
+            <button className={`tab-btn ${activeTab === 'acheteur' ? 'active' : ''}`} onClick={() => { setActiveTab('acheteur'); setActiveIndex(null); }}>
               <User size={18} /> Je suis un Acheteur
             </button>
-            <button 
-              className={`tab-btn ${activeTab === 'fournisseur' ? 'active' : ''}`}
-              onClick={() => { setActiveTab('fournisseur'); setActiveIndex(null); }}
-            >
+            <button className={`tab-btn ${activeTab === 'fournisseur' ? 'active' : ''}`} onClick={() => { setActiveTab('fournisseur'); setActiveIndex(null); }}>
               <Building2 size={18} /> Je suis un Fournisseur
             </button>
           </div>
 
           <div className="faq-content-box">
             {FAQ_CONTENT[activeTab].map((item, index) => (
-              <div 
-                key={index} 
-                className={`faq-accordion-item ${activeIndex === index ? 'open' : ''}`}
-                onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-              >
+              <div key={index} className={`faq-accordion-item ${activeIndex === index ? 'open' : ''}`} onClick={() => setActiveIndex(activeIndex === index ? null : index)}>
                 <div className="faq-question-row">
                   <span>{item.q}</span>
                   {activeIndex === index ? <ChevronUp size={20} /> : <ChevronDown size={20} />}

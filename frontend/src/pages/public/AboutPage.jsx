@@ -36,7 +36,7 @@ export default function AboutPage() {
       <section className="section container">
         <div className="presentation-layout">
           <div className="presentation-text-luxe" data-aos="fade-right">
-            <h2 className="section-title-luxe">Notre Engagement</h2>
+            <p className="cursive-accent">Notre Engagement</p>
             <div className="gold-divider"></div>
             <p className="p-luxe">
               Immo Lamis est née d'une vision simple : rendre l'immobilier 
@@ -59,7 +59,7 @@ export default function AboutPage() {
       {/* 3. MISSIONS (CARDS SOMBRES) */}
       <section className="section bg-darker">
         <div className="container">
-          <h2 className="section-title-luxe centered" data-aos="fade-up">Nos Missions</h2>
+          <p className="cursive-accent centered" data-aos="fade-up">Nos Missions</p>
           <div className="mission-grid-luxe">
             <div className="mission-card-luxe" data-aos="fade-up" data-aos-delay="100">
               <div className="icon-circle"><Target size={32} /></div>
@@ -82,7 +82,7 @@ export default function AboutPage() {
 
       {/* 4. VALEURS */}
       <section className="section container">
-        <h2 className="section-title-luxe centered">Pourquoi nous ?</h2>
+        <p className="cursive-accent centered">Pourquoi nous ?</p>
         <div className="values-grid-luxe">
           {[
             { icon: <Heart />, title: "La Proximité", text: "À l'écoute de chaque utilisateur pour s'améliorer." },

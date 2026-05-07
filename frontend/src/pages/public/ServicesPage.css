@@ -1,18 +1,27 @@
-/* --- VARIABLES & BASE --- */
+/* --- VARIABLES UNIFIÉES --- */
+
 :root {
   --aymen-bg: #142836; 
   --aymen-gold: #D9B48F;
+  --aymen-gold-low: rgba(217, 180, 143, 0.2);
   --white: #FFFFFF;
+  --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
+
+
+/* --- BASE & WRAPPER --- */
 
 .aymen-services-wrapper {
   background-color: var(--aymen-bg);
   color: var(--white);
   min-height: 100vh;
   font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
 }
 
+
 /* --- HERO SECTION --- */
+
 .hero-services {
   height: 45vh;
   position: relative;
@@ -20,6 +29,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-color: #0a1923;
 }
 
 .hero-overlay {
@@ -27,21 +37,34 @@
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.3);
+  background-image: linear-gradient(rgba(10, 25, 35, 0.6), rgba(10, 25, 35, 0.8));
+  z-index: 1;
 }
 
+.hero-content-services {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+
 /* --- LAYOUT GRID --- */
+
 .services-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 40px;
   padding: 60px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* --- CONTENEUR DES FILTRES (SIDEBAR) --- */
+
+/* --- FILTRES (SIDEBAR) --- */
+
 .filters-sidebar {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(217, 180, 143, 0.2);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--aymen-gold-low);
   padding: 40px 30px;
   border-radius: 4px;
   backdrop-filter: blur(10px);
@@ -51,21 +74,15 @@
 }
 
 .filter-title-luxe {
-  font-family: 'Outfit', sans-serif;
   font-weight: 300;
   letter-spacing: 3px;
   color: var(--aymen-gold);
-  border-bottom: 1px solid rgba(217, 180, 143, 0.3);
+  border-bottom: 1px solid var(--aymen-gold-low);
   padding-bottom: 15px;
   margin-bottom: 30px;
   font-size: 1.1rem;
 }
 
-.sidebar-header-mobile { 
-  display: none; 
-}
-
-/* --- CHAMPS DE RECHERCHE --- */
 .filter-group-luxe {
   margin-bottom: 25px;
 }
@@ -87,9 +104,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   padding: 12px 10px;
   color: white;
-  font-size: 0.95rem;
-  transition: all 0.3s ease;
-  border-radius: 0;
+  transition: var(--transition);
 }
 
 .filter-group-luxe select:focus, 
@@ -99,12 +114,9 @@
   background: rgba(217, 180, 143, 0.05);
 }
 
-.filter-group-luxe select option {
-  background: var(--aymen-bg);
-  color: white;
-}
 
 /* --- BOUTONS --- */
+
 .btn-aymen-gold {
   width: 100%;
   background: var(--aymen-gold);
@@ -114,18 +126,13 @@
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   cursor: pointer;
-  margin-top: 20px;
-  position: relative;
-  overflow: hidden;
+  transition: var(--transition);
 }
 
 .btn-aymen-gold:hover {
   background: transparent;
   color: var(--aymen-gold);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .btn-reset-luxe {
@@ -137,19 +144,11 @@
   text-transform: uppercase;
   margin-top: 20px;
   cursor: pointer;
-  display: block;
-  width: 100%;
-  transition: color 0.3s;
-}
-
-.btn-reset-luxe:hover {
-  color: #ff4d4d;
-}
-
-/* --- GRILLE DE RESULTATS (3x3) --- */
-.results-main {
   width: 100%;
 }
+
+
+/* --- RÉSULTATS & GRILLE --- */
 
 .results-info {
   margin-bottom: 30px;
@@ -157,167 +156,170 @@
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.results-info p {
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
-  color: var(--aymen-gold);
-  font-weight: 300;
-}
-
 .listings-grid-aymen.grid-3x3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 COLONNES FORCEES */
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
 }
 
-/* --- PAGINATION LUXE --- */
-.pagination-luxe-container {
+
+/* --- SECTION CONCIERGERIE (DERNIÈRE SECTION) --- */
+
+.conciergerie-section {
+  padding: 100px 0;
+  background: #0d1b25;
+  border-top: 1px solid var(--aymen-gold-low);
+}
+
+.conciergerie-box {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 15px;
-  margin-top: 50px;
+  gap: 60px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 60px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.conciergerie-content {
+  flex: 1;
+}
+
+.massive-title-small {
+  font-size: 2.2rem;
+  font-family: 'Playfair Display', serif;
+  color: white;
+  margin: 15px 0 25px;
+  line-height: 1.2;
+}
+
+.white-p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.8;
+  font-size: 1.05rem;
   margin-bottom: 30px;
 }
 
-.pagination-aymen {
+.conciergerie-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.feat-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
-.pag-numbers {
-  display: flex;
-  gap: 8px;
+.feat-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--aymen-gold);
+  border-radius: 50%;
 }
 
-.pagination-aymen button {
-  background: #1B3444;
-  border: 1px solid rgba(217, 180, 143, 0.3);
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
+.conciergerie-visual {
+  flex: 0.8;
+  position: relative;
+  height: 400px;
 }
 
-.pagination-aymen button.active {
-  background: #D9B48F;
-  color: #142836;
-  border-color: #D9B48F;
+.conciergerie-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.8);
 }
 
-.pagination-aymen button:hover:not(:disabled) {
-  border-color: #D9B48F;
-  color: #D9B48F;
+.gold-border-frame {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--aymen-gold);
+  z-index: 0;
 }
 
-.pagination-aymen button:disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-}
-
-.pag-info-text {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.85rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* --- LOADERS --- */
-.loader-aymen-container {
-  padding: 100px 0;
-  text-align: center;
-}
-
-.spinner-gold {
+.btn-aymen-gold-outline {
+  display: inline-block;
+  padding: 15px 35px;
+  border: 1px solid var(--aymen-gold);
   color: var(--aymen-gold);
-  animation: spin 1s linear infinite;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  transition: var(--transition);
 }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.btn-aymen-gold-outline:hover {
+  background: var(--aymen-gold);
+  color: var(--aymen-bg);
 }
+
 
 /* --- MOBILE RESPONSIVE --- */
+
 @media (max-width: 1024px) {
   .services-layout { 
     grid-template-columns: 1fr; 
-    padding: 30px 15px; 
   }
 
   .listings-grid-aymen.grid-3x3 {
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes sur tablette */
-  }
-
-  .filters-sidebar {
-    position: fixed;
-    top: 0; left: -100%;
-    width: 100%; height: 100vh;
-    z-index: 2000;
-    background: var(--aymen-bg);
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 20px;
-    overflow-y: auto;
-  }
-
-  .filters-sidebar.open { 
-    left: 0; 
-  }
-
-  .sidebar-header-mobile {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    border-bottom: 1px solid var(--aymen-gold);
-    padding-bottom: 15px;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .mobile-filter-trigger {
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 10px;
     margin: 20px auto;
     background: var(--aymen-gold);
     color: var(--aymen-bg);
-    border: none;
     padding: 12px 30px;
     font-weight: 800;
     border-radius: 50px;
-    cursor: pointer;
-  }
-
-  /* Slider pour mobile */
-  .mobile-slider {
-    display: flex !important;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 10px 0;
-    scrollbar-width: none;
-  }
-
-  .mobile-slide-item {
-    min-width: 85vw;
-    scroll-snap-align: center;
-    flex: 0 0 auto;
+    border: none;
   }
 }
 
-@media (max-width: 600px) {
-  .listings-grid-aymen.grid-3x3 {
-    grid-template-columns: 1fr; /* 1 colonne sur petit mobile */
+@media (max-width: 768px) {
+  /* layout global : sidebar au-dessus */
+  .services-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 30px 14px;
   }
-  
-  .pag-numbers {
-    display: none;
+
+  .filters-sidebar {
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 20px 16px;
+  }
+
+  /* grille annonces mobile */
+  .listings-grid-aymen.grid-3x3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  /* dernière section */
+  .conciergerie-box {
+    flex-direction: column;
+    padding: 30px;
+    text-align: center;
+  }
+
+  .conciergerie-visual {
+    width: 100%;
+    height: 250px;
+    order: -1;
+  }
+
+  .conciergerie-features {
+    grid-template-columns: 1fr;
   }
 }

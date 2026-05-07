@@ -1,13 +1,34 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Playfair+Display:ital,wght@1,600&display=swap');
 
+/* --- BASE & WRAPPER --- */
+
 .aymen-about-wrapper {
-  background-color: #142836; /* Fond sombre signature */
+  background-color: #142836;
   color: #ffffff;
   font-family: 'Outfit', sans-serif;
   overflow-x: hidden;
 }
 
-/* --- Hero Section --- */
+
+/* --- STYLE DES TITRES MODERNES (Cursive) --- */
+
+.cursive-accent { 
+  font-family: 'Playfair Display', serif; 
+  font-style: italic; 
+  color: #D9B48F; 
+  font-size: 2.8rem; 
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.centered { 
+  text-align: center; 
+  display: block;
+}
+
+
+/* --- HERO SECTION --- */
+
 .about-hero-luxe {
   height: 70vh;
   position: relative;
@@ -22,29 +43,60 @@
   inset: 0;
   background-size: cover;
   background-position: center;
-  filter: brightness(0.35) grayscale(20%);
+  filter: brightness(0.3);
   z-index: 1;
 }
 
-.hero-content-luxe { position: relative; z-index: 2; }
+.hero-content-luxe { 
+  position: relative; 
+  z-index: 2; 
+}
 
-.massive-title { font-size: 4rem; font-weight: 800; letter-spacing: 3px; margin: 10px 0; }
-.cursive-accent { font-family: 'Playfair Display', serif; font-style: italic; color: #D9B48F; font-size: 2.5rem; }
-.hero-subtitle-luxe { font-size: 1.2rem; opacity: 0.8; letter-spacing: 1px; }
+.massive-title { 
+  font-size: 4rem; 
+  font-weight: 800; 
+  letter-spacing: 3px; 
+  margin: 10px 0;
+  text-transform: uppercase;
+}
 
-/* --- Présentation --- */
+.hero-subtitle-luxe { 
+  font-size: 1.2rem; 
+  opacity: 0.8; 
+  letter-spacing: 1px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+/* --- PRÉSENTATION --- */
+
 .presentation-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 80px;
   align-items: center;
-  padding: 100px 0;
+  padding: 80px 0;
 }
 
-.section-title-luxe { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
-.gold-divider { width: 60px; height: 3px; background: #D9B48F; margin-bottom: 30px; }
-.p-luxe { font-size: 1.15rem; line-height: 1.8; opacity: 0.8; margin-bottom: 20px; }
+.gold-divider { 
+  width: 60px; 
+  height: 3px; 
+  background: #D9B48F; 
+  margin-bottom: 30px; 
+}
+
+.p-luxe { 
+  font-size: 1.15rem; 
+  line-height: 1.8; 
+  opacity: 0.8; 
+  margin-bottom: 20px; 
+}
+
 .text-gold { color: #D9B48F; font-weight: 600; }
+
+
+/* --- IMAGES & ACCENTS --- */
 
 .image-border-accent {
   position: relative;
@@ -64,28 +116,33 @@
   box-shadow: 0 30px 60px rgba(0,0,0,0.5);
 }
 
-/* --- Missions --- */
-.bg-darker { background: #0D1B25; padding: 100px 0; }
+
+/* --- SECTION MISSIONS (DARKER) --- */
+
+.bg-darker { 
+  background: #0D1B25; 
+  padding: 100px 0; 
+}
 
 .mission-grid-luxe {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
-  margin-top: 60px;
+  margin-top: 50px;
 }
 
 .mission-card-luxe {
-  background: rgba(255, 255, 255, 0.03);
+  background: #183142;
   padding: 50px 30px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-align: center;
-  transition: 0.4s;
+  transition: var(--transition, 0.4s);
 }
 
 .mission-card-luxe:hover {
-  background: rgba(217, 180, 143, 0.05);
   border-color: #D9B48F;
   transform: translateY(-10px);
+  background: rgba(217, 180, 143, 0.05);
 }
 
 .icon-circle {
@@ -100,7 +157,22 @@
   color: #D9B48F;
 }
 
-/* --- Valeurs --- */
+.mission-card-luxe h3 {
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.mission-card-luxe p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+
+/* --- VALEURS & STATS --- */
+
 .values-grid-luxe {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -117,21 +189,77 @@
 }
 
 .value-icon-luxe { color: #D9B48F; }
-.value-content-luxe h4 { font-size: 1.2rem; margin-bottom: 8px; color: #D9B48F; }
-.value-content-luxe p { font-size: 0.95rem; opacity: 0.7; }
 
-/* --- Stats Footer --- */
-.stats-section-luxe { padding: 100px 0; background: #142836; }
-.stats-row-luxe { display: flex; justify-content: center; gap: 100px; }
-.stat-box-luxe { text-align: center; }
-.stat-num { display: block; font-size: 4rem; font-weight: 800; color: #D9B48F; line-height: 1; }
-.stat-lab { font-size: 0.9rem; letter-spacing: 3px; font-weight: 600; opacity: 0.6; }
+.value-content-luxe h4 { color: #D9B48F; margin-bottom: 5px; }
 
-.centered { text-align: center; }
+.stats-section-luxe { padding: 100px 0; background: #142836; border-top: 1px solid rgba(255,255,255,0.05); }
 
-/* Responsive */
+.stats-row-luxe { display: flex; justify-content: center; gap: 120px; }
+
+.stat-num { font-size: 4.5rem; font-weight: 800; color: #D9B48F; display: block; line-height: 1; }
+
+.stat-lab { font-size: 0.85rem; letter-spacing: 3px; opacity: 0.6; font-weight: 600; }
+
+
+/* --- RESPONSIVE --- */
+
 @media (max-width: 1024px) {
   .presentation-layout, .mission-grid-luxe, .values-grid-luxe { grid-template-columns: 1fr; }
   .massive-title { font-size: 2.5rem; }
-  .stats-row-luxe { gap: 40px; }
+  .cursive-accent { font-size: 2.2rem; }
+  .stats-row-luxe { gap: 50px; flex-direction: column; align-items: center; }
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+  .about-hero-luxe {
+    height: 55vh;
+  }
+
+  .cursive-accent {
+    font-size: 2.1rem;
+    margin-bottom: 10px;
+  }
+
+  .massive-title {
+    font-size: 2.3rem;
+    letter-spacing: 2px;
+  }
+
+  .hero-subtitle-luxe {
+    font-size: 1.0rem;
+    padding: 0 14px;
+  }
+
+  .presentation-layout {
+    padding: 45px 0;
+    gap: 25px;
+  }
+
+  .p-luxe {
+    font-size: 1.0rem;
+  }
+
+  .bg-darker {
+    padding: 70px 0;
+  }
+
+  .mission-grid-luxe {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 25px;
+  }
+
+  .values-grid-luxe {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .mission-card-luxe {
+    padding: 30px 18px;
+  }
+
+  .value-item-luxe {
+    padding: 22px;
+  }
 }

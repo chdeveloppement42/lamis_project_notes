@@ -172,3 +172,64 @@
   font-weight: 700;
   font-size: 0.8rem;
 }
+
+/* --- ACTIONS CONTACT (WhatsApp + Appel) --- */
+.listing-card__contact-actions {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 12;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 0.65rem;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 0.75rem;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(20, 40, 54, 0.85);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  transition: var(--transition-smooth);
+}
+
+.contact-btn:hover {
+  background: var(--immo-dore);
+  color: #142836;
+  border-color: rgba(217, 180, 143, 0.7);
+  transform: translateY(-1px);
+}
+
+.contact-btn--whatsapp {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.35);
+}
+
+.contact-btn--whatsapp:hover {
+  background: rgba(37, 211, 102, 0.95);
+  border-color: rgba(37, 211, 102, 1);
+}
+
+.contact-btn--call {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 480px) {
+  .listing-card__contact-actions {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+  .contact-btn {
+    height: 30px;
+    padding: 0 0.55rem;
+    font-size: 0.72rem;
+  }
+}

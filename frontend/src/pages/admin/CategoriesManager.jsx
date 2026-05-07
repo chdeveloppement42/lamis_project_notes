@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import './AdminTable.css';
+import { Tag, Fingerprint, Link2, Calendar, Settings, Plus, X } from 'lucide-react';
 
 export default function CategoriesManager() {
   const [categories, setCategories] = useState([]);
@@ -58,30 +59,41 @@ export default function CategoriesManager() {
   if (loading) return <div className="admin-loading">Chargement...</div>;
 
   return (
-    <div className="admin-page">
-      <div className="admin-page__header">
+    <div className="admin-table-page">
+      <div className="admin-table-page__header">
         <div>
-          <h1 className="admin-page__title">Gestion des catégories</h1>
+          <h2 className="admin-page__title">Gestion des catégories</h2>
           <p className="admin-page__subtitle">{categories.length} catégorie(s) au total</p>
         </div>
-        <button className="admin-btn admin-btn--primary" onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ name: '' }); }}>
-          {showForm ? '✕ Fermer' : '+ Nouvelle catégorie'}
+        <button 
+          className={`admin-btn ${showForm ? 'admin-btn--outline' : 'admin-btn--primary'}`} 
+          onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ name: '' }); }}
+        >
+          {showForm ? <><X size={16}/> Fermer</> : <><Plus size={16}/> Nouvelle catégorie</>}
         </button>
       </div>
 
       {showForm && (
-        <form className="admin-inline-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Nom de la catégorie"
-            value={formData.name}
-            onChange={(e) => setFormData({ name: e.target.value })}
-            required
-            className="admin-input"
-          />
-          <button type="submit" className="admin-btn admin-btn--primary">
-            {editingId ? 'Modifier' : 'Créer'}
-          </button>
+        <form className="admin-role-form" onSubmit={handleSubmit} style={{ marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+            <div style={{ flex: 1, minWidth: '250px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', color: 'var(--admin-navy)', fontWeight: 700 }}>
+                {editingId ? 'Modifier le nom' : 'Nom de la nouvelle catégorie'}
+              </label>
+              <input
+                type="text"
+                placeholder="Ex: Appartements, Villas..."
+                value={formData.name}
+                onChange={(e) => setFormData({ name: e.target.value })}
+                required
+                className="form-input"
+                style={{ width: '100%', background: 'white' }}
+              />
+            </div>
+            <button type="submit" className="admin-btn admin-btn--primary" style={{ height: '45px' }}>
+              {editingId ? 'Mettre à jour' : 'Enregistrer'}
+            </button>
+          </div>
         </form>
       )}
 
@@ -89,28 +101,41 @@ export default function CategoriesManager() {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Nom</th>
-              <th>Slug</th>
-              <th>Créée le</th>
-              <th>Actions</th>
+              <th><Fingerprint size={14} style={{marginRight: 8}}/> ID</th>
+              <th><Tag size={14} style={{marginRight: 8}}/> Nom</th>
+              <th><Link2 size={14} style={{marginRight: 8}}/> Slug</th>
+              <th><Calendar size={14} style={{marginRight: 8}}/> Créée le</th>
+              <th><Settings size={14} style={{marginRight: 8}}/> Actions</th>
             </tr>
           </thead>
           <tbody>
             {categories.map((cat) => (
               <tr key={cat.id}>
-                <td>{cat.id}</td>
-                <td><strong>{cat.name}</strong></td>
-                <td><code>{cat.slug}</code></td>
-                <td>{new Date(cat.createdAt).toLocaleDateString('fr-FR')}</td>
-                <td className="admin-table__actions">
-                  <button className="admin-btn admin-btn--sm admin-btn--outline" onClick={() => handleEdit(cat)}>✏️ Modifier</button>
-                  <button className="admin-btn admin-btn--sm admin-btn--danger" onClick={() => handleDelete(cat.id)}>🗑️ Supprimer</button>
+                <td data-label="ID">#{cat.id}</td>
+                
+                {/* On ne met pas de label sur le Nom pour qu'il ressorte en haut de carte sur mobile */}
+                <td data-label="Nom"><strong>{cat.name}</strong></td>
+                
+                <td data-label="Slug"><code>{cat.slug}</code></td>
+                
+                <td data-label="Date">
+                  {new Date(cat.createdAt).toLocaleDateString('fr-FR')}
+                </td>
+                
+                <td data-label="Actions">
+                  <div className="admin-table__actions">
+                    <button className="admin-btn admin-btn--sm admin-btn--outline" onClick={() => handleEdit(cat)}>
+                      Modifier
+                    </button>
+                    <button className="admin-btn admin-btn--sm admin-btn--danger" onClick={() => handleDelete(cat.id)}>
+                      Supprimer
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
             {categories.length === 0 && (
-              <tr><td colSpan="5" className="admin-table__empty">Aucune catégorie trouvée</td></tr>
+              <tr><td colSpan="5" style={{ textAlign: 'center', padding: '30px' }}>Aucune catégorie trouvée</td></tr>
             )}
           </tbody>
         </table>

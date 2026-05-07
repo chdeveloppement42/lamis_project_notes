@@ -12,6 +12,24 @@ export default function ListingCard({ listing }) {
   // 1. S'assurer que images est toujours traité comme un tableau
   const imageList = Array.isArray(images) ? images : [];
 
+  const providerPhone = provider?.phone || '';
+
+  const normalizePhoneForLinks = (phone) => {
+    // garde chiffres + éventuellement +
+    const cleaned = String(phone).replace(/[^\d+]/g, '');
+    return cleaned;
+  };
+
+  const normalizedPhone = normalizePhoneForLinks(providerPhone);
+
+  const whatsappUrl = normalizedPhone
+    ? `https://wa.me/${normalizedPhone.replace(/^\+/, '')}?text=${encodeURIComponent(
+        `Bonjour, je suis intéressé(e) par l'annonce "${title}".`
+      )}`
+    : '';
+
+  const callUrl = normalizedPhone ? `tel:${normalizedPhone}` : '';
+
   // 2. Extraire l'URL selon ton schéma de base de données (id, url, isMain...)
   const getDisplayUrl = (img) => {
     if (!img) return '';
@@ -44,11 +62,11 @@ export default function ListingCard({ listing }) {
       <div className="listing-card__image-container">
         {/* Affichage de l'image actuelle basée sur currentIndex */}
         {imageList.length > 0 ? (
-          <img 
-            key={currentIndex} 
-            src={getDisplayUrl(imageList[currentIndex])} 
-            alt={title} 
-            className="listing-card__img" 
+          <img
+            key={currentIndex}
+            src={getDisplayUrl(imageList[currentIndex])}
+            alt={title}
+            className="listing-card__img"
             loading="lazy"
           />
         ) : (
@@ -60,7 +78,42 @@ export default function ListingCard({ listing }) {
         {/* Badge Catégorie */}
         {category && <span className="listing-card__badge">{category.name}</span>}
 
-        {/* Navigation : affichée uniquement si > 1 image (Vérifie tes données !) */}
+        {/* Boutons contact (WhatsApp + Appel) */}
+        <div className="listing-card__contact-actions">
+          {whatsappUrl && (
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="contact-btn contact-btn--whatsapp"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+              }}
+              aria-label="Contacter sur WhatsApp"
+              title="WhatsApp"
+            >
+              WhatsApp
+            </a>
+          )}
+
+          {callUrl && (
+            <a
+              href={callUrl}
+              className="contact-btn contact-btn--call"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              aria-label="Appeler"
+              title="Appeler"
+            >
+              Appeler
+            </a>
+          )}
+        </div>
+
+        {/* Navigation : affichée uniquement si > 1 image */}
         {imageList.length > 1 && (
           <>
             <button className="slider-btn prev" onClick={prevSlide} type="button">
@@ -69,11 +122,11 @@ export default function ListingCard({ listing }) {
             <button className="slider-btn next" onClick={nextSlide} type="button">
               <ChevronRight size={20} />
             </button>
-            
+
             <div className="slider-dots">
               {imageList.map((_, idx) => (
-                <span 
-                  key={idx} 
+                <span
+                  key={idx}
                   className={`dot ${idx === currentIndex ? 'active' : ''}`}
                   onClick={(e) => {
                     e.preventDefault();
@@ -89,19 +142,17 @@ export default function ListingCard({ listing }) {
 
       <div className="listing-card__body">
         <h3 className="listing-card__title">{title}</h3>
-        
+
         <div className="listing-card__location">
-          <span className="location-icon">📍</span> 
+          <span className="location-icon">📍</span>
           {city}{district ? `, ${district}` : ''}
         </div>
 
         <div className="listing-card__footer">
           <div className="listing-card__price-box">
-             <span className="listing-card__price">{formatPrice(price)}</span>
+            <span className="listing-card__price">{formatPrice(price)}</span>
           </div>
-          <div className="listing-card__avatar">
-            {providerInitial}
-          </div>
+          <div className="listing-card__avatar">{providerInitial}</div>
         </div>
       </div>
     </Link>
