@@ -1,5 +1,11 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": "frontend/dist"
+  "outputDirectory": "frontend/dist",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://lamis-project-git-deployment-chpub.vercel.app/api/:path*"
+    }
+  ]
 }
