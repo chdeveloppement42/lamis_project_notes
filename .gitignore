@@ -42,9 +42,9 @@ lerna-debug.log*
 backend/uploads/
 
 # 7. npm Workspaces — root lock file is canonical
-# Sub-package lock files are ignored after `npm install` from root
-backend/package-lock.json
-frontend/package-lock.json
+# Sub-package lock files are tracked for deployment consistency
+# backend/package-lock.json
+# frontend/package-lock.json
 
 # Shared package has no runtime deps, ignore any accidental installs
 shared/node_modules/
