@@ -64,12 +64,6 @@ axiosInstance.interceptors.response.use(
 
         processQueue(null, newToken);
         return axiosInstance(originalRequest);
-      } catch (refreshError) {
-        processQueue(refreshError, null);
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
-        return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
       }

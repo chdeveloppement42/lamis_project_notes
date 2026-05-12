@@ -136,8 +136,8 @@ export default function ProfilePage() {
             <input type="tel" className="form-input" value={profile?.phone || ''} onChange={update('phone')} />
           </div>
           
-          <div style={{ marginTop: '1.5rem', marginBottom: '1.5rem', padding: '1rem', backgroundColor: '#f9fafb', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
-            <h4 style={{ fontSize: '0.9rem', marginBottom: '1rem', color: '#374151' }}>Localisation</h4>
+          <div className="provider-card__location-section">
+            <h4 className="provider-card__location-title">Localisation</h4>
             <LocationSelector
               wilaya={profile?.wilaya}
               commune={profile?.commune}
@@ -200,7 +200,7 @@ export default function ProfilePage() {
             <label className="form-label">Document justificatif</label>
             <input type="file" className="form-input" />
           </div>
-          <button className="btn" type="submit" style={{ background: 'var(--color-warning)', color: '#fff' }} disabled={sensitiveSaving}>
+          <button className="btn btn-warning" type="submit" disabled={sensitiveSaving}>
             {sensitiveSaving ? 'Enregistrement...' : 'Mettre à jour (Déclenchera une re-validation)'}
           </button>
         </form>

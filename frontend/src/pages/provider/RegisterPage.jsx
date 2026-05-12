@@ -13,14 +13,20 @@ export default function RegisterPage() {
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    firstName: '', lastName: '', email: '', password: '', phone: '', 
-    wilaya: '', commune: '', quartier: '',
+    firstName: '', 
+    lastName: '', 
+    email: '', 
+    password: '', 
+    phone: '', 
+    wilaya: '', 
+    commune: '', 
+    quartier: '',
   });
   const [errors, setErrors] = useState({});
   const [documentFile, setDocumentFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // Redirection automatique si déjà connecté
+  // Redirect if already logged in
   useEffect(() => {
     if (user) {
       const target = user.userType === 'ADMIN' ? '/admin/dashboard' : '/provider/listings';
@@ -41,57 +47,77 @@ export default function RegisterPage() {
   };
 
   const update = (field) => (e) => {
-    const value = e?.target ? e.target.value : e;
+    const value = e.target ? e.target.value : e; // Handle both event and raw value
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: validateField(field, value) }));
     }
   };
 
+  const handleBlur = (field) => (e) => {
+    setErrors(prev => ({ ...prev, [field]: validateField(field, e.target.value) }));
+  };
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.size > 5 * 1024 * 1024) {
-      showToast({ type: 'warning', message: 'Fichier trop volumineux (max 5Mo)' });
+      showToast({ type: 'warning', message: 'Le fichier est trop volumineux (max 5Mo)' });
       e.target.value = '';
       return;
     }
     setDocumentFile(file);
-    if (file) showToast({ type: 'success', message: `Document prêt : ${file.name}` });
+    if (file) {
+      showToast({ type: 'success', message: `Document sélectionné : ${file.name}` });
+    }
   };
 
   const nextStep = () => {
     const newErrors = {};
-    ['firstName', 'lastName', 'email', 'password', 'phone', 'wilaya', 'commune'].forEach(key => {
+    // Only validate fields relevant to step 1
+    const step1Fields = ['firstName', 'lastName', 'email', 'password', 'phone', 'wilaya', 'commune'];
+    step1Fields.forEach(key => {
       newErrors[key] = validateField(key, formData[key]);
     });
     
     if (Object.values(newErrors).some(err => err)) {
       setErrors(newErrors);
-      showToast({ type: 'warning', message: 'Veuillez compléter les champs obligatoires.' });
+      showToast({ type: 'warning', message: 'Veuillez remplir tous les champs obligatoires.' });
       return;
     }
     setStep(2);
   };
 
+  const prevStep = () => {
+    setStep(1);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
+
     try {
       const data = new FormData();
       Object.keys(formData).forEach(key => data.append(key, formData[key]));
-      if (documentFile) data.append('document', documentFile);
+      if (documentFile) {
+        data.append('document', documentFile);
+      }
 
       const res = await register(data);
-      showToast({ type: 'success', message: res.message || 'Inscription réussie !' });
+      showToast({ type: 'success', message: res.message || 'Inscription réussie ! Connexion en cours...' });
       
+      // Auto-login
       const from = location.state?.from?.pathname || null;
       await login(formData.email, formData.password, from);
+
     } catch (err) {
       const msg = err.response?.data?.message || 'Erreur lors de l\'inscription';
       showToast({ type: 'error', message: msg });
+      
+      // If it says email already exists, go back to step 1
       if (msg.toLowerCase().includes('email')) {
         setStep(1);
-        setErrors(prev => ({ ...prev, email: 'Email déjà utilisé' }));
+        setErrors(prev => ({ ...prev, email: 'Cet email est déjà utilisé' }));
       }
     } finally {
       setLoading(false);
@@ -99,64 +125,62 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card register-card">
-        
-        {/* Côté Gauche - Branding */}
-        <div className="auth-card__left">
-          <div className="auth-visual__content">
-            <Link to="/" className="auth-logo" style={{ textDecoration: 'none', color: 'inherit' }}>
-              <h1>Immo<span style={{ color: '#D9B48F' }}>Lamis</span></h1>
-            </Link>
-            <div style={{ marginTop: '2.5rem' }}>
-              <h1>Devenez Partenaire</h1>
-              <p>Rejoignez le premier réseau immobilier et gérez vos biens avec des outils professionnels.</p>
-            </div>
-          </div>
-          <div className="auth-visual__footer">
-            Propulsé par CH-PUB
-          </div>
+    <div className="auth-page">
+      <div className="auth-page__left">
+        <div className="auth-page__brand">
+          <Link to="/" className="auth-page__logo">
+            <img 
+              src="/branding/logo-horizontal.svg" 
+              alt="Immo Lamis" 
+            />
+          </Link>
+          <h1>Rejoignez-nous</h1>
+          <p>Créez votre compte fournisseur et publiez vos biens immobiliers</p>
         </div>
+      </div>
 
-        {/* Côté Droit - Formulaire */}
-        <div className="auth-card__right">
+      <div className="auth-page__right">
+        <div className="auth-form-container">
           <form className="auth-form" onSubmit={(e) => { e.preventDefault(); step === 1 ? nextStep() : handleSubmit(e); }}>
-            <div className="auth-form__header">
-              <h2>Inscription</h2>
-              <p>Étape {step} sur 2 — Informations {step === 1 ? 'personnelles' : 'professionnelles'}</p>
-            </div>
+            <h2>Inscription Fournisseur</h2>
+            <p className="auth-form__subtitle">Étape {step} sur 2</p>
 
-            {step === 1 ? (
-              <div className="auth-form__groups">
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            {step === 1 && (
+              <div className="post-step">
+                <div className="auth-form__row">
                   <div className="form-group">
-                    <label>Prénom</label>
-                    <input type="text" required placeholder="Ahmed" value={formData.firstName} onChange={update('firstName')} />
+                    <label className="form-label">Prénom</label>
+                    <input type="text" className={`form-input ${errors.firstName ? 'form-input--error' : ''}`} placeholder="Prénom" value={formData.firstName} onChange={update('firstName')} onBlur={handleBlur('firstName')} />
+                    {errors.firstName && <span className="form-error">{errors.firstName}</span>}
                   </div>
                   <div className="form-group">
-                    <label>Nom</label>
-                    <input type="text" required placeholder="Benali" value={formData.lastName} onChange={update('lastName')} />
+                    <label className="form-label">Nom</label>
+                    <input type="text" className={`form-input ${errors.lastName ? 'form-input--error' : ''}`} placeholder="Nom" value={formData.lastName} onChange={update('lastName')} onBlur={handleBlur('lastName')} />
+                    {errors.lastName && <span className="form-error">{errors.lastName}</span>}
+                  </div>
+                </div>
+
+                <div className="auth-form__row">
+                  <div className="form-group">
+                    <label className="form-label">Email</label>
+                    <input type="email" className={`form-input ${errors.email ? 'form-input--error' : ''}`} placeholder="votre@email.com" value={formData.email} onChange={update('email')} onBlur={handleBlur('email')} />
+                    {errors.email && <span className="form-error">{errors.email}</span>}
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Téléphone</label>
+                    <input type="tel" className={`form-input ${errors.phone ? 'form-input--error' : ''}`} placeholder="+213 555..." value={formData.phone} onChange={update('phone')} onBlur={handleBlur('phone')} />
+                    {errors.phone && <span className="form-error">{errors.phone}</span>}
                   </div>
                 </div>
 
                 <div className="form-group">
-                  <label>Email professionnel</label>
-                  <input type="email" required placeholder="contact@agence.com" value={formData.email} onChange={update('email')} />
-                  {errors.email && <span style={{ color: '#e53e3e', fontSize: '0.7rem' }}>{errors.email}</span>}
+                  <label className="form-label">Mot de passe</label>
+                  <input type="password" className={`form-input ${errors.password ? 'form-input--error' : ''}`} placeholder="Min. 6 caractères" value={formData.password} onChange={update('password')} onBlur={handleBlur('password')} />
+                  {errors.password && <span className="form-error">{errors.password}</span>}
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '1rem' }}>
-                  <div className="form-group">
-                    <label>Téléphone</label>
-                    <input type="tel" required placeholder="0555..." value={formData.phone} onChange={update('phone')} />
-                  </div>
-                  <div className="form-group">
-                    <label>Mot de passe</label>
-                    <input type="password" required placeholder="••••••••" value={formData.password} onChange={update('password')} />
-                  </div>
-                </div>
-
-                <div style={{ marginTop: '0.5rem', padding: '1rem', background: '#f8fafc', borderRadius: '12px', border: '1px solid #edf2f7' }}>
+                <div className="auth-form__location-section">
+                  <h3 className="auth-form__location-title">Localisation</h3>
                   <LocationSelector
                     wilaya={formData.wilaya}
                     commune={formData.commune}
@@ -164,53 +188,55 @@ export default function RegisterPage() {
                     onWilayaChange={(val) => update('wilaya')(val)}
                     onCommuneChange={(val) => update('commune')(val)}
                     onQuartierChange={(val) => update('quartier')(val)}
+                    error={errors.wilaya || errors.commune}
                   />
                 </div>
               </div>
-            ) : (
-              <div className="auth-form__groups">
+            )}
+
+            {step === 2 && (
+              <div className="post-step">
                 <div className="form-group">
-                  <label>Justificatif d'activité (PDF/Image)</label>
-                  <div className="file-upload-wrapper" style={{ 
-                    border: '2px dashed #e2e8f0', 
-                    padding: '2rem', 
-                    borderRadius: '12px', 
-                    textAlign: 'center',
-                    background: documentFile ? '#f0fff4' : '#f8fafc'
-                  }}>
-                    <input type="file" id="doc" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange} style={{ display: 'none' }} />
-                    <label htmlFor="doc" style={{ cursor: 'pointer', color: '#34657F', fontWeight: '800', fontSize: '0.8rem' }}>
-                      {documentFile ? `✅ ${documentFile.name}` : '📁 CLIQUER POUR AJOUTER UN DOCUMENT'}
+                  <label className="form-label">Document justificatif (Optionnel : Registre, Carte ID, etc.)</label>
+                  <div className="upload-card">
+                    <label className="upload-card__zone">
+                      <input 
+                        type="file" 
+                        accept=".pdf,.jpg,.jpeg,.png,.webp"
+                        onChange={handleFileChange}
+                        className="upload-card__input"
+                      />
+                      <span className="upload-card__icon">
+                        {documentFile ? '✅' : '📄'}
+                      </span>
+                      <p className="upload-card__message">
+                        {documentFile ? documentFile.name : 'Cliquez pour sélectionner un document (Optionnel)'}
+                      </p>
+                      {!documentFile && <span className="upload-card__hint">Format PDF, JPG, PNG ou WEBP. Max 5Mo.</span>}
+                      {documentFile && <span className="upload-card__note">Cliquez pour changer le document</span>}
                     </label>
-                    <p style={{ fontSize: '0.7rem', color: '#64748b', marginTop: '0.5rem' }}>Registre de commerce ou carte d'identité (Max 5Mo)</p>
                   </div>
                 </div>
-                <p style={{ fontSize: '0.85rem', color: '#64748b', fontStyle: 'italic' }}>
-                  Note : Vos informations seront vérifiées par notre équipe administrative avant validation finale.
-                </p>
               </div>
             )}
 
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem' }}>
+            <div className="auth-form__actions">
               {step === 2 && (
-                <button type="button" className="auth-submit-btn" onClick={() => setStep(1)} 
-                  style={{ background: '#e2e8f0', color: '#475569', flex: 1 }}>
-                  Retour
+                <button type="button" className="btn btn-outline" onClick={prevStep} disabled={loading}>
+                  ← Précédent
                 </button>
               )}
-              <button type="submit" className="auth-submit-btn" disabled={loading} style={{ flex: 2 }}>
-                {loading ? "Chargement..." : step === 1 ? 'Continuer →' : 'Créer mon compte'}
+              
+              <button type="submit" className="btn btn-primary" disabled={loading}>
+                {step === 1 ? 'Suivant →' : (loading ? 'Création...' : 'Créer mon compte')}
               </button>
             </div>
 
-            <div className="auth-form__footer" style={{ marginTop: '1.5rem', textAlign: 'center' }}>
-              <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
-                Déjà partenaire ? <Link to="/login" style={{ color: '#D9B48F', fontWeight: '700', textDecoration: 'none' }}>Se connecter</Link>
-              </p>
-            </div>
+            <p className="auth-form__footer auth-form__footer--spaced">
+              Déjà un compte ? <Link to="/login">Se connecter</Link>
+            </p>
           </form>
         </div>
-
       </div>
     </div>
   );

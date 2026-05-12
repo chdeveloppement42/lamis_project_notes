@@ -31,26 +31,24 @@ export default function ListingCard({ listing }) {
           <img src={thumbUrl} alt={title} loading="lazy" />
         ) : (
           <div className="listing-card__placeholder">
-            <img src="/branding/icon-house.svg" alt="House" style={{ width: '32px', height: '32px', filter: 'opacity(0.3)' }} />
+            <img src="/branding/icon-house.svg" alt="House" className="listing-card__placeholder-icon" />
           </div>
         )}
 
-        {/* Badges container */}
-        <div className="listing-card__badges" style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '6px' }}>
+        <div className="listing-card__badges">
           {category && (
-            <span className="listing-card__badge" style={{ position: 'static' }}>{category.name}</span>
+            <span className="listing-card__badge listing-card__badge--category">{category.name}</span>
           )}
           {type && (
-            <span className={`listing-card__badge listing-card__badge--${type.toLowerCase()}`} style={{ position: 'static', background: type === 'VENTE' ? '#ff9800' : '#4caf50' }}>
+            <span className={`listing-card__badge listing-card__badge--${type.toLowerCase()}`}>
               {type === 'VENTE' ? 'Vente' : 'Location'}
             </span>
           )}
         </div>
 
-        {/* Photo count */}
         {images.length > 1 && (
-          <span className="listing-card__photo-count" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <img src="/branding/icon-floor.svg" alt="Photos" style={{ width: '14px', height: '14px', filter: 'brightness(0) invert(1)' }} />
+          <span className="listing-card__photo-count">
+            <img src="/branding/icon-floor.svg" alt="Photos" className="listing-card__photo-icon" />
             {images.length}
           </span>
         )}
@@ -60,7 +58,7 @@ export default function ListingCard({ listing }) {
         <h3 className="listing-card__title">{title}</h3>
 
         <div className="listing-card__location">
-          <img src="/branding/icon-pin.svg" alt="Location" className="listing-card__icon" style={{ width: '14px', height: '14px', marginRight: '4px', filter: 'opacity(0.6)' }} />
+          <img src="/branding/icon-pin.svg" alt="Location" className="listing-card__location-icon" />
           <span>{wilaya}{commune ? `, ${commune}` : ''}</span>
         </div>
 

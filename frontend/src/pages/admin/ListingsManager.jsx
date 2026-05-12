@@ -80,10 +80,10 @@ export default function ListingsManager() {
       width: '15%',
       field: 'status',
       render: (l) => (
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+        <div className="data-table__status">
           <StatusBadge status={l.status} type="listing" />
           {l.provider?.status && l.provider.status !== ACCOUNT_STATUS.VALIDATED && (
-            <span className="admin-badge" style={{ backgroundColor: '#64748b', fontSize: '0.7rem', whiteSpace: 'nowrap' }}>
+            <span className="admin-badge admin-badge--info admin-badge--small">
               Masqué (Fournisseur {getStatusLabel(l.provider.status, 'account')})
             </span>
           )}
@@ -107,7 +107,7 @@ export default function ListingsManager() {
           {l.status === 'PUBLISHED' && (
             <button onClick={() => handleAction(l.id, 'unpublish')} className="admin-btn admin-btn--sm admin-btn--warning">Dépublier</button>
           )}
-          <button onClick={() => handleAction(l.id, 'delete')} className="admin-btn admin-btn--sm admin-btn--outline" style={{ color: 'var(--color-danger)' }}>Supprimer</button>
+          <button onClick={() => handleAction(l.id, 'delete')} className="admin-btn admin-btn--sm admin-btn--outline admin-btn--danger">Supprimer</button>
         </div>
       )
     }

@@ -4,8 +4,6 @@ import TableRowSkeleton from '../TableRowSkeleton';
 import './DataTable.css';
 
 export default function DataTable({
-  title,
-  subtitle,
   columns,
   data,
   isLoading,
@@ -17,14 +15,20 @@ export default function DataTable({
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Debounced/Memoized search
   const filteredData = useMemo(() => {
     if (!searchTerm) return data;
     const lowerSearch = searchTerm.toLowerCase();
     
     return data.filter(item => {
+      // Basic flat search across string values
       return Object.values(item).some(val => {
-        if (typeof val === 'string') return val.toLowerCase().includes(lowerSearch);
-        if (typeof val === 'number') return val.toString().includes(lowerSearch);
+        if (typeof val === 'string') {
+          return val.toLowerCase().includes(lowerSearch);
+        }
+        if (typeof val === 'number') {
+          return val.toString().includes(lowerSearch);
+        }
         return false;
       });
     });
@@ -32,17 +36,7 @@ export default function DataTable({
 
   return (
     <div className="data-table-wrapper">
-      {/* HEADER PRESTIGE */}
-      {(title || subtitle) && (
-        <div className="admin-page__header">
-          <div className="header-text-stack">
-            {title && <h1 className="admin-page__title">{title}</h1>}
-            {subtitle && <p className="admin-page__subtitle">{subtitle}</p>}
-          </div>
-        </div>
-      )}
-
-      {/* CONTROLES */}
+      {/* Header & Controls */}
       <div className="data-table-controls">
         {searchable && (
           <div className="data-table-search">
@@ -56,21 +50,23 @@ export default function DataTable({
             />
           </div>
         )}
-        
         <div className="data-table-info">
           {isLoading ? 'Chargement...' : `${filteredData.length} résultat(s)`}
         </div>
-
-        {actions && <div className="data-table-actions">{actions}</div>}
+        {actions && (
+          <div className="data-table-actions">
+            {actions}
+          </div>
+        )}
       </div>
 
-      {/* TABLEAU RESPONSIVE */}
+      {/* Table */}
       <div className="data-table-container">
         <table className="data-table">
           <thead>
             <tr>
               {columns.map((col, idx) => (
-                <th key={idx} style={{ width: col.width }}>{col.header}</th>
+                <th key={idx} className={`data-table__col-${col.field || idx}`} style={col.width ? { width: col.width } : undefined}>{col.header}</th>
               ))}
             </tr>
           </thead>
@@ -79,7 +75,7 @@ export default function DataTable({
               <TableRowSkeleton columns={columns.length} rows={5} />
             ) : filteredData.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} style={{ padding: 0 }}>
+                <td colSpan={columns.length} className="data-table__empty-cell">
                   <EmptyState 
                     title="Aucun résultat" 
                     description={searchTerm ? `Aucun résultat pour "${searchTerm}"` : emptyMessage} 
@@ -91,9 +87,7 @@ export default function DataTable({
               filteredData.map((row) => (
                 <tr key={row[keyField]}>
                   {columns.map((col, idx) => (
-                    <td key={idx} data-label={col.header}>
-                      {col.render ? col.render(row) : row[col.field]}
-                    </td>
+                    <td key={idx}>{col.render ? col.render(row) : row[col.field]}</td>
                   ))}
                 </tr>
               ))

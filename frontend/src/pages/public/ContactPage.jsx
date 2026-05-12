@@ -1,192 +1,111 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
-import { Mail, Phone, Send, Loader2, ChevronDown, ChevronUp, User, Building2 } from 'lucide-react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import { useToast } from '../../components/Toast';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import './ContactPage.css';
-
-const FAQ_CONTENT = {
-  acheteur: [
-    { q: "Comment planifier une visite ?", a: "Cliquez sur 'Contacter l'agent' sur l'annonce du bien. Vous pourrez choisir un créneau horaire directement." },
-    { q: "Y a-t-il des frais de dossier ?", a: "La consultation et la mise en relation sur Immo Lamis sont entièrement gratuites pour les acheteurs." },
-    { q: "Les prix sont-ils négociables ?", a: "Oui, la plupart des vendeurs acceptent la négociation. Nous vous conseillons d'en discuter lors de la visite." }
-  ],
-  fournisseur: [
-    { q: "Comment publier mon catalogue ?", a: "Créez un compte 'Partenaire', remplissez votre profil entreprise et commencez à uploader vos produits." },
-    { q: "Quelle est la visibilité de mes annonces ?", a: "Vos annonces sont diffusées auprès de milliers de visiteurs ciblés en Algérie chaque jour." },
-    { q: "Puis-je modifier une annonce publiée ?", a: "Absolument. Votre tableau de bord vous permet de modifier prix et photos en temps réel." }
-  ]
-};
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-  const [status, setStatus] = useState({ submitted: false, error: null, loading: false });
-  const [activeTab, setActiveTab] = useState('acheteur');
-  const [activeIndex, setActiveIndex] = useState(null);
-
-  useEffect(() => {
-    AOS.init({ duration: 800, once: true });
-    window.scrollTo(0, 0);
-  }, []);
+  const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus({ ...status, loading: true, error: null });
+    setLoading(true);
     try {
       await axiosInstance.post('/contact', formData);
-      setStatus({ submitted: true, error: null, loading: false });
+      showToast({ type: 'success', message: 'Merci pour votre message ! Nous vous répondrons sous 24h.' });
       setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus(s => ({ ...s, submitted: false })), 5000);
     } catch {
-      setStatus({ submitted: false, error: "Erreur réseau. Réessayez.", loading: false });
+      showToast({ type: 'error', message: 'Erreur lors de l\'envoi. Veuillez réessayer.' });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="aymen-contact-wrapper">
-      {/* --- HERO SECTION --- */}
-      <section className="contact-hero-luxe">
-        <div className="hero-overlay-dark" style={{ backgroundImage: `url('/local.png')` }} />
-        <div className="container hero-content-luxe" data-aos="zoom-out">
-          <span className="gold-badge">Support Immo Lamis</span>
-          <h1 className="massive-title">BESOIN D'AIDE ? <span className="text-gold">CONTACTEZ-NOUS</span></h1>
+    <div className="contact-page">
+      <section className="about-hero-prestige prestige-navy-bg">
+        <div className="hero-overlay" style={{ backgroundImage: `url('/services.webp')` }} />
+        <div className="container about-hero-content" data-aos="zoom-out">
+          <p className="cursive-accent">Nous Contacter</p>
+          <h1 className="massive-title">UNE QUESTION ?</h1>
+          <p className="hero-subtitle-prestige">
+            Nos experts sont à votre écoute 7j/7.
+          </p>
         </div>
       </section>
 
-      {/* --- MAIN CONTENT --- */}
-      <section className="contact-main-section">
-        <div className="container">
-          <div className="contact-grid-luxe">
-            
-            {/* SIDEBAR INFOS */}
-            <div className="contact-sidebar-luxe" data-aos="fade-right">
-              <div className="info-stack-luxe">
-                <a href="mailto:contact@immolamis.com" className="modern-card-luxe">
-                  <div className="icon-circle-gold"><Mail size={22} /></div>
-                  <div className="card-details">
-                    <h3>Email</h3>
-                    <p>contact@immolamis.com</p>
-                  </div>
-                </a>
+      <section className="section container">
+        <div className="contact-layout-prestige">
+          
+          <div className="contact-info-prestige" data-aos="fade-right">
+             <div className="info-card-prestige">
+                <div className="info-icon text-prestige-gold"><Mail size={24}/></div>
+                <h4>Email</h4>
+                <p>contact@immolamis.com</p>
+             </div>
+             <div className="info-card-prestige">
+                <div className="info-icon text-prestige-gold"><Phone size={24}/></div>
+                <h4>Téléphone</h4>
+                <p>+213 555 123 456</p>
+             </div>
+             <div className="info-card-prestige">
+                <div className="info-icon text-prestige-gold"><MapPin size={24}/></div>
+                <h4>Bureau</h4>
+                <p>Alger, Algérie</p>
+             </div>
+             
+             <div className="map-wrapper-prestige">
+                <iframe
+                  title="Localisation Immo Lamis"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=2.9%2C36.7%2C3.1%2C36.8&layer=mapnik&marker=36.7538%2C3.0588"
+                  loading="lazy"
+                />
+             </div>
+          </div>
 
-                <a href="tel:+213555123456" className="modern-card-luxe">
-                  <div className="icon-circle-gold"><Phone size={22} /></div>
-                  <div className="card-details">
-                    <h3>Téléphone</h3>
-                    <p>+213 555 123 456</p>
-                  </div>
-                </a>
-              </div>
-
-              <div className="map-container-luxe">
-                <iframe 
-                  title="Map Immo Lamis" 
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=3.00,36.70,3.10,36.78&layer=mapnik"
-                ></iframe>
-              </div>
-            </div>
-
-            {/* FORMULAIRE D'EXPÉDITION */}
-            <div className="form-container-luxe" data-aos="fade-left">
-              <div className="form-header">
-                <h2>Message Direct</h2>
-                <div className="gold-divider"></div>
-              </div>
-
-              {status.submitted && <div className="success-msg">Message envoyé avec succès !</div>}
-              {status.error && <div className="error-msg">{status.error}</div>}
-
-              <form onSubmit={handleSubmit} className="aymen-form">
-                <div className="input-row-responsive">
-                  <div className="input-group-luxe">
-                    <label>Nom Complet</label>
+          <div className="contact-form-wrapper glass-card" data-aos="fade-left">
+            <form className="prestige-form" onSubmit={handleSubmit}>
+               <div className="form-row">
+                  <div className="form-group-prestige">
+                    <label>NOM COMPLET</label>
                     <input 
-                      type="text" 
-                      placeholder="Votre nom"
-                      value={formData.name} 
-                      onChange={e => setFormData({ ...formData, name: e.target.value })} 
-                      required 
+                      type="text" required placeholder="Ex: Ahmed Benali" 
+                      value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     />
                   </div>
-                  <div className="input-group-luxe">
-                    <label>Email</label>
+                  <div className="form-group-prestige">
+                    <label>EMAIL</label>
                     <input 
-                      type="email" 
-                      placeholder="votre@email.com"
-                      value={formData.email} 
-                      onChange={e => setFormData({ ...formData, email: e.target.value })} 
-                      required 
+                      type="email" required placeholder="Ex: ahmed@email.com"
+                      value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     />
                   </div>
-                </div>
-                <div className="input-group-luxe">
-                  <label>Sujet</label>
-                  <input 
-                    type="text" 
-                    placeholder="Objet de votre demande"
-                    value={formData.subject} 
-                    onChange={e => setFormData({ ...formData, subject: e.target.value })} 
-                    required 
-                  />
-                </div>
-                <div className="input-group-luxe">
-                  <label>Message</label>
-                  <textarea 
-                    rows="5" 
-                    placeholder="Comment pouvons-nous vous aider ?"
-                    value={formData.message} 
-                    onChange={e => setFormData({ ...formData, message: e.target.value })} 
-                    required
-                  ></textarea>
-                </div>
-                <button type="submit" className="btn-gold-luxe" disabled={status.loading}>
-                  {status.loading ? <Loader2 className="spinner" /> : <><Send size={18} /> ENVOYER LE MESSAGE</>}
-                </button>
-              </form>
-            </div>
+               </div>
+
+               <div className="form-group-prestige">
+                 <label>SUJET</label>
+                 <input 
+                    type="text" required placeholder="Comment pouvons-nous vous aider ?"
+                    value={formData.subject} onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                 />
+               </div>
+
+               <div className="form-group-prestige">
+                 <label>MESSAGE</label>
+                 <textarea 
+                    required rows="5" placeholder="Décrivez votre projet ou votre question..."
+                    value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                 />
+               </div>
+
+               <button type="submit" className="btn-discover-gold" disabled={loading}>
+                  {loading ? 'ENVOI EN COURS...' : 'ENVOYER LE MESSAGE →'}
+               </button>
+            </form>
           </div>
 
-          <div className="section-spacer"></div>
-
-          {/* --- FAQ SECTION --- */}
-          <div className="faq-section-header">
-            <p className="cursive-accent centered" data-aos="fade-up">Questions Fréquentes</p>
-          </div>
-
-          <div className="faq-tabs-container" data-aos="fade-up">
-            <div className="faq-tabs-nav">
-              <button 
-                className={`tab-btn ${activeTab === 'acheteur' ? 'active' : ''}`} 
-                onClick={() => { setActiveTab('acheteur'); setActiveIndex(null); }}
-              >
-                <User size={20} /> <span>Espace Acheteur</span>
-              </button>
-              <button 
-                className={`tab-btn ${activeTab === 'fournisseur' ? 'active' : ''}`} 
-                onClick={() => { setActiveTab('fournisseur'); setActiveIndex(null); }}
-              >
-                <Building2 size={20} /> <span>Espace Partenaire</span>
-              </button>
-            </div>
-
-            <div className="faq-content-box">
-              {FAQ_CONTENT[activeTab].map((item, index) => (
-                <div 
-                  key={index} 
-                  className={`faq-accordion-item ${activeIndex === index ? 'open' : ''}`} 
-                  onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                >
-                  <div className="faq-question-row">
-                    <span>{item.q}</span>
-                    {activeIndex === index ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                  </div>
-                  <div className="faq-answer-row">
-                    <p>{item.a}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
     </div>

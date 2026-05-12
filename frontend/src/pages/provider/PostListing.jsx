@@ -174,7 +174,7 @@ export default function PostListing() {
       <p className="provider-page__subtitle">Étape {step} sur 3</p>
 
       {!isValidated && (
-        <div className="admin-badge admin-badge--warning" style={{ marginBottom: '1.5rem', width: '100%', padding: '1rem', whiteSpace: 'normal', lineHeight: '1.5' }}>
+        <div className="provider-alert provider-alert--warning">
           ⚠️ Votre compte est en attente de validation. Vous pouvez sauvegarder des brouillons, mais vous ne pourrez pas publier tant qu'un administrateur n'aura pas validé votre profil.
         </div>
       )}
@@ -196,7 +196,7 @@ export default function PostListing() {
 
             <div className="form-group">
               <label className="form-label">Description</label>
-              <textarea className="form-input" rows="5" placeholder="Décrivez votre bien en détail..." value={listing.description} onChange={update('description')} style={{ resize: 'vertical' }} />
+              <textarea className="form-input" rows="5" placeholder="Décrivez votre bien en détail..." value={listing.description} onChange={update('description')} />
             </div>
 
             <div className="provider-card__row">
@@ -224,18 +224,12 @@ export default function PostListing() {
                 <input type="number" className="form-input" placeholder="12 000 000" value={listing.price} onChange={update('price')} />
               </div>
               <div className="form-group">
-                <label className="form-label">Surface (m²) <span style={{ fontSize: '0.8rem', fontWeight: 400, opacity: 0.7 }}>(optionnel)</span></label>
-                <input type="number" className="form-input" placeholder="85" value={listing.surface} onChange={update('surface')} />
-              </div>
-            </div>
-
-            <div className="provider-card__row">
-              <div className="form-group">
-                <label className="form-label">Pièces <span style={{ fontSize: '0.8rem', fontWeight: 400, opacity: 0.7 }}>(optionnel)</span></label>
+                  <label className="form-label">Surface (m²) <span className="form-label__note">(optionnel)</span></label>
+                  <label className="form-label">Pièces <span className="form-label__note">(optionnel)</span></label>
                 <input type="number" className="form-input" placeholder="3" value={listing.rooms} onChange={update('rooms')} />
               </div>
               <div className="form-group">
-                <label className="form-label">Étage <span style={{ fontSize: '0.8rem', fontWeight: 400, opacity: 0.7 }}>(optionnel)</span></label>
+                  <label className="form-label">Étage <span className="form-label__note">(optionnel)</span></label>
                 <input type="number" className="form-input" placeholder="2" value={listing.floor} onChange={update('floor')} />
               </div>
             </div>
@@ -260,23 +254,23 @@ export default function PostListing() {
             <div className="form-group">
               <label className="form-label">Photos ({images.length} sélectionnées)</label>
               <div className="provider-upload">
-                <label className="provider-upload__zone" style={{ cursor: 'pointer', display: 'block' }}>
-                  <input type="file" multiple accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-                  <span style={{ fontSize: '2rem' }}>📷</span>
+                <label className="provider-upload__zone">
+                  <input type="file" multiple accept="image/*" onChange={handleImageChange} className="upload-card__input" />
+                  <span className="upload-card__icon">📷</span>
                   <p>Cliquez pour sélectionner vos photos</p>
                   <span className="provider-upload__hint">Max 800KB par image • Auto-compressé en WebP</span>
                 </label>
               </div>
 
               {images.length > 0 && (
-                <div className="post-images-preview" style={{ display: 'flex', gap: '10px', marginTop: '15px', flexWrap: 'wrap' }}>
+                <div className="post-images-preview">
                   {images.map((img, idx) => (
-                    <div key={idx} style={{ position: 'relative', width: '80px', height: '80px', borderRadius: '8px', overflow: 'hidden' }}>
-                      <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <div key={idx} className="post-image-card">
+                      <img src={URL.createObjectURL(img)} alt={`Preview ${idx}`} />
                       <button 
                         type="button" 
                         onClick={() => removeImage(idx)}
-                        style={{ position: 'absolute', top: 2, right: 2, background: 'rgba(255,0,0,0.8)', color: 'white', border: 'none', borderRadius: '50%', width: '20px', height: '20px', cursor: 'pointer', fontSize: '10px' }}
+                        className="post-image-card__close"
                       >
                         ✕
                       </button>
@@ -288,7 +282,7 @@ export default function PostListing() {
           </div>
         )}
 
-        <div className="provider-card__footer" style={{ marginTop: '2rem', display: 'flex', justifyContent: 'space-between' }}>
+        <div className="provider-card__footer">
           <div>
             {step > 1 && (
               <button type="button" className="btn btn-outline" onClick={prevStep}>
@@ -296,7 +290,7 @@ export default function PostListing() {
               </button>
             )}
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div>
             <button type="button" disabled={uploading} className="btn btn-secondary" onClick={(e) => handleSubmit(e, 'DRAFT')}>
               {uploading ? '...' : 'Sauvegarder en brouillon'}
             </button>

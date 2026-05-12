@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import { useModal } from '../../components/Modal';
-import './PermissionsManager.css';
+
 export default function PermissionsManager() {
   const { showModal } = useModal();
   const [roles, setRoles] = useState([]);
@@ -105,7 +105,7 @@ export default function PermissionsManager() {
             />
           </div>
           <div className="admin-role-form__permissions">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <div className="permissions-header">
               <h4>Permissions :</h4>
               <button 
                 type="button" 

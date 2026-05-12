@@ -74,7 +74,7 @@ export default function MyListingsPage() {
       </div>
 
       {loading ? (
-        <div className="provider-card" style={{ textAlign: 'center', padding: '3rem' }}>
+        <div className="provider-loading-state">
           <p>Chargement...</p>
         </div>
       ) : listings.length === 0 ? (
@@ -109,21 +109,19 @@ export default function MyListingsPage() {
                     </td>
                     <td>{new Date(listing.createdAt).toLocaleDateString('fr-FR')}</td>
                     <td>
-                      <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                      <div className="provider-listings-actions">
                         {listing.status === 'DRAFT' && (
                           <button
                             className={`btn btn-sm btn-primary ${!isValidated ? 'btn--disabled' : ''}`}
                             onClick={() => isValidated && handlePublish(listing.id)}
                             disabled={!isValidated}
-                            style={{ padding: '0.25rem 0.75rem', fontSize: '0.75rem' }}
                             title={!isValidated ? 'Validation requise' : ''}
                           >
                             Publier
                           </button>
                         )}
                         <button
-                          className="btn btn-sm"
-                          style={{ color: 'var(--color-danger)', border: 'none', background: 'transparent' }}
+                          className="provider-listings-delete-btn"
                           onClick={() => handleDelete(listing.id)}
                           title="Supprimer"
                         >

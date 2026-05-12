@@ -40,14 +40,12 @@ export default function AdminProfilePage() {
 
   return (
     <div className="admin-profile">
-      <div className="admin-page__header">
-        <div>
-          <h1 className="admin-page__title">Mon Profil</h1>
-          <p className="admin-page__subtitle">Gérez vos informations personnelles et votre sécurité</p>
-        </div>
+      <div className="admin-profile__header">
+        <h1>Mon Profil</h1>
+        <p>Gérez vos informations personnelles et votre sécurité</p>
       </div>
 
-      {/* Info Card - Identité (la carte reste la même, on ne touche pas à son CSS) */}
+      {/* Info Card */}
       <div className="admin-profile__info-card">
         <div className="admin-profile__avatar">
           {user?.firstName?.[0]}{user?.lastName?.[0]}
@@ -61,9 +59,9 @@ export default function AdminProfilePage() {
         </div>
       </div>
 
-      {/* Section Sécurité (uniformisée) */}
-      <div className="admin-section">
-        <h2 className="admin-section__title">🔒 Sécurité du compte</h2>
+      {/* Password Change Form */}
+      <div className="admin-profile__section">
+        <h2>🔒 Changer le mot de passe</h2>
 
         <form onSubmit={handleSubmit} className="admin-profile__form">
           <div className="form-group">
@@ -85,14 +83,14 @@ export default function AdminProfilePage() {
                 type="password"
                 className="form-input"
                 required
-                placeholder="Nouveau"
+                placeholder="Minimum 4 caractères"
                 value={form.newPassword}
                 onChange={(e) => setForm({ ...form, newPassword: e.target.value })}
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label">Confirmation</label>
+              <label className="form-label">Confirmer le nouveau mot de passe</label>
               <input
                 type="password"
                 className="form-input"
@@ -104,8 +102,8 @@ export default function AdminProfilePage() {
             </div>
           </div>
 
-          <button type="submit" className="btn-profile-submit" disabled={loading}>
-            {loading ? 'Modification en cours...' : 'Mettre à jour le mot de passe'}
+          <button type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? 'Modification...' : 'Modifier le mot de passe'}
           </button>
         </form>
       </div>

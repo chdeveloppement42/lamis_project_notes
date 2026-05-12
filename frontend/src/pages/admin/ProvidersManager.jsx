@@ -101,7 +101,7 @@ export default function ProvidersManager() {
           {p.status === ACCOUNT_STATUS.PENDING && (
             <>
               <button onClick={() => handleAction(p.id, 'validate')} className="admin-btn admin-btn--sm admin-btn--primary">Valider</button>
-              <button onClick={() => handleAction(p.id, 'reject')} className="admin-btn admin-btn--sm admin-btn--outline" style={{ color: 'var(--color-danger)' }}>Rejeter</button>
+              <button onClick={() => handleAction(p.id, 'reject')} className="admin-btn admin-btn--sm admin-btn--outline admin-btn--danger">Rejeter</button>
             </>
           )}
           {p.status === ACCOUNT_STATUS.VALIDATED && (

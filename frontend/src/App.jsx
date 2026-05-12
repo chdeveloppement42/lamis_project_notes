@@ -1,4 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Layouts
 import PublicLayout from './layouts/PublicLayout';
@@ -33,6 +36,14 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute, AdminPermissionRoute } from './components/ProtectedRoutes';
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      easing: 'ease-in-out',
+    });
+  }, []);
+
   return (
     <Router>
       <AuthProvider>
@@ -44,12 +55,12 @@ function App() {
             <Route path="/listing/:id" element={<ListingDetail />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
-          
+          </Route>
 
           {/* STANDALONE AUTH ROUTES */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          </Route>
+          
           {/* PROVIDER ROUTES */}
           <Route path="/provider" element={<ProtectedRoute allowedUserTypes={['PROVIDER']} />}>
             <Route element={<ProviderLayout />}>
